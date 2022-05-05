@@ -1,4 +1,4 @@
-package com.naosteam.watchvideoapp;
+package com.naosteam.watchvideoapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -8,6 +8,7 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.naosteam.watchvideoapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
