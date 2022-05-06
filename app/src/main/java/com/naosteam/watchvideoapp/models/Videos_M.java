@@ -8,6 +8,7 @@ public class Videos_M {
     private String vid_title;
     private String vid_thumbnail;
     private String vid_description;
+    private String vid_url;
     private int vid_view;
     private Date vid_time;
     private float vid_avg_rate;
@@ -16,18 +17,27 @@ public class Videos_M {
 
     public Videos_M(int vid_id, int cat_id, String vid_title,
                     String vid_thumbnail, String vid_description,
-                    int vid_view, float vid_avg_rate, int vid_type,
-                    boolean vid_is_premium, boolean vid_status, Date vid_time) {
+                    String vid_url, int vid_view, float vid_avg_rate, int vid_type,
+                    boolean vid_is_premium, Date vid_time) {
         this.vid_id = vid_id;
         this.cat_id = cat_id;
         this.vid_title = vid_title;
         this.vid_thumbnail = vid_thumbnail;
         this.vid_description = vid_description;
+        this.vid_url = vid_url;
         this.vid_view = vid_view;
         this.vid_avg_rate = vid_avg_rate;
         this.vid_type = vid_type;
         this.vid_is_premium = vid_is_premium;
         this.vid_time = vid_time;
+    }
+
+    public String getVid_url() {
+        return vid_url;
+    }
+
+    public void setVid_url(String vid_url) {
+        this.vid_url = vid_url;
     }
 
     public Date getVid_time() {

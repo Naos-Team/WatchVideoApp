@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280sp"
+    android:layout_height="220sp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_thumb"
+        app:riv_corner_radius="10dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="160sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
+        <LinearLayout
+            android:layout_weight="5.5"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="0dp">
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="19dp"
+                android:textColor="@color/white"
+                android:layout_marginHorizontal="15dp"
+                android:text="Name"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="4.5"
+            android:layout_width="match_parent"
+            android:paddingHorizontal="15dp"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:text="12 week ago"/>
+            <TextView
+                android:id="@+id/tv_view"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="200K views"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
