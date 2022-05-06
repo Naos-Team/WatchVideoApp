@@ -5,14 +5,12 @@ public class Report_M {
     private String uid;
     private int vid_id;
     private String report_content;
-    private boolean report_status;
 
-    public Report_M(int report_id, String uid, int vid_id, String report_content, boolean report_status) {
+    public Report_M(int report_id, String uid, int vid_id, String report_content) {
         this.report_id = report_id;
         this.uid = uid;
         this.vid_id = vid_id;
         this.report_content = report_content;
-        this.report_status = report_status;
     }
 
     public int getReport_id() {
@@ -47,14 +45,6 @@ public class Report_M {
         this.report_content = report_content;
     }
 
-    public boolean isReport_status() {
-        return report_status;
-    }
-
-    public void setReport_status(boolean report_status) {
-        this.report_status = report_status;
-    }
-
     @Override
     public String toString() {
         return "Report_M{" +
@@ -62,7 +52,6 @@ public class Report_M {
                 ", uid='" + uid + '\'' +
                 ", vid_id=" + vid_id +
                 ", report_content='" + report_content + '\'' +
-                ", report_status=" + report_status +
                 '}';
     }
 }

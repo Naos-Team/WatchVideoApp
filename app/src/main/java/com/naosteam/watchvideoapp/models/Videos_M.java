@@ -10,7 +10,6 @@ public class Videos_M {
     private float vid_avg_rate;
     private int vid_type;
     private boolean vid_is_premium;
-    private boolean vid_status;
 
     public Videos_M(int vid_id, int cat_id, String vid_title,
                     String vid_thumbnail, String vid_description,
@@ -25,7 +24,6 @@ public class Videos_M {
         this.vid_avg_rate = vid_avg_rate;
         this.vid_type = vid_type;
         this.vid_is_premium = vid_is_premium;
-        this.vid_status = vid_status;
     }
 
     public int getVid_id() {
@@ -100,13 +98,6 @@ public class Videos_M {
         this.vid_is_premium = vid_is_premium;
     }
 
-    public boolean isVid_status() {
-        return vid_status;
-    }
-
-    public void setVid_status(boolean vid_status) {
-        this.vid_status = vid_status;
-    }
 
     @Override
     public String toString() {
@@ -120,7 +111,6 @@ public class Videos_M {
                 ", vid_avg_rate=" + vid_avg_rate +
                 ", vid_type=" + vid_type +
                 ", vid_is_premium=" + vid_is_premium +
-                ", vid_status=" + vid_status +
                 '}';
     }
 }

@@ -6,17 +6,14 @@ public class Users_M {
     private String user_email;
     private String user_phone;
     private int user_age;
-    private boolean user_status;
 
-    public Users_M(String uid, String user_name, String user_email, String user_phone, int user_age, boolean user_status) {
+    public Users_M(String uid, String user_name, String user_email, String user_phone, int user_age) {
         this.uid = uid;
         this.user_name = user_name;
         this.user_email = user_email;
         this.user_phone = user_phone;
         this.user_age = user_age;
-        this.user_status = user_status;
     }
-
     public String getUid() {
         return uid;
     }
@@ -57,13 +54,6 @@ public class Users_M {
         this.user_age = user_age;
     }
 
-    public boolean isUser_status() {
-        return user_status;
-    }
-
-    public void setUser_status(boolean user_status) {
-        this.user_status = user_status;
-    }
 
     @Override
     public String toString() {
@@ -73,7 +63,6 @@ public class Users_M {
                 ", user_email='" + user_email + '\'' +
                 ", user_phone='" + user_phone + '\'' +
                 ", user_age=" + user_age +
-                ", user_status=" + user_status +
                 '}';
     }
 }

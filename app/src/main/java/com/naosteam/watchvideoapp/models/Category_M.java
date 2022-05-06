@@ -5,14 +5,12 @@ public class Category_M {
     private String cat_name;
     private String cat_image;
     private int cat_type;
-    private boolean cat_status;
 
-    public Category_M(int cat_id, String cat_name, String cat_image, int cat_type, boolean cat_status) {
+    public Category_M(int cat_id, String cat_name, String cat_image, int cat_type) {
         this.cat_id = cat_id;
         this.cat_name = cat_name;
         this.cat_image = cat_image;
         this.cat_type = cat_type;
-        this.cat_status = cat_status;
     }
 
     public int getCat_id() {
@@ -47,13 +45,6 @@ public class Category_M {
         this.cat_type = cat_type;
     }
 
-    public boolean isCat_status() {
-        return cat_status;
-    }
-
-    public void setCat_status(boolean cat_status) {
-        this.cat_status = cat_status;
-    }
 
     @Override
     public String toString() {
@@ -62,7 +53,6 @@ public class Category_M {
                 ", cat_name='" + cat_name + '\'' +
                 ", cat_image='" + cat_image + '\'' +
                 ", cat_type=" + cat_type +
-                ", cat_status=" + cat_status +
                 '}';
     }
 }
