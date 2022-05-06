@@ -3,13 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/baseHomeFragment">
 
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/videoFragment"
         android:name="com.naosteam.watchvideoapp.fragments.VideoFragment"
@@ -30,4 +25,9 @@
         android:name="com.naosteam.watchvideoapp.fragments.MoreFragment"
         android:label="fragment_more"
         tools:layout="@layout/fragment_more" />
+    <fragment
+        android:id="@+id/baseHomeFragment"
+        android:name="com.naosteam.watchvideoapp.BaseHomeFragment"
+        android:label="fragment_base_home"
+        tools:layout="@layout/fragment_base_home" />>
 </navigation>

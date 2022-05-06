@@ -15,9 +15,18 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public class Methods {
-    private Context context;
+    private static Methods Instance;
 
-    public boolean isNetworkConnected() {
+    private Methods(){}
+
+    public static Methods getInstance(){
+        if(Instance == null){
+            Instance = new Methods();
+        }
+        return Instance;
+    }
+
+    public boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
