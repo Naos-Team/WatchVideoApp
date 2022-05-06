@@ -1,5 +1,7 @@
 package com.naosteam.watchvideoapp.models;
 
+import java.util.Date;
+
 public class Videos_M {
     private int vid_id;
     private int cat_id;
@@ -7,6 +9,7 @@ public class Videos_M {
     private String vid_thumbnail;
     private String vid_description;
     private int vid_view;
+    private Date vid_time;
     private float vid_avg_rate;
     private int vid_type;
     private boolean vid_is_premium;
@@ -14,7 +17,7 @@ public class Videos_M {
     public Videos_M(int vid_id, int cat_id, String vid_title,
                     String vid_thumbnail, String vid_description,
                     int vid_view, float vid_avg_rate, int vid_type,
-                    boolean vid_is_premium, boolean vid_status) {
+                    boolean vid_is_premium, boolean vid_status, Date vid_time) {
         this.vid_id = vid_id;
         this.cat_id = cat_id;
         this.vid_title = vid_title;
@@ -24,6 +27,15 @@ public class Videos_M {
         this.vid_avg_rate = vid_avg_rate;
         this.vid_type = vid_type;
         this.vid_is_premium = vid_is_premium;
+        this.vid_time = vid_time;
+    }
+
+    public Date getVid_time() {
+        return vid_time;
+    }
+
+    public void setVid_time(Date vid_time) {
+        this.vid_time = vid_time;
     }
 
     public int getVid_id() {

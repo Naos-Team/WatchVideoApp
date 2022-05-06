@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.databinding.FragmentHomeBinding;
+import com.naosteam.watchvideoapp.databinding.FragmentVideoBinding;
 
 
 public class VideoFragment extends Fragment {
@@ -19,14 +21,14 @@ public class VideoFragment extends Fragment {
     private View rootView;
     private NavController navController;
     private TextView tv_video;
+    private FragmentVideoBinding binding;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_video, container, false);
-
+        binding = FragmentVideoBinding.inflate(inflater, container, false);
+        rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
 
 
