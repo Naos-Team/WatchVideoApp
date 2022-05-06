@@ -29,11 +29,6 @@ public class VideoFragment extends Fragment {
 
         navController = NavHostFragment.findNavController(this);
 
-        tv_video = rootView.findViewById(R.id.tv_video);
-        tv_video.setOnClickListener(v->{
-            navController.navigate(R.id.VideoToDetail);
-        });
-
 
         return rootView;
     }
