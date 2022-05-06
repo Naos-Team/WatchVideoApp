@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_more" />
     <fragment
         android:id="@+id/baseHomeFragment"
-        android:name="com.naosteam.watchvideoapp.BaseHomeFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.BaseHomeFragment"
         android:label="fragment_base_home"
         tools:layout="@layout/fragment_base_home" />>
 </navigation>
