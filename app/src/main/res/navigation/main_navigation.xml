@@ -6,11 +6,6 @@
     app:startDestination="@id/baseHomeFragment">
 
     <fragment
-        android:id="@+id/videoFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.VideoFragment"
-        android:label="fragment_video"
-        tools:layout="@layout/fragment_video" />
-    <fragment
         android:id="@+id/tvFragment"
         android:name="com.naosteam.watchvideoapp.fragments.TvFragment"
         android:label="fragment_tv"
@@ -27,7 +22,12 @@
         tools:layout="@layout/fragment_more" />
     <fragment
         android:id="@+id/baseHomeFragment"
-        android:name="com.naosteam.watchvideoapp.BaseHomeFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.BaseHomeFragment"
         android:label="fragment_base_home"
-        tools:layout="@layout/fragment_base_home" />>
+        tools:layout="@layout/fragment_base_home" />
+    <fragment
+        android:id="@+id/baseVideoFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.BaseVideoFragment"
+        android:label="fragment_base_video"
+        tools:layout="@layout/fragment_base_video" />>
 </navigation>

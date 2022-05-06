@@ -5,7 +5,7 @@
         android:title="Home"
         android:icon="@drawable/ic_home"/>
     <item
-        android:id="@+id/videoFragment"
+        android:id="@+id/baseVideoFragment"
         android:title="Video"
         android:icon="@drawable/ic_video"/>
     <item
