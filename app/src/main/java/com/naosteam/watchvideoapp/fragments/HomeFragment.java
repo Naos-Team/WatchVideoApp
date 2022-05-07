@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.naosteam.watchvideoapp.adapters.AdapterFeaturedVideo;
+import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
 import com.naosteam.watchvideoapp.adapters.SlideShowHomeFragAdapter;
 import com.naosteam.watchvideoapp.adapters.TVFragmentAdapter;
 import com.naosteam.watchvideoapp.databinding.FragmentHomeBinding;
@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<Videos_M> list_video_trending, list_TV_trending;
     private FragmentHomeBinding binding;
     private SlideShowHomeFragAdapter slideShowHomeFragAdapter;
-    private AdapterFeaturedVideo adapterFeaturedVideo;
+    private FeaturedVideoAdapter featuredVideoAdapter;
     private TVFragmentAdapter tvFragmentAdapter;
     private Runnable runnable = new Runnable() {
         @Override
@@ -173,7 +173,7 @@ public class HomeFragment extends Fragment {
                 getDisplayMetrics().widthPixels*1/3, (getActivity().getResources().getDisplayMetrics().widthPixels)*1/3);
         layoutParams_video_item.setMargins(20, 30,20,30);
 
-        adapterFeaturedVideo = new AdapterFeaturedVideo(layoutParams_video_item, list_video_trending, new OnVideoFeatureClickListener() {
+        featuredVideoAdapter = new FeaturedVideoAdapter(layoutParams_video_item, list_video_trending, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
 
@@ -181,7 +181,7 @@ public class HomeFragment extends Fragment {
         });
 
         binding.rcvTrendVidHomeFrag.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-        binding.rcvTrendVidHomeFrag.setAdapter(adapterFeaturedVideo);
+        binding.rcvTrendVidHomeFrag.setAdapter(featuredVideoAdapter);
 
         list_TV_trending = new ArrayList<>();
 
