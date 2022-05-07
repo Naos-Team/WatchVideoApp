@@ -2,4 +2,12 @@
     <string name="app_name">WatchVideoApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="invalid_signup_name">Please enter your name</string>
+    <string name="invalid_signup_email">Please enter valid email</string>
+    <string name="invalid_signup_phone">Please enter your phone number</string>
+    <string name="invalid_signup_pw1">Please enter your password</string>\
+    <string name="invalid_signup_pw2">Password must be same</string>
+    <string name="invalid_login_user">Please enter enough info</string>
+    <string name="invalid_login_pass">Please enter enough info</string>
+
 </resources>
