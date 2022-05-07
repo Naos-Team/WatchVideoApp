@@ -27,8 +27,8 @@ import com.naosteam.watchvideoapp.R;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edt_email, edt_pass;
-    private Button btn_login, btn_login_gg;
-    private TextView tv_forgot, tv_signup, btn_skip;
+    private Button btn_login, btn_login_gg, btn_skip;
+    private TextView tv_forgot, tv_signup;
     private AwesomeValidation awesomeValidation;
     private FirebaseAuth mAuth;
 
@@ -39,7 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        awesomeValidation = new AwesomeValidation(ValidationStyle.UNDERLABEL);
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        awesomeValidation.addValidation(LoginActivity.this, R.id.edt_login_user, RegexTemplate.NOT_EMPTY, R.string.invalid_login_user);
+        awesomeValidation.addValidation(LoginActivity.this, R.id.edt_login_pass, RegexTemplate.NOT_EMPTY, R.string.invalid_login_pass);
         FindView();
         ViewClick();
     }
@@ -54,8 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_skip = findViewById(R.id.btn_skip);
 
 
-        awesomeValidation.addValidation(this, R.id.edt_login_user, RegexTemplate.NOT_EMPTY, R.string.invalid_login_user);
-        awesomeValidation.addValidation(this, R.id.edt_login_pass, RegexTemplate.NOT_EMPTY, R.string.invalid_login_pass);
+
     }
 
     private void ViewClick() {

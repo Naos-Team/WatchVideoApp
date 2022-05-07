@@ -39,28 +39,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.39" />
 
-    <TextView
-        android:id="@+id/btn_skip"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeMaxTextSize="30sp"
-        android:autoSizeMinTextSize="20sp"
-        android:autoSizeStepGranularity="1sp"
-        android:autoSizeTextType="uniform"
-        android:text="Skip"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="h,10:15"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
-
-
 
     <ImageView
         android:id="@+id/ic_login_user"
@@ -69,29 +47,42 @@
         android:src="@drawable/ic_login_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/edt_login_user"
+        app:layout_constraintEnd_toStartOf="@+id/layout_user"
         app:layout_constraintHeight_percent="0.035"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.5"
+        />
 
-    <EditText
-        android:id="@+id/edt_login_user"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_user"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:autoSizeMaxTextSize="20sp"
-        android:autoSizeMinTextSize="15sp"
-        android:autoSizeStepGranularity="1sp"
-        android:hint="Username"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toEndOf="@+id/ic_login_user"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        app:layout_constraintWidth_percent="0.75" />
+        app:layout_constraintWidth_percent="0.75"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:background="@android:color/transparent">
+
+        <EditText
+            android:id="@+id/edt_login_user"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeStepGranularity="1sp"
+            android:hint="Email"
+            android:textColor="@color/white"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <ImageView
         android:id="@+id/ic_login_pass"
@@ -100,29 +91,43 @@
         android:src="@drawable/ic_login_pass"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/edt_login_pass"
+        app:layout_constraintEnd_toStartOf="@+id/layout_pass"
         app:layout_constraintHeight_percent="0.035"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6" />
 
-    <EditText
-        android:id="@+id/edt_login_pass"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_pass"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:autoSizeMaxTextSize="20sp"
-        android:autoSizeMinTextSize="15sp"
-        android:autoSizeStepGranularity="1sp"
-        android:autoSizeTextType="uniform"
-        android:hint="Password"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toEndOf="@+id/ic_login_pass"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6"
-        app:layout_constraintWidth_percent="0.75" />
+        app:layout_constraintWidth_percent="0.75"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:background="@android:color/transparent"
+        app:passwordToggleEnabled="true">
+
+        <EditText
+            android:id="@+id/edt_login_pass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:hint="Password"
+            android:textColor="@color/white"
+            />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <TextView
         android:id="@+id/tv_forgotpass_open"
@@ -138,12 +143,12 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="4:1"
-        app:layout_constraintEnd_toEndOf="@+id/edt_login_pass"
+        app:layout_constraintEnd_toEndOf="@+id/layout_pass"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_login_pass"
+        app:layout_constraintTop_toBottomOf="@+id/layout_pass"
         app:layout_constraintVertical_bias="0.01999998" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -159,7 +164,7 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintBottom_toTopOf="@+id/btn_login_gg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintHorizontal_bias="0.5"
@@ -170,30 +175,33 @@
         app:layout_constraintWidth_percent="0.85"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <TextView
-        android:id="@+id/textView3"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_login_gg"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginBottom="22dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:autoSizeMaxTextSize="18sp"
         android:autoSizeMinTextSize="15sp"
+        android:textAlignment="center"
         android:autoSizeStepGranularity="1sp"
         android:autoSizeTextType="uniform"
-        android:gravity="center_horizontal"
-        android:text="OR"
-        android:textColor="@color/grayApp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_login_gg"
-        app:layout_constraintDimensionRatio="1:1"
+        android:textStyle="bold"
+        android:background="@drawable/bg_gg_login"
+        android:gravity="center"
+        android:text="LOGIN WITH GOOGLE"
+        android:textColor="@color/neonGreen"
+        app:layout_constraintBottom_toTopOf="@+id/btn_skip"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.85"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_login"
         app:layout_constraintVertical_bias="0.8" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_login_gg"
+        android:id="@+id/btn_skip"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeMaxTextSize="18sp"
@@ -201,8 +209,7 @@
         android:autoSizeStepGranularity="1sp"
         android:autoSizeTextType="uniform"
         android:background="@drawable/bg_gg_login"
-        android:padding="10dp"
-        android:text="LOGIN WITH GOOGLE"
+        android:text="SKIP"
         android:textAlignment="center"
         android:textColor="@color/neonGreen"
         android:textStyle="bold"
@@ -212,7 +219,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login_gg"
         app:layout_constraintVertical_bias="0.8"
         app:layout_constraintWidth_percent="0.85"
         tools:ignore="TouchTargetSizeCheck" />

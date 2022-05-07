@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/radio_navigation"
+    app:startDestination="@id/radioFragment4">
+    <fragment
+        android:id="@+id/radioFragment4"
+        android:name="com.naosteam.watchvideoapp.fragments.RadioFragment"
+        android:label="fragment_radio"
+        tools:layout="@layout/fragment_radio" >
+        <action
+            android:id="@+id/action_radioFragment4_to_radioDetailsFragment"
+            app:destination="@id/radioDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/radioDetailsFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.RadioDetailsFragment"
+        android:label="fragment_radio_details"
+        tools:layout="@layout/fragment_radio_details" />
+</navigation>

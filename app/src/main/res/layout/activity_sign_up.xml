@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:src="@drawable/signup_main_img"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.32"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.8" />
@@ -36,7 +36,7 @@
         app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.34" />
+        app:layout_constraintVertical_bias="0.26" />
 
     <ImageView
         android:id="@+id/ic_signup_name"
@@ -45,29 +45,42 @@
         android:src="@drawable/ic_login_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/edt_signup_name"
+        app:layout_constraintEnd_toStartOf="@+id/layout_name"
         app:layout_constraintHeight_percent="0.035"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.43" />
+        app:layout_constraintVertical_bias="0.33" />
 
-    <EditText
-        android:id="@+id/edt_signup_name"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_name"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:autoSizeMaxTextSize="20sp"
-        android:autoSizeMinTextSize="15sp"
-        android:autoSizeStepGranularity="1sp"
-        android:hint="Name"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toEndOf="@+id/ic_signup_name"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.43"
-        app:layout_constraintWidth_percent="0.75" />
+        app:layout_constraintVertical_bias="0.33"
+        app:layout_constraintWidth_percent="0.75"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:background="@android:color/transparent">
+
+        <EditText
+            android:id="@+id/edt_signup_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeStepGranularity="1sp"
+            android:hint="Name"
+            android:textColor="@color/white"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
     <ImageView
         android:id="@+id/ic_signup_email"
@@ -76,29 +89,41 @@
         android:src="@drawable/ic_email"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/edt_signup_email"
+        app:layout_constraintEnd_toStartOf="@+id/layout_email"
         app:layout_constraintHeight_percent="0.035"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53" />
+        app:layout_constraintVertical_bias="0.43" />
 
-    <EditText
-        android:id="@+id/edt_signup_email"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_email"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:autoSizeMaxTextSize="20sp"
-        android:autoSizeMinTextSize="15sp"
-        android:autoSizeStepGranularity="1sp"
-        android:autoSizeTextType="uniform"
-        android:hint="Email"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toEndOf="@+id/ic_signup_email"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53"
-        app:layout_constraintWidth_percent="0.75" />
+        app:layout_constraintVertical_bias="0.43"
+        app:layout_constraintWidth_percent="0.75"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:background="@android:color/transparent">
+
+        <EditText
+            android:id="@+id/edt_signup_email"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:hint="Email"
+            android:textColor="@color/white"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <ImageView
         android:id="@+id/ic_signup_phone"
@@ -107,29 +132,42 @@
         android:src="@drawable/ic_phone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/edt_signup_phone"
+        app:layout_constraintEnd_toStartOf="@+id/layout_phone"
         app:layout_constraintHeight_percent="0.035"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.63" />
+        app:layout_constraintVertical_bias="0.53" />
 
-    <EditText
-        android:id="@+id/edt_signup_phone"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_phone"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:autoSizeMaxTextSize="20sp"
-        android:autoSizeMinTextSize="15sp"
-        android:autoSizeStepGranularity="1sp"
-        android:autoSizeTextType="uniform"
-        android:hint="Phone"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toEndOf="@+id/ic_signup_phone"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.63"
-        app:layout_constraintWidth_percent="0.75" />
+        app:layout_constraintVertical_bias="0.53"
+        app:layout_constraintWidth_percent="0.75"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:background="@android:color/transparent">
+
+        <EditText
+            android:id="@+id/edt_signup_phone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:hint="Phone"
+            android:textColor="@color/white"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <ImageView
         android:id="@+id/ic_signup_pw1"
@@ -138,29 +176,44 @@
         android:src="@drawable/ic_login_pass"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/edt_signup_pw1"
+        app:layout_constraintEnd_toStartOf="@+id/layout_pw1"
         app:layout_constraintHeight_percent="0.035"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.73" />
+        app:layout_constraintVertical_bias="0.63" />
 
-    <EditText
-        android:id="@+id/edt_signup_pw1"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_pw1"
         android:layout_width="0dp"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:background="@android:color/transparent"
         android:layout_height="0dp"
-        android:autoSizeMaxTextSize="20sp"
-        android:autoSizeMinTextSize="15sp"
-        android:autoSizeStepGranularity="1sp"
-        android:autoSizeTextType="uniform"
-        android:hint="Password"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toEndOf="@+id/ic_signup_pw1"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.73"
-        app:layout_constraintWidth_percent="0.75" />
+        app:layout_constraintVertical_bias="0.63"
+        app:layout_constraintWidth_percent="0.75"
+        app:passwordToggleEnabled="true">
+
+        <EditText
+            android:backgroundTint="@null"
+            android:background="@null"
+            android:id="@+id/edt_signup_pw1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:hint="Password"
+            android:textColor="@color/white"
+            android:inputType="textPassword"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <ImageView
         android:id="@+id/ic_signup_pw2"
@@ -169,29 +222,69 @@
         android:src="@drawable/ic_login_pass"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/edt_signup_pw2"
+        app:layout_constraintEnd_toStartOf="@+id/layout_pw2"
         app:layout_constraintHeight_percent="0.035"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.83" />
+        app:layout_constraintVertical_bias="0.73"
+        />
 
-    <EditText
-        android:id="@+id/edt_signup_pw2"
+    <com.google.android.material.textfield.TextInputLayout
+        app:boxBackgroundColor="@android:color/transparent"
+        android:background="@android:color/transparent"
+        app:passwordToggleEnabled="true"
+        android:id="@+id/layout_pw2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:autoSizeMaxTextSize="20sp"
-        android:autoSizeMinTextSize="15sp"
-        android:autoSizeStepGranularity="1sp"
-        android:autoSizeTextType="uniform"
-        android:hint="Confirm Password"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toEndOf="@+id/ic_signup_pw2"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.73"
+        app:layout_constraintWidth_percent="0.75">
+
+        <EditText
+            android:id="@+id/edt_signup_pw2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:hint="Confirm Password"
+            android:textColor="@color/white"
+            android:inputType="textPassword"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <ImageView
+        android:id="@+id/ic_signup_age"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/icon_age"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/np_age"
+        app:layout_constraintHeight_percent="0.035"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.83" />
+    <NumberPicker
+        android:id="@+id/np_age"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintStart_toEndOf="@+id/ic_signup_age"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.83"
         app:layout_constraintWidth_percent="0.75" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_signup"

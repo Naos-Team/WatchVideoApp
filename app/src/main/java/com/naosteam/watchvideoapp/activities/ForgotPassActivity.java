@@ -15,15 +15,18 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.databinding.ActivityForgotPassBinding;
 
 public class ForgotPassActivity extends AppCompatActivity {
 
     private ImageView imv_back;
     private Button btn_submit;
     private EditText edt_email;
+    private ActivityForgotPassBinding binding;
     private AwesomeValidation awesomeValidation;
     private FirebaseAuth mAuth;
 
@@ -31,37 +34,30 @@ public class ForgotPassActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgot_pass);
+        binding = ActivityForgotPassBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         mAuth = FirebaseAuth.getInstance();
         awesomeValidation = new AwesomeValidation(ValidationStyle.UNDERLABEL);
-        FindView();
+        awesomeValidation.addValidation(this, R.id.edt_forgot_email, Patterns.EMAIL_ADDRESS, R.string.invalid_signup_email);
         ViewClick();
 
     }
 
-    private void FindView(){
-        imv_back.findViewById(R.id.imv_back_to_login);
-        edt_email.findViewById(R.id.edt_forgot_email);
-        btn_submit.findViewById(R.id.btn_submit_email);
-
-
-        awesomeValidation.addValidation(this, R.id.edt_forgot_email, Patterns.EMAIL_ADDRESS, R.string.invalid_signup_email);
-    }
-
     private void ViewClick(){
-        imv_back.setOnClickListener(new View.OnClickListener() {
+        binding.imvBackToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
 
-        btn_submit.setOnClickListener(new View.OnClickListener() {
+        binding.btnSubmitEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (awesomeValidation.validate()){
-                    String email = edt_email.getText().toString().trim();
+                    String email = binding.edtForgotEmail.getText().toString().trim();
                     mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -72,6 +68,11 @@ public class ForgotPassActivity extends AppCompatActivity {
                                 Toast.makeText(ForgotPassActivity.this, "Try again. Something wrong happened!", Toast.LENGTH_SHORT).show();
 
                             }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            e.toString();
                         }
                     });
                 }
