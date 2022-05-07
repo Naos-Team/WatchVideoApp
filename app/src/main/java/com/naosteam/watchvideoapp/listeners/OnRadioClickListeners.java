@@ -1,5 +1,5 @@
 package com.naosteam.watchvideoapp.listeners;
 
-public interface OnRadioItemClickListeners {
+public interface OnRadioClickListeners {
     void onClick(int position);
 }

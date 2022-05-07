@@ -3,26 +3,26 @@ package com.naosteam.watchvideoapp.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.naosteam.watchvideoapp.R;
-import com.naosteam.watchvideoapp.listeners.OnHomeItemClickListeners;
+import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
 import com.naosteam.watchvideoapp.models.Category_M;
-import com.naosteam.watchvideoapp.models.Videos_M;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class RadioCategoryAdapter extends RecyclerView.Adapter<RadioCategoryAdapter.RadioCategoryHolder>{
     private ArrayList<Category_M> list_cat;
-    private OnHomeItemClickListeners listeners;
+    private OnRadioClickListeners listeners;
     private ViewGroup.LayoutParams layoutParams;
 
-    public RadioCategoryAdapter(ArrayList<Category_M> list_cat, ViewGroup.LayoutParams layoutParams, OnHomeItemClickListeners listeners) {
+    public RadioCategoryAdapter(ViewGroup.LayoutParams layoutParams, ArrayList<Category_M> list_cat, OnRadioClickListeners listeners) {
         this.list_cat = list_cat;
         this.listeners = listeners;
         this.layoutParams = layoutParams;
@@ -32,7 +32,7 @@ public class RadioCategoryAdapter extends RecyclerView.Adapter<RadioCategoryAdap
     @Override
     public RadioCategoryAdapter.RadioCategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_tv_fragment, parent, false);
+        View view = inflater.inflate(R.layout.item_radio_category, parent, false);
         return new RadioCategoryAdapter.RadioCategoryHolder(view);
     }
 
@@ -47,23 +47,25 @@ public class RadioCategoryAdapter extends RecyclerView.Adapter<RadioCategoryAdap
     }
 
     class RadioCategoryHolder extends RecyclerView.ViewHolder{
-        ImageView img_TV_item_frag;
-        ConstraintLayout layout_TV_item_frag;
+        RoundedImageView imv_radio_cat;
+        TextView tv_radio_cat_name;
+        ConstraintLayout layout_radio_cat_item;
         public RadioCategoryHolder(@NonNull View itemView) {
             super(itemView);
-            img_TV_item_frag = (ImageView) itemView.findViewById(R.id.img_TV_item_frag);
-            layout_TV_item_frag = (ConstraintLayout) itemView.findViewById(R.id.layout_TV_item_frag);
+            imv_radio_cat = (RoundedImageView) itemView.findViewById(R.id.imv_radio_cat);
+            tv_radio_cat_name = (TextView) itemView.findViewById(R.id.tv_radio_cat_name);
+            layout_radio_cat_item = (ConstraintLayout) itemView.findViewById(R.id.layout_radio_cat_item);
         }
 
         public void bindView(int position){
-//            Picasso.get().load(list_cat.get(position).getVid_thumbnail()).into(img_TV_item_frag);
-//            layout_TV_item_frag.setLayoutParams(layoutParams);
-//            layout_TV_item_frag.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    listeners.onClick_SlideShow(position);
-//                }
-//            });
+            Picasso.get().load(list_cat.get(position).getCat_image()).into(imv_radio_cat);
+            layout_radio_cat_item.setLayoutParams(layoutParams);
+            layout_radio_cat_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listeners.onClick(position);
+                }
+            });
         }
     }
 }
