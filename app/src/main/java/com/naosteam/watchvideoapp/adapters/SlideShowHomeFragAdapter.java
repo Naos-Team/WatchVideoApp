@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class SlideShowHomeFragAdapter extends RecyclerView.Adapter<SlideShowHomeFragAdapter.SlideShowHomeHolder> {
     private ArrayList<Category_M> category_mArrayList;
     private OnHomeItemClickListeners listeners;
+    private static int selected_index= 0;
 
     public SlideShowHomeFragAdapter(ArrayList<Category_M> category_mArrayList, OnHomeItemClickListeners listeners) {
         this.category_mArrayList = category_mArrayList;
@@ -58,9 +59,13 @@ public class SlideShowHomeFragAdapter extends RecyclerView.Adapter<SlideShowHome
             layout_item_Slide_item_frag_home.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listeners.onClick_SlideShow(position);
+                    listeners.onClick_homeItem(position);
                 }
             });
         }
+    }
+
+    public static void setSelected_index(int selected_index) {
+        SlideShowHomeFragAdapter.selected_index = selected_index;
     }
 }

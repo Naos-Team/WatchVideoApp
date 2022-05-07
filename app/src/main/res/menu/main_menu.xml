@@ -9,7 +9,7 @@
         android:title="Video"
         android:icon="@drawable/ic_video"/>
     <item
-        android:id="@+id/tvFragment"
+        android:id="@+id/baseTvFragment2"
         android:title="TV"
         android:icon="@drawable/ic_tv"/>
     <item
