@@ -16,9 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.naosteam.watchvideoapp.adapters.AdapterFeaturedVideo;
+import com.naosteam.watchvideoapp.adapters.AdapterHorizontalCategory;
 import com.naosteam.watchvideoapp.asynctasks.LoadVideoAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentVideoBinding;
 import com.naosteam.watchvideoapp.listeners.LoadVideoAsyncListener;
+import com.naosteam.watchvideoapp.listeners.OnCategoryHorizontalListener;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
@@ -109,12 +111,33 @@ public class VideoFragment extends Fragment {
         binding.rvTopRating.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         binding.rvCategory.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
 
-        int width = (int) Math.round(getContext().getResources().getDisplayMetrics().widthPixels*0.6);
+        int width = (int) Math.round(getContext().getResources().getDisplayMetrics().widthPixels*0.5);
         int height =  (int) Math.round(width*0.9);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
-        layoutParams.setMargins(30,0,0,0);
+        layoutParams.setMargins(35,0,0,0);
 
         binding.rvLatestVideo.setAdapter(new AdapterFeaturedVideo(layoutParams, mLatests, new OnVideoFeatureClickListener() {
+            @Override
+            public void onClick(int position) {
+
+            }
+        }));
+
+        binding.rvTopRating.setAdapter(new AdapterFeaturedVideo(layoutParams, mTopRates, new OnVideoFeatureClickListener() {
+            @Override
+            public void onClick(int position) {
+
+            }
+        }));
+
+        binding.rvMostView.setAdapter(new AdapterFeaturedVideo(layoutParams, mMostViews, new OnVideoFeatureClickListener() {
+            @Override
+            public void onClick(int position) {
+
+            }
+        }));
+
+        binding.rvCategory.setAdapter(new AdapterHorizontalCategory(mCategories, new OnCategoryHorizontalListener() {
             @Override
             public void onClick(int position) {
 

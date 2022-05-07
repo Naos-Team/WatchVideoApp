@@ -20,8 +20,12 @@
         android:layout_weight="3"
         android:orientation="vertical"
         android:weightSum="10">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
         <LinearLayout
-            android:layout_weight="5.5"
+            android:layout_weight="4.5"
             android:layout_width="match_parent"
             android:gravity="center_vertical"
             android:layout_height="0dp">
@@ -50,11 +54,11 @@
             <TextView
                 android:id="@+id/tv_time"
                 android:layout_weight="1"
-                android:paddingVertical="1dp"
+                android:paddingVertical="2dp"
                 android:layout_width="0dp"
                 android:gravity="center_vertical"
                 android:layout_height="match_parent"
-                android:autoSizeMinTextSize="10sp"
+                android:autoSizeMinTextSize="5sp"
                 android:autoSizeMaxTextSize="100sp"
                 android:autoSizeStepGranularity="2sp"
                 android:autoSizeTextType="uniform"
@@ -63,11 +67,11 @@
                 android:id="@+id/tv_view"
                 android:layout_weight="1"
                 android:gravity="center_vertical|right"
-                android:autoSizeMinTextSize="10sp"
+                android:autoSizeMinTextSize="5sp"
                 android:autoSizeMaxTextSize="100sp"
                 android:autoSizeStepGranularity="2sp"
                 android:autoSizeTextType="uniform"
-                android:paddingVertical="1dp"
+                android:paddingVertical="2dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:text="200K views"/>

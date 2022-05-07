@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_navigation"
+    app:startDestination="@id/baseTvFragment">
+    <fragment
+        android:id="@+id/baseTvFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.BaseTvFragment"
+        android:label="fragment_base_tv"
+        tools:layout="@layout/fragment_base_tv" />
+</navigation>
