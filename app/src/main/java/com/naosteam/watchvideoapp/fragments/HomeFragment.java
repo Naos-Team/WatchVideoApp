@@ -2,6 +2,7 @@ package com.naosteam.watchvideoapp.fragments;
 
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -66,5 +67,9 @@ public class HomeFragment extends Fragment {
 
         binding.vpgSlideHomeFrag.setAdapter(adapter);
         binding.indicatorHomeFrag.setViewPager(binding.vpgSlideHomeFrag);
+
+        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(getActivity().getResources().
+                getDisplayMetrics().widthPixels, getActivity().getResources().getDisplayMetrics().widthPixels);
+        binding.vpgSlideHomeFrag.setLayoutParams(layoutParams);
     }
 }
