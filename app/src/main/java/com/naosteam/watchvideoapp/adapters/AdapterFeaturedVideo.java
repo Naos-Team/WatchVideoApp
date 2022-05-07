@@ -29,6 +29,11 @@ public class AdapterFeaturedVideo extends RecyclerView.Adapter<AdapterFeaturedVi
     private OnVideoFeatureClickListener listener;
     private Context context;
 
+    public AdapterFeaturedVideo(ArrayList<Videos_M> arrayList_video, OnVideoFeatureClickListener listener) {
+        this.arrayList_video = arrayList_video;
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
