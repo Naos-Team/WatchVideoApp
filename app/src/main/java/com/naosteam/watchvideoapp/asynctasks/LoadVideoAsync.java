@@ -3,7 +3,7 @@ package com.naosteam.watchvideoapp.asynctasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.naosteam.watchvideoapp.listeners.LoadVideoListener;
+import com.naosteam.watchvideoapp.listeners.LoadVideoAsyncListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Constant;
@@ -13,16 +13,14 @@ import com.naosteam.watchvideoapp.utils.Methods;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import okhttp3.RequestBody;
 
 public class LoadVideoAsync extends AsyncTask<Void, String, Boolean> {
 
     private RequestBody requestBody;
-    private LoadVideoListener listener;
+    private LoadVideoAsyncListener listener;
     private Methods methods;
     private ArrayList<Videos_M> arrayList_mostview;
     private ArrayList<Videos_M> arrayList_latest;
@@ -30,7 +28,7 @@ public class LoadVideoAsync extends AsyncTask<Void, String, Boolean> {
     private ArrayList<Videos_M> arrayList_toprate;
     private ArrayList<Category_M> arrayList_category;
 
-    public LoadVideoAsync(RequestBody requestBody, LoadVideoListener listener, Methods methods) {
+    public LoadVideoAsync(RequestBody requestBody, LoadVideoAsyncListener listener, Methods methods) {
         this.requestBody = requestBody;
         this.listener = listener;
         this.methods = methods;

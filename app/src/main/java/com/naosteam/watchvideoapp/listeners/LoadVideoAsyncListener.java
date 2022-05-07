@@ -5,7 +5,7 @@ import com.naosteam.watchvideoapp.models.Videos_M;
 
 import java.util.ArrayList;
 
-public interface LoadVideoListener {
+public interface LoadVideoAsyncListener {
     void onStart();
     void onEnd(boolean status,
                ArrayList<Videos_M> arrayList_trending,

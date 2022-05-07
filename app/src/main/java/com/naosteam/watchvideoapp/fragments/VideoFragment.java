@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.asynctasks.LoadVideoAsync;
-import com.naosteam.watchvideoapp.databinding.FragmentHomeBinding;
 import com.naosteam.watchvideoapp.databinding.FragmentVideoBinding;
-import com.naosteam.watchvideoapp.listeners.LoadVideoListener;
+import com.naosteam.watchvideoapp.listeners.LoadVideoAsyncListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Methods;
@@ -61,7 +59,7 @@ public class VideoFragment extends Fragment {
     private void LoadVideoData(){
 
         RequestBody requestBody = Methods.getInstance().getHomeRequestBody("LOAD_VIDEO_SCREEN", null);
-        LoadVideoListener listener = new LoadVideoListener() {
+        LoadVideoAsyncListener listener = new LoadVideoAsyncListener() {
             @Override
             public void onStart() {
                 binding.llList.setVisibility(View.GONE);
