@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item_Slide_item_frag_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,11 +10,20 @@
         android:id="@+id/imgSlide_home_frag_item"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/img"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img_slide_frag_home_item" />
+        app:srcCompat="@drawable/img" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/img_slide_frag_home_item2"
+        app:layout_constraintBottom_toBottomOf="@+id/imgSlide_home_frag_item"
+        app:layout_constraintEnd_toEndOf="@+id/imgSlide_home_frag_item"
+        app:layout_constraintStart_toStartOf="@+id/imgSlide_home_frag_item"
+        app:layout_constraintTop_toTopOf="@+id/imgSlide_home_frag_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
