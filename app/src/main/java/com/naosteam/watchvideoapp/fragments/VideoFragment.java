@@ -16,9 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.naosteam.watchvideoapp.adapters.AdapterFeaturedVideo;
+import com.naosteam.watchvideoapp.adapters.AdapterHorizontalCategory;
 import com.naosteam.watchvideoapp.asynctasks.LoadVideoAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentVideoBinding;
 import com.naosteam.watchvideoapp.listeners.LoadVideoAsyncListener;
+import com.naosteam.watchvideoapp.listeners.OnCategoryHorizontalListener;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
@@ -129,6 +131,13 @@ public class VideoFragment extends Fragment {
         }));
 
         binding.rvMostView.setAdapter(new AdapterFeaturedVideo(layoutParams, mMostViews, new OnVideoFeatureClickListener() {
+            @Override
+            public void onClick(int position) {
+
+            }
+        }));
+
+        binding.rvCategory.setAdapter(new AdapterHorizontalCategory(mCategories, new OnCategoryHorizontalListener() {
             @Override
             public void onClick(int position) {
 

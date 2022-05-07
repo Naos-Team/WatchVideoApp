@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText edt_email, edt_pass;
     private Button btn_login, btn_login_gg;
-    private TextView tv_forgot, tv_signup;
+    private TextView tv_forgot, tv_signup, btn_skip;
     private AwesomeValidation awesomeValidation;
     private FirebaseAuth mAuth;
 
@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_login_gg = findViewById(R.id.btn_login_gg);
         tv_forgot = findViewById(R.id.tv_forgotpass_open);
         tv_signup = findViewById(R.id.tv_signup_open);
+        btn_skip = findViewById(R.id.btn_skip);
 
 
         awesomeValidation.addValidation(this, R.id.edt_login_user, RegexTemplate.NOT_EMPTY, R.string.invalid_login_user);
@@ -58,6 +59,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void ViewClick() {
+
+        btn_skip.setOnClickListener(v->{
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        });
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
