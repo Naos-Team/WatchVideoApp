@@ -7,6 +7,7 @@ import android.util.Base64;
 
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.models.Category_M;
+import com.naosteam.watchvideoapp.models.Users_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
 
 import org.json.JSONObject;
@@ -82,16 +83,51 @@ public class Methods {
         return new Category_M(cat_id, cat_name, cat_image, cat_type);
     }
 
+    public Users_M getUser(JSONObject obj) throws Exception {
+        String uid = obj.getString("uid");
+        String user_name = obj.getString("user_name");
+        String user_email = obj.getString("user_email");
+        String user_phone = obj.getString("user_phone");
+        int user_age = obj.getInt("user_age");
+        boolean user_status = obj.getInt("user_status")==1;
+        return new Users_M(uid, user_name, user_email, user_phone, user_age);
+    }
+
     public RequestBody getHomeRequestBody(String method_name, Bundle bundle) {
         JsonObject postObj = new JsonObject();
         postObj.addProperty("method_name", method_name);
 
         switch (method_name){
-            case "method_signup":
+            case "METHOD_SIGNUP":
                 postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
                 postObj.addProperty("name", base64Encode(bundle.getString("name")));
                 postObj.addProperty("email", base64Encode(bundle.getString("email")));
-                postObj.addProperty("date", bundle.getString("date"));
+                postObj.addProperty("phone", base64Encode(bundle.getString("phone")));
+                postObj.addProperty("password", base64Encode(bundle.getString("password")));
+                postObj.addProperty("age", bundle.getInt("age"));
+                break;
+        }
+
+        String post_data = postObj.toString();
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        builder.addFormDataPart("data", post_data);
+
+        return builder.build();
+
+    }
+
+    public RequestBody getLoginRequestBody(String method_name, Bundle bundle) {
+        JsonObject postObj = new JsonObject();
+        postObj.addProperty("method_name", method_name);
+
+        switch (method_name){
+            case "METHOD_SIGNUP":
+                postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
+                postObj.addProperty("name", base64Encode(bundle.getString("name")));
+                postObj.addProperty("email", base64Encode(bundle.getString("email")));
+                postObj.addProperty("phone", base64Encode(bundle.getString("phone")));
+                postObj.addProperty("age", base64Encode(""+bundle.getInt("age")));
                 break;
         }
 

@@ -71,6 +71,5 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
-    implementation 'com.basgeekball:awesome-validation:4.3'
-
+    implementation 'com.github.thyrlian:AwesomeValidation:v4.3'
 }
