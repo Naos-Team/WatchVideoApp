@@ -5,16 +5,21 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.naosteam.watchvideoapp.adapters.AdapterFeaturedVideo;
 import com.naosteam.watchvideoapp.asynctasks.LoadVideoAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentVideoBinding;
 import com.naosteam.watchvideoapp.listeners.LoadVideoAsyncListener;
+import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Methods;
@@ -99,6 +104,22 @@ public class VideoFragment extends Fragment {
     }
 
     private void updateUI() {
+        binding.rvLatestVideo.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        binding.rvMostView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        binding.rvTopRating.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        binding.rvCategory.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+
+        int width = (int) Math.round(getContext().getResources().getDisplayMetrics().widthPixels*0.6);
+        int height =  (int) Math.round(width*0.9);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+        layoutParams.setMargins(30,0,0,0);
+
+        binding.rvLatestVideo.setAdapter(new AdapterFeaturedVideo(layoutParams, mLatests, new OnVideoFeatureClickListener() {
+            @Override
+            public void onClick(int position) {
+
+            }
+        }));
 
     }
 }

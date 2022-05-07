@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,11 +26,13 @@ public class AdapterFeaturedVideo extends RecyclerView.Adapter<AdapterFeaturedVi
 
     private ArrayList<Videos_M> arrayList_video;
     private OnVideoFeatureClickListener listener;
+    private LinearLayout.LayoutParams layoutParams;
     private Context context;
 
-    public AdapterFeaturedVideo(ArrayList<Videos_M> arrayList_video, OnVideoFeatureClickListener listener) {
+    public AdapterFeaturedVideo(LinearLayout.LayoutParams layoutParams, ArrayList<Videos_M> arrayList_video, OnVideoFeatureClickListener listener) {
         this.arrayList_video = arrayList_video;
         this.listener = listener;
+        this.layoutParams = layoutParams;
     }
 
     @NonNull
@@ -90,14 +91,14 @@ public class AdapterFeaturedVideo extends RecyclerView.Adapter<AdapterFeaturedVi
         if(views > 1000){
             if(views > 1000000){
                 if(views > 1000000000){
-                    String view1 = String.format("%.1g%n", views/1000000000);
+                    double view1 = (double)Math.round(views/1000000000 * 10d) / 10d;
                     holder.tv_view.setText(view1 + "B views");
                 }else{
-                    String view1 = String.format("%.1g%n", views/1000000);
+                    double view1 = (double)Math.round(views/1000000 * 10d) / 10d;
                     holder.tv_view.setText(view1 + "M views");
                 }
             }else{
-                String view1 = String.format("%.1g%n", views/1000);
+                double view1 = (double)Math.round(views/1000 * 10d) / 10d;
                 holder.tv_view.setText(view1 + "K views");
             }
         }else{
@@ -107,6 +108,8 @@ public class AdapterFeaturedVideo extends RecyclerView.Adapter<AdapterFeaturedVi
         holder.ll_item.setOnClickListener(v->{
             listener.onClick(holder.getAdapterPosition());
         });
+
+        holder.ll_item.setLayoutParams(layoutParams);
     }
 
     @Override
