@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,15 +18,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class AdapterHorizontalCategory extends RecyclerView.Adapter<AdapterHorizontalCategory.MyViewHolder> {
+public class HorizontalCategoryAdapter extends RecyclerView.Adapter<HorizontalCategoryAdapter.MyViewHolder> {
 
     private ArrayList<Category_M> arrayList_category;
     private OnCategoryHorizontalListener listener;
+    private RelativeLayout.LayoutParams layoutParams;
     private Context context;
 
-    public AdapterHorizontalCategory(ArrayList<Category_M> arrayList_category, OnCategoryHorizontalListener listener) {
+    public HorizontalCategoryAdapter(RelativeLayout.LayoutParams layoutParams, ArrayList<Category_M> arrayList_category, OnCategoryHorizontalListener listener) {
         this.arrayList_category = arrayList_category;
         this.listener = listener;
+        this.layoutParams = layoutParams;
     }
 
     @NonNull
@@ -48,6 +48,8 @@ public class AdapterHorizontalCategory extends RecyclerView.Adapter<AdapterHoriz
         holder.rl_item.setOnClickListener(v->{
             listener.onClick(holder.getAdapterPosition());
         });
+
+        holder.rl_item.setLayoutParams(layoutParams);
     }
 
     @Override

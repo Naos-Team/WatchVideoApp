@@ -22,14 +22,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class AdapterFeaturedVideo extends RecyclerView.Adapter<AdapterFeaturedVideo.MyViewHolder>  {
+public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdapter.MyViewHolder>  {
 
     private ArrayList<Videos_M> arrayList_video;
     private OnVideoFeatureClickListener listener;
     private LinearLayout.LayoutParams layoutParams;
     private Context context;
 
-    public AdapterFeaturedVideo(LinearLayout.LayoutParams layoutParams, ArrayList<Videos_M> arrayList_video, OnVideoFeatureClickListener listener) {
+    public FeaturedVideoAdapter(LinearLayout.LayoutParams layoutParams, ArrayList<Videos_M> arrayList_video, OnVideoFeatureClickListener listener) {
         this.arrayList_video = arrayList_video;
         this.listener = listener;
         this.layoutParams = layoutParams;
