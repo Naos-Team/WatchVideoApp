@@ -13,10 +13,18 @@
         <action
             android:id="@+id/VideoToDetail"
             app:destination="@id/videoDetailFragment" />
+        <action
+            android:id="@+id/VideoToSearchVideo"
+            app:destination="@id/searchVideoFragment" />
     </fragment>
     <fragment
         android:id="@+id/videoDetailFragment"
         android:name="com.naosteam.watchvideoapp.fragments.VideoDetailFragment"
         android:label="fragment_video_detail"
         tools:layout="@layout/fragment_video_detail" />
+    <fragment
+        android:id="@+id/searchVideoFragment"
+        android:name="com.naosteam.watchvideoapp.SearchVideoFragment"
+        android:label="fragment_search_video"
+        tools:layout="@layout/fragment_search_video" />
 </navigation>

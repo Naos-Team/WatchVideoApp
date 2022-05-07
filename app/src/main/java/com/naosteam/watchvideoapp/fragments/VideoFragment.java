@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
 import com.naosteam.watchvideoapp.adapters.HorizontalCategoryAdapter;
 import com.naosteam.watchvideoapp.adapters.TrendingMoviePagerAdapter;
@@ -53,6 +54,10 @@ public class VideoFragment extends Fragment {
         rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
 
+        int height = getContext().getResources().getDisplayMetrics().heightPixels;
+        LinearLayout.LayoutParams layoutParams00 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Math.round(height*0.3));
+        binding.rlPager.setLayoutParams(layoutParams00);
+
         mTrendings = new ArrayList<>();
         mMostViews = new ArrayList<>();
         mLatests = new ArrayList<>();
@@ -60,9 +65,17 @@ public class VideoFragment extends Fragment {
         mCategories = new ArrayList<>();
         mCategories.add(new Category_M(0, "All", "", 1));
 
+        SetupView();
+
         LoadVideoData();
 
         return rootView;
+    }
+
+    private void SetupView() {
+        binding.ivSearch.setOnClickListener(v->{
+            navController.navigate(R.id.VideoToSearchVideo);
+        });
     }
 
     private void LoadVideoData(){
@@ -160,8 +173,6 @@ public class VideoFragment extends Fragment {
         binding.viewPager.setAdapter(pagerAdapter);
         binding.circleIndicator.setViewPager(binding.viewPager);
         pagerAdapter.registerDataSetObserver(binding.circleIndicator.getDataSetObserver());
-
-
 
     }
 }
