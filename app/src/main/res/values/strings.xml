@@ -9,5 +9,5 @@
     <string name="invalid_signup_pw2">Password must be same</string>
     <string name="invalid_login_user">Please enter enough info</string>
     <string name="invalid_login_pass">Please enter enough info</string>
-
+    <string name="web_client_id">926715980598-auv2peb952q15q4k58467pd50k4pqr7i.apps.googleusercontent.com</string>
 </resources>
