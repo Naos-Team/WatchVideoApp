@@ -127,7 +127,7 @@ public class Methods {
                 postObj.addProperty("name", base64Encode(bundle.getString("name")));
                 postObj.addProperty("email", base64Encode(bundle.getString("email")));
                 postObj.addProperty("phone", base64Encode(bundle.getString("phone")));
-                postObj.addProperty("age", base64Encode(""+bundle.getInt("age")));
+                postObj.addProperty("age", bundle.getInt("age"));
                 break;
         }
 

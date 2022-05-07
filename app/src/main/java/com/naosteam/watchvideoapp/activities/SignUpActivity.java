@@ -17,6 +17,8 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,19 +40,14 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private AwesomeValidation awesomeValidation;
     private NumberPicker np_age;
-    private int age=0;
+    private int age;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
         mAuth = FirebaseAuth.getInstance();
 
-        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
-        awesomeValidation.addValidation(this, R.id.edt_signup_name, RegexTemplate.NOT_EMPTY, R.string.invalid_signup_name);
-        awesomeValidation.addValidation(this, R.id.edt_signup_phone, RegexTemplate.TELEPHONE, R.string.invalid_signup_phone);
-        awesomeValidation.addValidation(this, R.id.edt_signup_email, Patterns.EMAIL_ADDRESS, R.string.invalid_signup_email);
-        awesomeValidation.addValidation(this, R.id.edt_signup_pw1, ".{6,}", R.string.invalid_signup_pw1);
-        awesomeValidation.addValidation(this, R.id.edt_signup_pw2, R.id.edt_signup_pw1, R.string.invalid_signup_pw2);
+
 
         FindView();
 
@@ -70,6 +67,12 @@ public class SignUpActivity extends AppCompatActivity {
         np_age.setMaxValue(100);
         np_age.setMaxValue(0);
 
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        awesomeValidation.addValidation(SignUpActivity.this, R.id.edt_signup_name, RegexTemplate.NOT_EMPTY, R.string.invalid_signup_name);
+        awesomeValidation.addValidation(SignUpActivity.this, R.id.edt_signup_phone, RegexTemplate.TELEPHONE, R.string.invalid_signup_phone);
+        awesomeValidation.addValidation(SignUpActivity.this, R.id.edt_signup_email, Patterns.EMAIL_ADDRESS, R.string.invalid_signup_email);
+        awesomeValidation.addValidation(SignUpActivity.this, R.id.edt_signup_pw1, ".{6,}", R.string.invalid_signup_pw1);
+        awesomeValidation.addValidation(SignUpActivity.this, R.id.edt_signup_pw2, R.id.edt_signup_pw1, R.string.invalid_signup_pw2);
 
     }
 
@@ -104,11 +107,11 @@ public class SignUpActivity extends AppCompatActivity {
         String name = edt_pw1.getText().toString().trim();
         String phone = edt_pw1.getText().toString().trim();
 
-        mAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+        if(Methods.getInstance().isNetworkConnected(SignUpActivity.this)) {
+            mAuth.createUserWithEmailAndPassword(email,password)
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
                             @SuppressLint("RestrictedApi") Users_M user = new Users_M(FirebaseAuth.getInstance().getCurrentUser().getUid(), name, email, phone, age);
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -126,16 +129,14 @@ public class SignUpActivity extends AppCompatActivity {
 
                                             @Override
                                             public void onEnd(boolean status) {
-                                                if(Methods.getInstance().isNetworkConnected(SignUpActivity.this)){
-                                                    if(status){
-                                                        Toast.makeText(SignUpActivity.this, "Successfully. Please check your email.", Toast.LENGTH_SHORT).show();
-                                                    }else{
-                                                        Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                                                    }
+
+                                                if(status){
+                                                    Toast.makeText(SignUpActivity.this, "Successfully. Please check your email.", Toast.LENGTH_SHORT).show();
                                                 }else{
-                                                    Toast.makeText(SignUpActivity.this, "No Internet Connected", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
+
                                         };
 
                                         Bundle bundle = new Bundle();
@@ -154,8 +155,27 @@ public class SignUpActivity extends AppCompatActivity {
                             });
 
                         }
-                    }
-                });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            e.printStackTrace();
+                            e.toString();
+                        }
+
+                    })
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            int a = 0;
+                        }
+                    });
+        }
+        else{
+            Toast.makeText(SignUpActivity.this, "No Internet Connected", Toast.LENGTH_SHORT).show();
+        }
+
+
 
     }
 
