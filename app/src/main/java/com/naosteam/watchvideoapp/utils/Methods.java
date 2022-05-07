@@ -6,8 +6,14 @@ import android.os.Bundle;
 import android.util.Base64;
 
 import com.google.gson.JsonObject;
+import com.naosteam.watchvideoapp.models.Category_M;
+import com.naosteam.watchvideoapp.models.Videos_M;
+
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,6 +52,34 @@ public class Methods {
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(string);
         return m.find();
+    }
+
+    public Videos_M getRowVideo(JSONObject obj) throws Exception {
+        int vid_id = obj.getInt("vid_id");
+        int cat_id = obj.getInt("cat_id");
+        String vid_title = obj.getString("vid_title");
+        String vid_url = obj.getString("vid_url");
+        String vid_thumbnail = obj.getString("vid_thumbnail");
+        String vid_description = obj.getString("vid_description");
+        int vid_view = obj.getInt("vid_view");
+        float vid_avg_rate = Float.parseFloat(obj.getString("vid_avg_rate"));
+        int vid_type = obj.getInt("vid_type");
+        boolean vid_is_premium = obj.getInt("vid_is_premium") == 1;
+
+        String date_string = obj.getString("vid_time");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date vid_time = sdf.parse(date_string);
+
+        return new Videos_M(vid_id, cat_id, vid_title, vid_thumbnail, vid_description, vid_url, vid_view, vid_avg_rate, vid_type, vid_is_premium, vid_time);
+    }
+
+    public Category_M getRowCategory(JSONObject obj) throws Exception{
+        int cat_id = obj.getInt("cat_id");
+        String cat_name = obj.getString("cat_name");
+        String cat_image = obj.getString("cat_image");
+        int cat_type = obj.getInt("cat_type");
+
+        return new Category_M(cat_id, cat_name, cat_image, cat_type);
     }
 
     public RequestBody getHomeRequestBody(String method_name, Bundle bundle) {

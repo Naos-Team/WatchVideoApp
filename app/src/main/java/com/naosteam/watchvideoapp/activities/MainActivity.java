@@ -30,17 +30,6 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-//        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//
-//                NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-//                int a = navHostFragment.getChildFragmentManager().getBackStackEntryCount();
-//                Toast.makeText(MainActivity.this, ""+a, Toast.LENGTH_SHORT).show();
-//
-//                return true;
-//            }
-//        });
 
     }
 
