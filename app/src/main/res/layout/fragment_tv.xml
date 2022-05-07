@@ -15,12 +15,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintVertical_weight="1">
+        app:layout_constraintVertical_weight="1.3">
 
         <SearchView
-            android:id="@+id/searchView"
+            android:id="@+id/sV_tv_fragment"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:gravity="end"
+            android:queryHint="TV channels"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -29,16 +31,16 @@
 
         <TextView
             android:id="@+id/txttitle_TV_frag"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="center"
+            android:gravity="center|left"
             android:paddingLeft="10dp"
             android:text="TV"
             android:textColor="@color/neonGreen"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/searchView"
+            app:layout_constraintEnd_toStartOf="@+id/sV_tv_fragment"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
-        app:layout_constraintVertical_weight="1" />
+        app:layout_constraintVertical_weight="0.7" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcl_item_tv_frag"
@@ -63,5 +65,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rcl_category_tv_frag"
-        app:layout_constraintVertical_weight="12" />
+        app:layout_constraintVertical_weight="10" />
 </androidx.constraintlayout.widget.ConstraintLayout>

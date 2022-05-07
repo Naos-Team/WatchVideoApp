@@ -27,6 +27,14 @@ public class TVFragmentAdapter extends RecyclerView.Adapter<TVFragmentAdapter.TV
         this.layoutParams = layoutParams;
     }
 
+    public ArrayList<Videos_M> getList_TV() {
+        return list_TV;
+    }
+
+    public void setList_TV(ArrayList<Videos_M> list_TV) {
+        this.list_TV = list_TV;
+    }
+
     @NonNull
     @Override
     public TVFragmentAdapter.TVFragHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -60,7 +68,7 @@ public class TVFragmentAdapter extends RecyclerView.Adapter<TVFragmentAdapter.TV
             layout_TV_item_frag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listeners.onClick_SlideShow(position);
+                    listeners.onClick_homeItem(position);
                 }
             });
         }

@@ -1,6 +1,8 @@
 package com.naosteam.watchvideoapp.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.naosteam.watchvideoapp.adapters.AdapterFeaturedVideo;
 import com.naosteam.watchvideoapp.adapters.SlideShowHomeFragAdapter;
@@ -37,6 +40,17 @@ public class HomeFragment extends Fragment {
     private SlideShowHomeFragAdapter slideShowHomeFragAdapter;
     private AdapterFeaturedVideo adapterFeaturedVideo;
     private TVFragmentAdapter tvFragmentAdapter;
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            int currentPosition = binding.vpgSlideHomeFrag.getCurrentItem();
+            if(currentPosition == list_cat_Video.size() - 1){
+                binding.vpgSlideHomeFrag.setCurrentItem(0);
+            } else {
+                binding.vpgSlideHomeFrag.setCurrentItem(currentPosition + 1);
+            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +71,33 @@ public class HomeFragment extends Fragment {
     }
 
     public void setUp(){
+        Handler handler = new Handler(Looper.getMainLooper());
+        if(runnable != null){
+            runnable = null;
+        }
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                int currentPosition = binding.vpgSlideHomeFrag.getCurrentItem();
+                if(currentPosition == list_cat_Video.size() - 1){
+                    binding.vpgSlideHomeFrag.setCurrentItem(0);
+                } else {
+                    binding.vpgSlideHomeFrag.setCurrentItem(currentPosition + 1);
+                }
+            }
+        };
+
+        binding.vpgSlideHomeFrag.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                SlideShowHomeFragAdapter.setSelected_index(position);
+                handler.removeCallbacks(runnable);
+                handler.postDelayed(runnable, 2500);
+                slideShowHomeFragAdapter.notifyDataSetChanged();
+            }
+        });
+
         LinearLayout.LayoutParams layoutParams_slideShow = new LinearLayout.LayoutParams(getActivity().getResources().
                 getDisplayMetrics().widthPixels, 4*(getActivity().getResources().getDisplayMetrics().widthPixels)/3);
         binding.vpg2HomeFrag.setLayoutParams(layoutParams_slideShow);
@@ -81,7 +122,7 @@ public class HomeFragment extends Fragment {
         );
         slideShowHomeFragAdapter = new SlideShowHomeFragAdapter(list_cat_Video, new OnHomeItemClickListeners() {
             @Override
-            public void onClick_SlideShow(int position) {
+            public void onClick_homeItem(int position) {
 
             }
         });
@@ -150,7 +191,7 @@ public class HomeFragment extends Fragment {
 
         tvFragmentAdapter = new TVFragmentAdapter(list_video_trending, layoutParams_TV_item, new OnHomeItemClickListeners() {
             @Override
-            public void onClick_SlideShow(int position) {
+            public void onClick_homeItem(int position) {
 
             }
         });
