@@ -12,10 +12,22 @@
         <action
             android:id="@+id/action_radioFragment4_to_radioDetailsFragment"
             app:destination="@id/radioDetailsFragment" />
+        <action
+            android:id="@+id/action_radioFragment4_to_radioCatItemFragment"
+            app:destination="@id/radioCatItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/radioDetailsFragment"
         android:name="com.naosteam.watchvideoapp.fragments.RadioDetailsFragment"
         android:label="fragment_radio_details"
         tools:layout="@layout/fragment_radio_details" />
+    <fragment
+        android:id="@+id/radioCatItemFragment"
+        android:name="com.naosteam.watchvideoapp.RadioCatItemFragment"
+        android:label="fragment_radio_cat_item"
+        tools:layout="@layout/fragment_radio_cat_item" >
+        <action
+            android:id="@+id/action_radioCatItemFragment_to_radioDetailsFragment"
+            app:destination="@id/radioDetailsFragment" />
+    </fragment>
 </navigation>
