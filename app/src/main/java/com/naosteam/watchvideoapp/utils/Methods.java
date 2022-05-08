@@ -56,12 +56,19 @@ public class Methods {
     }
 
     public Videos_M getRowVideo(JSONObject obj) throws Exception {
-        int vid_id = obj.getInt("vid_id");
+        int vid_id =  obj.getInt("vid_id");
         int cat_id = obj.getInt("cat_id");
-        String vid_title = obj.getString("vid_title");
-        String vid_url = obj.getString("vid_url");
-        String vid_thumbnail = obj.getString("vid_thumbnail");
-        String vid_description = obj.getString("vid_description");
+        String vid_title = checkForEncode(obj.getString("vid_title"))
+                ? base64Decode(obj.getString("vid_title"))
+                : obj.getString("vid_title") ;
+        String vid_url = checkForEncode(obj.getString("vid_url"))
+                ? base64Decode(obj.getString("vid_url"))
+                : obj.getString("vid_url");
+        String vid_thumbnail = checkForEncode(obj.getString("vid_thumbnail"))
+                ? base64Decode(obj.getString("vid_thumbnail")) : obj.getString("vid_thumbnail");
+        String vid_description = checkForEncode(obj.getString("vid_description"))
+                ? base64Decode(obj.getString("vid_description"))
+                : obj.getString("vid_description");
         int vid_view = obj.getInt("vid_view");
         float vid_avg_rate = Float.parseFloat(obj.getString("vid_avg_rate"));
         int vid_type = obj.getInt("vid_type");
@@ -76,8 +83,12 @@ public class Methods {
 
     public Category_M getRowCategory(JSONObject obj) throws Exception{
         int cat_id = obj.getInt("cat_id");
-        String cat_name = obj.getString("cat_name");
-        String cat_image = obj.getString("cat_image");
+        String cat_name = checkForEncode(obj.getString("cat_name"))
+                ? base64Decode(obj.getString("cat_name"))
+                : obj.getString("cat_name");
+        String cat_image = checkForEncode(obj.getString("cat_image"))
+                ? base64Decode(obj.getString("cat_image"))
+                : obj.getString("cat_image");
         int cat_type = obj.getInt("cat_type");
 
         return new Category_M(cat_id, cat_name, cat_image, cat_type);
@@ -105,6 +116,28 @@ public class Methods {
                 postObj.addProperty("phone", base64Encode(bundle.getString("phone")));
                 postObj.addProperty("password", base64Encode(bundle.getString("password")));
                 postObj.addProperty("age", bundle.getInt("age"));
+                break;
+        }
+
+        String post_data = postObj.toString();
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        builder.addFormDataPart("data", post_data);
+
+        return builder.build();
+
+    }
+
+    public RequestBody getVideoRequestBody(String method_name, Bundle bundle) {
+        JsonObject postObj = new JsonObject();
+        postObj.addProperty("method_name", method_name);
+
+        switch (method_name){
+            case "LOAD_SEARCH_VIDEO":
+                //TODO: encode it again
+                postObj.addProperty("search_text", bundle.getString("search_text"));
+                postObj.addProperty("page", bundle.getInt("page"));
+                postObj.addProperty("step", bundle.getInt("step"));
                 break;
         }
 
