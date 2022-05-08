@@ -26,10 +26,10 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
 
     private ArrayList<Videos_M> arrayList_video;
     private OnVideoFeatureClickListener listener;
-    private LinearLayout.LayoutParams layoutParams;
+    private ViewGroup.LayoutParams layoutParams;
     private Context context;
 
-    public FeaturedVideoAdapter(LinearLayout.LayoutParams layoutParams, ArrayList<Videos_M> arrayList_video, OnVideoFeatureClickListener listener) {
+    public FeaturedVideoAdapter(ViewGroup.LayoutParams layoutParams, ArrayList<Videos_M> arrayList_video, OnVideoFeatureClickListener listener) {
         this.arrayList_video = arrayList_video;
         this.listener = listener;
         this.layoutParams = layoutParams;

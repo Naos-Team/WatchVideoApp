@@ -24,7 +24,11 @@
         tools:layout="@layout/fragment_video_detail" />
     <fragment
         android:id="@+id/searchVideoFragment"
-        android:name="com.naosteam.watchvideoapp.SearchVideoFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.SearchVideoFragment"
         android:label="fragment_search_video"
-        tools:layout="@layout/fragment_search_video" />
+        tools:layout="@layout/fragment_search_video" >
+        <action
+            android:id="@+id/searchVideoBackToVideo"
+            app:destination="@id/videoFragment2" />
+    </fragment>
 </navigation>

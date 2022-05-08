@@ -18,17 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="250dp">
 
-            <ProgressBar
-                android:id="@+id/progressBar_pager"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                android:layout_marginVertical="30dp"
-                android:layout_marginBottom="30dp"
-                android:indeterminate="true"
-                android:indeterminateTint="@color/neonGreen"
-                android:indeterminateTintMode="src_atop"
-                android:visibility="visible" />
+             <ProgressBar
+                 android:id="@+id/progressBar_pager"
+                 android:layout_width="40dp"
+                 android:layout_height="40dp"
+                 android:layout_centerInParent="true"
+                 android:layout_marginVertical="30dp"
+                 android:layout_marginBottom="30dp"
+                 android:indeterminate="true"
+                 android:indeterminateTint="@color/neonGreen"
+                 android:indeterminateTintMode="src_atop"
+                 android:visibility="visible" />
 
             <androidx.viewpager.widget.ViewPager
                 android:visibility="gone"
@@ -52,7 +52,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -144,19 +144,18 @@
                 android:layout_height="match_parent">
 
                 <ProgressBar
-                    android:visibility="gone"
                     android:id="@+id/progressBar"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginVertical="15dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
                     android:layout_marginBottom="30dp"
                     android:indeterminate="true"
                     android:indeterminateTint="@color/neonGreen"
-                    android:indeterminateTintMode="src_atop"/>
+                    android:indeterminateTintMode="src_atop"
+                    android:visibility="visible" />
 
                 <LinearLayout
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/ll_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

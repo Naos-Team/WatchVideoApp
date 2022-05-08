@@ -1,16 +1,22 @@
 package com.naosteam.watchvideoapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +36,8 @@ import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Methods;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
 import okhttp3.RequestBody;
@@ -74,13 +82,21 @@ public class VideoFragment extends Fragment {
 
     private void SetupView() {
         binding.ivSearch.setOnClickListener(v->{
-            navController.navigate(R.id.VideoToSearchVideo);
+            if(!binding.edtSearch.getText().toString().isEmpty()){
+                Bundle bundle = new Bundle();
+                bundle.putString("search_text", binding.edtSearch.getText().toString());
+                navController.navigate(R.id.VideoToSearchVideo, bundle);
+            }else{
+                binding.edtSearch.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(binding.edtSearch, InputMethodManager.SHOW_IMPLICIT);
+            }
         });
     }
 
     private void LoadVideoData(){
 
-        RequestBody requestBody = Methods.getInstance().getHomeRequestBody("LOAD_VIDEO_SCREEN", null);
+        RequestBody requestBody = Methods.getInstance().getVideoRequestBody("LOAD_VIDEO_SCREEN", null);
         LoadVideoAsyncListener listener = new LoadVideoAsyncListener() {
             @Override
             public void onStart() {
@@ -123,6 +139,12 @@ public class VideoFragment extends Fragment {
     }
 
     private void updateUI() {
+
+        binding.rvLatestVideo.setItemAnimator(new DefaultItemAnimator());
+        binding.rvMostView.setItemAnimator(new DefaultItemAnimator());
+        binding.rvTopRating.setItemAnimator(new DefaultItemAnimator());
+        binding.rvCategory.setItemAnimator(new DefaultItemAnimator());
+
         binding.rvLatestVideo.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         binding.rvMostView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         binding.rvTopRating.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
@@ -175,4 +197,5 @@ public class VideoFragment extends Fragment {
         pagerAdapter.registerDataSetObserver(binding.circleIndicator.getDataSetObserver());
 
     }
+
 }
