@@ -72,6 +72,7 @@ public class TvDetailFragment extends Fragment {
                 } else {
                     state = View.VISIBLE;
                    // binding.videoTvDetailFrag.setKeepScreenOn(false);
+                    binding.videoTvDetailFrag.setControllerAutoShow(false);
                     show = true;
                     last_show_des = SystemClock.elapsedRealtime();
                 }
