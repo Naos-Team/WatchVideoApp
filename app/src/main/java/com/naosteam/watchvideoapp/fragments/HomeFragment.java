@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
 import com.naosteam.watchvideoapp.adapters.SlideShowHomeFragAdapter;
 import com.naosteam.watchvideoapp.adapters.TVFragmentAdapter;
@@ -143,7 +144,7 @@ public class HomeFragment extends Fragment {
         list_video_trending.add(
                 new Videos_M(1, 1, "Tenchnology 1",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 4.5f, 1,
+                        "https://cbsnewshd-lh.akamaihd.net/i/CBSNHD_7@199302/master.m3u8", 44, 4.5f, 1,
                         true, d)
         );
 
@@ -165,7 +166,7 @@ public class HomeFragment extends Fragment {
         list_video_trending.add(
                 new Videos_M(1, 1, "Tenchnology 1",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 4.5f, 1,
+                        "https://cbsnewshd-lh.akamaihd.net/i/CBSNHD_7@199302/master.m3u8", 44, 4.5f, 1,
                         true, d)
         );
 
@@ -183,7 +184,7 @@ public class HomeFragment extends Fragment {
         binding.rcvTrendVidHomeFrag.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         binding.rcvTrendVidHomeFrag.setAdapter(featuredVideoAdapter);
 
-        list_TV_trending = new ArrayList<>();
+        list_TV_trending = new ArrayList<>(list_video_trending);
 
         ConstraintLayout.LayoutParams layoutParams_TV_item = new ConstraintLayout.LayoutParams(getActivity().getResources().
                 getDisplayMetrics().widthPixels*1/3, (getActivity().getResources().getDisplayMetrics().widthPixels)*1/3*3/4);
@@ -192,7 +193,12 @@ public class HomeFragment extends Fragment {
         tvFragmentAdapter = new TVFragmentAdapter(list_video_trending, layoutParams_TV_item, new OnHomeItemClickListeners() {
             @Override
             public void onClick_homeItem(int position) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString("url", list_TV_trending.get(position).getVid_url());
+                bundle.putString("url_img", list_TV_trending.get(position).getVid_thumbnail());
+                bundle.putString("des", list_TV_trending.get(position).getVid_description());
+                bundle.putBoolean("isHome", true);
+                navController.navigate(R.id.homeFrag_to_TVDetailFrag, bundle);
             }
         });
 

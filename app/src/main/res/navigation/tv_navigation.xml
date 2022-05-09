@@ -3,19 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tv_navigation"
-    app:startDestination="@id/tvDeltailFragment2">
+    app:startDestination="@id/tvFragment">
     <fragment
         android:id="@+id/tvFragment"
         android:name="com.naosteam.watchvideoapp.fragments.TvFragment"
         android:label="fragment_tv"
         tools:layout="@layout/fragment_tv">
         <action
-            android:id="@+id/action_tvFragment_to_tvDeltailFragment2"
+            android:id="@+id/fromTVToDetail"
             app:destination="@id/tvDeltailFragment2" />
     </fragment>
     <fragment
         android:id="@+id/tvDeltailFragment2"
         android:name="com.naosteam.watchvideoapp.fragments.TvDetailFragment"
         android:label="fragment_tv_deltail"
-        tools:layout="@layout/fragment_tv_deltail" />
+        tools:layout="@layout/fragment_tv_deltail" >
+        <action
+            android:id="@+id/fromDetailtoTVFrag"
+            app:destination="@id/tvFragment" />
+    </fragment>
 </navigation>

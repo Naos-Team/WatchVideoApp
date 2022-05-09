@@ -42,7 +42,6 @@
             android:layout_height="0dp"
             android:src="@drawable/nhi_back"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensioRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/searchView_catitem"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -53,44 +52,44 @@
         android:id="@+id/constraint12"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/rcl_cat_radio_item"
+        app:layout_constraintBottom_toTopOf="@id/constraintLayout11"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout11"
-        app:layout_constraintHeight_percent="0.4">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout11">
 
         <com.makeramen.roundedimageview.RoundedImageView
-            android:layout_marginTop="10dp"
             android:id="@+id/imv_cat_radio"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/ic_launcher"
             app:layout_constraintBottom_toTopOf="@+id/tv_cat_name"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.65"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            android:src="@mipmap/ic_launcher"
             app:layout_constraintVertical_chainStyle="packed"
-            app:riv_corner_radius_bottom_right="20dp"
             app:riv_corner_radius_bottom_left="20dp"
-            app:riv_corner_radius_top_right="20dp"
+            app:riv_corner_radius_bottom_right="20dp"
             app:riv_corner_radius_top_left="20dp"
-            app:layout_constraintHeight_percent="0.65"/>
+            app:riv_corner_radius_top_right="20dp" />
 
         <TextView
             android:id="@+id/tv_cat_name"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imv_cat_radio"
-            android:text="Name of Radio Category"
-            android:gravity="center"
             android:autoSizeMaxTextSize="30sp"
             android:autoSizeMinTextSize="20sp"
             android:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"/>
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:text="Name of Radio Category"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imv_cat_radio" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

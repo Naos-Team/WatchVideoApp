@@ -14,7 +14,7 @@
             android:id="@+id/HomeToRadio"
             app:destination="@id/radioFragment2" />
         <action
-            android:id="@+id/action_homeFragment_to_tvDeltailFragment"
+            android:id="@+id/homeFrag_to_TVDetailFrag"
             app:destination="@id/tvDeltailFragment" />
     </fragment>
     <fragment
@@ -26,5 +26,9 @@
         android:id="@+id/tvDeltailFragment"
         android:name="com.naosteam.watchvideoapp.fragments.TvDetailFragment"
         android:label="fragment_tv_deltail"
-        tools:layout="@layout/fragment_tv_deltail" />
+        tools:layout="@layout/fragment_tv_deltail" >
+        <action
+            android:id="@+id/TVDetail_to_HomeFrag"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
