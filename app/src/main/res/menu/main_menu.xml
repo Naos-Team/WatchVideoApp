@@ -17,7 +17,7 @@
         android:title="Radio"
         android:icon="@drawable/ic_radio"/>
     <item
-        android:id="@+id/moreFragment"
+        android:id="@+id/baseMoreFragment"
         android:title="More"
         android:icon="@drawable/ic_more"/>
 </menu>
