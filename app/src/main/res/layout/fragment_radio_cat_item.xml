@@ -49,7 +49,9 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/imv_back_to_radio"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.07" />
+            app:layout_constraintWidth_percent="0.07"
+
+            />
 
         <ImageView
             android:id="@+id/imv_back_to_radio"
