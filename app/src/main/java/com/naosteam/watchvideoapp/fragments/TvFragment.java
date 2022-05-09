@@ -103,21 +103,21 @@ public class TvFragment extends Fragment {
         list_video.add(
                 new Videos_M(1, 1, "Tenchnology 1",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://cbsnewshd-lh.akamaihd.net/i/CBSNHD_7@199302/master.m3u8", 44, 4.5f, 1,
+                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
                         true, d)
         );
 
         list_video.add(
                 new Videos_M(1, 0, "Tenchnology 12",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://livestream.com/accounts/11217196/events/6158550/watch/player", 44, 4.5f, 1,
+                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
                         true, d)
         );
 
         list_video.add(
                 new Videos_M(1, 2, "Tenchnology 123",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://livesim.dashif.org/livesim/ato_10/testpic_2s/Manifest.mpd", 44, 4.5f, 1,
+                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
                         true, d)
         );
 
@@ -125,7 +125,7 @@ public class TvFragment extends Fragment {
         list_video.add(
                 new Videos_M(1, 2, "Tenchnology 1234",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://livestream.com/accounts/11217196/events/6158550/watch/player", 44, 4.5f, 1,
+                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
                         true, d)
         );
         list_cate_video = new ArrayList<>(list_video);

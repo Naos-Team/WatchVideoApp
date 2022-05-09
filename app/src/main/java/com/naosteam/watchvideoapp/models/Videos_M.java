@@ -11,6 +11,7 @@ public class Videos_M implements Serializable {
     private String vid_description;
     private String vid_url;
     private int vid_view;
+    private int duration;
     private Date vid_time;
     private float vid_avg_rate;
     private int vid_type;
@@ -18,7 +19,7 @@ public class Videos_M implements Serializable {
 
     public Videos_M(int vid_id, int cat_id, String vid_title,
                     String vid_thumbnail, String vid_description,
-                    String vid_url, int vid_view, float vid_avg_rate, int vid_type,
+                    String vid_url, int vid_view, int duration, float vid_avg_rate, int vid_type,
                     boolean vid_is_premium, Date vid_time) {
         this.vid_id = vid_id;
         this.cat_id = cat_id;
@@ -27,10 +28,19 @@ public class Videos_M implements Serializable {
         this.vid_description = vid_description;
         this.vid_url = vid_url;
         this.vid_view = vid_view;
+        this.duration = duration;
         this.vid_avg_rate = vid_avg_rate;
         this.vid_type = vid_type;
         this.vid_is_premium = vid_is_premium;
         this.vid_time = vid_time;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public String getVid_url() {

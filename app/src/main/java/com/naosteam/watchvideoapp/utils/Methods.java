@@ -4,8 +4,14 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
+import com.naosteam.watchvideoapp.asynctasks.CheckFavAsync;
+import com.naosteam.watchvideoapp.listeners.CheckFavAsyncListener;
+import com.naosteam.watchvideoapp.listeners.CheckFavListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Users_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
@@ -55,6 +61,49 @@ public class Methods {
         return m.find();
     }
 
+    public void checkVideoFav(Context context, int vid_id, CheckFavListener listener) {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("vid_id", vid_id);
+            bundle.putString("uid", uid);
+            RequestBody requestBody = getHomeRequestBody("CHECK_IS_FAV", bundle);
+
+            CheckFavAsync async = new CheckFavAsync(requestBody, new CheckFavAsyncListener() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onEnd(boolean status, boolean isFav) {
+                    if(context != null){
+                        if(isNetworkConnected(context)){
+                            if(status){
+                                listener.isFav(isFav);
+                            }else{
+                                // call when query fail
+                                listener.onFailure();
+                            }
+                        }else{
+                            listener.onFailure();
+                            Toast.makeText(context, "Please check internet connection!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }, this);
+
+            async.execute();
+
+
+        }else{
+            listener.onFailure();
+            Toast.makeText(context, "Please login first!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public Videos_M getRowVideo(JSONObject obj) throws Exception {
         int vid_id =  obj.getInt("vid_id");
         int cat_id = obj.getInt("cat_id");
@@ -70,6 +119,7 @@ public class Methods {
                 ? base64Decode(obj.getString("vid_description"))
                 : obj.getString("vid_description");
         int vid_view = obj.getInt("vid_view");
+        int vid_duration = obj.getInt("vid_duration");
         float vid_avg_rate = Float.parseFloat(obj.getString("vid_avg_rate"));
         int vid_type = obj.getInt("vid_type");
         boolean vid_is_premium = obj.getInt("vid_is_premium") == 1;
@@ -78,7 +128,7 @@ public class Methods {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date vid_time = sdf.parse(date_string);
 
-        return new Videos_M(vid_id, cat_id, vid_title, vid_thumbnail, vid_description, vid_url, vid_view, vid_avg_rate, vid_type, vid_is_premium, vid_time);
+        return new Videos_M(vid_id, cat_id, vid_title, vid_thumbnail, vid_description, vid_url, vid_view, vid_duration, vid_avg_rate, vid_type, vid_is_premium, vid_time);
     }
 
     public Category_M getRowCategory(JSONObject obj) throws Exception{

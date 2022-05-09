@@ -21,7 +21,11 @@
         android:id="@+id/videoDetailFragment"
         android:name="com.naosteam.watchvideoapp.fragments.VideoDetailFragment"
         android:label="fragment_video_detail"
-        tools:layout="@layout/fragment_video_detail" />
+        tools:layout="@layout/fragment_video_detail" >
+        <action
+            android:id="@+id/DetailVideoToVideo"
+            app:destination="@id/videoFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/searchVideoFragment"
         android:name="com.naosteam.watchvideoapp.fragments.SearchVideoFragment"

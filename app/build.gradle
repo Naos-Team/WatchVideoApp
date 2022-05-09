@@ -74,6 +74,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.android.gms:play-services-base:12.1.0'
     implementation 'com.basgeekball:awesome-validation:4.3'
+    implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.16'
+    implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-native:1.0.16'
     implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.17.1'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.17.1'
