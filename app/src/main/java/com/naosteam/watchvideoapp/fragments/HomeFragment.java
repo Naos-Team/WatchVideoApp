@@ -16,14 +16,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
+import com.naosteam.watchvideoapp.adapters.RadioItemAdapter;
 import com.naosteam.watchvideoapp.adapters.SlideShowHomeFragAdapter;
 import com.naosteam.watchvideoapp.adapters.TVFragmentAdapter;
 import com.naosteam.watchvideoapp.databinding.FragmentHomeBinding;
 import com.naosteam.watchvideoapp.listeners.OnHomeItemClickListeners;
+import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.Constant;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -35,11 +39,12 @@ import java.util.Date;
 public class HomeFragment extends Fragment {
     private NavController navController;
     private ArrayList<Category_M> list_cat_Video;
-    private ArrayList<Videos_M> list_video_trending, list_TV_trending;
+    private ArrayList<Videos_M> list_video_trending, list_TV_trending, list_radio_trending;
     private FragmentHomeBinding binding;
     private SlideShowHomeFragAdapter slideShowHomeFragAdapter;
     private FeaturedVideoAdapter featuredVideoAdapter;
     private TVFragmentAdapter tvFragmentAdapter;
+    private RadioItemAdapter radioItemAdapter;
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -109,16 +114,16 @@ public class HomeFragment extends Fragment {
         binding.txtTrendingRadHomeFrag.setLayoutParams(layoutParams_TextView);
         list_cat_Video = new ArrayList<>();
         list_cat_Video.add(
-                new Category_M(1,"Ten", "https://d1j8r0kxyu9tj8.cloudfront.net/images/1566809284X4pyEDCj7CFMsGu.jpg", 1)
+                new Category_M(1,"Ten", "https://marvelphim.com/wp-content/uploads/2022/01/poster-da%CC%82%CC%80u-cho-series-moon-knight.jpg", 1)
         );
         list_cat_Video.add(
-                new Category_M(1,"Ten", "https://intphcm.com/data/upload/mau-poster-hinh-anh-lon-phim-mat-biec.jpg", 1)
+                new Category_M(1,"Ten", "https://image.lag.vn/upload/news/22/04/07/278027632_3227456860903478_2335780498416729987_n_OPMF.jpg", 1)
         );
         list_cat_Video.add(
-                new Category_M(1,"Ten", "https://upload.wikimedia.org/wikipedia/vi/3/32/Poster_phim_T%C3%AAn_b%E1%BA%A1n_l%C3%A0_g%C3%AC.jpg", 1)
+                new Category_M(1,"Ten", "https://upload.wikimedia.org/wikipedia/vi/4/46/Deadpool_poster.jpg", 1)
         );
         list_cat_Video.add(
-                new Category_M(1,"Ten", "https://d1j8r0kxyu9tj8.cloudfront.net/images/1566809340Y397jnilYDd15KN.jpg", 1)
+                new Category_M(1,"Ten", "https://cdn.vietnambiz.vn/171464876016439296/2020/6/4/eventtechnology-15912456396331111417122.jpg", 1)
         );
         slideShowHomeFragAdapter = new SlideShowHomeFragAdapter(list_cat_Video, new OnHomeItemClickListeners() {
             @Override
@@ -143,7 +148,7 @@ public class HomeFragment extends Fragment {
         list_video_trending.add(
                 new Videos_M(1, 1, "Tenchnology 1",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 4.5f, 1,
+                        "https://cbsnewshd-lh.akamaihd.net/i/CBSNHD_7@199302/master.m3u8", 44, 4.5f, 1,
                         true, d)
         );
 
@@ -165,7 +170,7 @@ public class HomeFragment extends Fragment {
         list_video_trending.add(
                 new Videos_M(1, 1, "Tenchnology 1",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 4.5f, 1,
+                        "https://cbsnewshd-lh.akamaihd.net/i/CBSNHD_7@199302/master.m3u8", 44, 4.5f, 1,
                         true, d)
         );
 
@@ -183,7 +188,7 @@ public class HomeFragment extends Fragment {
         binding.rcvTrendVidHomeFrag.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         binding.rcvTrendVidHomeFrag.setAdapter(featuredVideoAdapter);
 
-        list_TV_trending = new ArrayList<>();
+        list_TV_trending = new ArrayList<>(list_video_trending);
 
         ConstraintLayout.LayoutParams layoutParams_TV_item = new ConstraintLayout.LayoutParams(getActivity().getResources().
                 getDisplayMetrics().widthPixels*1/3, (getActivity().getResources().getDisplayMetrics().widthPixels)*1/3*3/4);
@@ -192,12 +197,37 @@ public class HomeFragment extends Fragment {
         tvFragmentAdapter = new TVFragmentAdapter(list_video_trending, layoutParams_TV_item, new OnHomeItemClickListeners() {
             @Override
             public void onClick_homeItem(int position) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString("url", list_TV_trending.get(position).getVid_url());
+                bundle.putString("url_img", list_TV_trending.get(position).getVid_thumbnail());
+                bundle.putString("des", list_TV_trending.get(position).getVid_description());
+                bundle.putBoolean("isHome", true);
+                navController.navigate(R.id.homeFrag_to_TVDetailFrag, bundle);
             }
         });
 
         binding.rcvTrendTVHomeFrag.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         binding.rcvTrendTVHomeFrag.setAdapter(tvFragmentAdapter);
+
+        list_radio_trending = new ArrayList<>(list_video_trending);
+        list_radio_trending.addAll(list_video_trending);
+        list_radio_trending.addAll(list_video_trending);
+        ConstraintLayout.LayoutParams layoutParams_radio = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                getActivity().getResources().getDisplayMetrics().heightPixels*1/10);
+        layoutParams_radio.setMargins(5, 10, 5, 10);
+
+        radioItemAdapter = new RadioItemAdapter(layoutParams_radio, list_radio_trending, new OnRadioClickListeners() {
+            @Override
+            public void onClick(Videos_M radio) {
+                Bundle bundle = new Bundle();
+                Constant.Radio_Listening = radio;
+                bundle.putString("from", "from_home_screen");
+                navController.navigate(R.id.home_to_radioDetails, bundle);
+            }
+        });
+
+        binding.rcvTrendRadHomeFrag.setAdapter(radioItemAdapter);
+        binding.rcvTrendRadHomeFrag.setLayoutManager(new LinearLayoutManager(getContext()));
 
     }
 }

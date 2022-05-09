@@ -149,7 +149,7 @@ public class RadioFragment extends Fragment {
                 if(Constant.Radio_Listening.getCat_id()!=-1)
                 {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("radio", Constant.Radio_Listening);
+                    //bundle.putSerializable("radio", Constant.Radio_Listening);
                     bundle.putString("from","from_radio_screen");
                     navController.navigate(R.id.radio_screen_to_radio_detail, bundle);
                 }

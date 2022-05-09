@@ -55,7 +55,7 @@ public class RadioDetailsFragment extends Fragment {
     }
 
     private void LoadData(){
-        radio = (Videos_M) getArguments().getSerializable("radio");
+        radio = Constant.Radio_Listening;//(Videos_M) getArguments().getSerializable("radio");
         Picasso.get().load(radio.getVid_thumbnail()).into(binding.imvRadio);
         binding.tvRadioName.setText(radio.getVid_title());
 
@@ -95,6 +95,8 @@ public class RadioDetailsFragment extends Fragment {
             }
             else if(getArguments().getString("from").equals("from_radio_screen")){
                 navController.navigate(R.id.radio_detail_to_radio_screen);
+            } else if(getArguments().getString("from").equals("from_home_screen")){
+                navController.navigate(R.id.radioDetail_to_homeFrag);
             }
         });
 
