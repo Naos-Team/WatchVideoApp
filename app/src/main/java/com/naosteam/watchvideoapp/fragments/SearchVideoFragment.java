@@ -39,6 +39,8 @@ public class SearchVideoFragment extends Fragment {
     private FragmentSearchVideoBinding binding;
     private ArrayList<Videos_M> mVideos;
     private String search_text = "";
+    private String type = "";
+    private int cat_id = 0;
     private int page = 0;
     private int step = 20;
     private boolean loading = true;
@@ -53,7 +55,17 @@ public class SearchVideoFragment extends Fragment {
         rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
 
-        search_text = getArguments().getString("search_text");
+        type = getArguments().getString("type");
+
+        if(type.equals("search")){
+            search_text = getArguments().getString("search_text");
+            binding.tvResult.setText("Results match with \""+ search_text +"\"");
+        }else if(type.equals("category")){
+            cat_id = getArguments().getInt("cat_id");
+            String cat_name = getArguments().getString("cat_name");
+            binding.tvResult.setText("Results for \""+ cat_name +"\" category");
+        }
+
         mVideos = new ArrayList<>();
 
         width = getContext().getResources().getDisplayMetrics().widthPixels;
@@ -69,11 +81,21 @@ public class SearchVideoFragment extends Fragment {
     private void LoadSearchVideo(boolean isLazy) {
 
         Bundle bundle = new Bundle();
-        bundle.putString("search_text", search_text);
-        bundle.putInt("page", page);
-        bundle.putInt("step", step);
+        RequestBody requestBody = null;
 
-        RequestBody requestBody = Methods.getInstance().getVideoRequestBody("LOAD_SEARCH_VIDEO", bundle);
+        if(type.equals("search")){
+            bundle.putString("search_text", search_text);
+            bundle.putInt("page", page);
+            bundle.putInt("step", step);
+
+            requestBody = Methods.getInstance().getVideoRequestBody("LOAD_SEARCH_VIDEO", bundle);
+        }else if(type.equals("category")){
+            bundle.putInt("cat_id", cat_id);
+            bundle.putInt("page", page);
+            bundle.putInt("step", step);
+
+            requestBody = Methods.getInstance().getVideoRequestBody("LOAD_SEARCH_CATEGORY", bundle);
+        }
 
         LoadSearchVideoAsync async = new LoadSearchVideoAsync(Methods.getInstance(), requestBody, new LoadSearchVideoAsyncListener() {
             @Override
@@ -134,8 +156,6 @@ public class SearchVideoFragment extends Fragment {
         binding.btnBack.setOnClickListener(v->{
             navController.navigate(R.id.searchVideoBackToVideo);
         });
-
-        binding.tvResult.setText("Results match with \""+ search_text +"\"");
 
         GridLayoutManager llm = new GridLayoutManager(getContext(), 2);
 

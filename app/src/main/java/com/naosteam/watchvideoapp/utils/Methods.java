@@ -139,6 +139,12 @@ public class Methods {
                 postObj.addProperty("page", bundle.getInt("page"));
                 postObj.addProperty("step", bundle.getInt("step"));
                 break;
+
+            case "LOAD_SEARCH_CATEGORY":
+                postObj.addProperty("cat_id", bundle.getInt("cat_id"));
+                postObj.addProperty("page", bundle.getInt("page"));
+                postObj.addProperty("step", bundle.getInt("step"));
+                break;
         }
 
         String post_data = postObj.toString();
