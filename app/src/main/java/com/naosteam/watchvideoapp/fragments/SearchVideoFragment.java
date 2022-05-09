@@ -189,6 +189,5 @@ public class SearchVideoFragment extends Fragment {
             }
         });
 
-
     }
 }

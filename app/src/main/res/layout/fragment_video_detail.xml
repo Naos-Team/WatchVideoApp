@@ -9,7 +9,7 @@
     tools:context=".fragments.VideoDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/cs_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -306,7 +306,7 @@
         android:indeterminate="true"
         android:indeterminateTint="@color/neonGreen"
         android:indeterminateTintMode="src_atop"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/btn_back"

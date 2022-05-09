@@ -10,8 +10,11 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.asynctasks.CheckFavAsync;
+import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
 import com.naosteam.watchvideoapp.listeners.CheckFavAsyncListener;
 import com.naosteam.watchvideoapp.listeners.CheckFavListener;
+import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
+import com.naosteam.watchvideoapp.listeners.SetFavListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Users_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
@@ -63,13 +66,12 @@ public class Methods {
 
     public void checkVideoFav(Context context, int vid_id, CheckFavListener listener) {
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
-
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             Bundle bundle = new Bundle();
             bundle.putInt("vid_id", vid_id);
             bundle.putString("uid", uid);
-            RequestBody requestBody = getHomeRequestBody("CHECK_IS_FAV", bundle);
+            RequestBody requestBody = getVideoRequestBody("CHECK_IS_FAV", bundle);
 
             CheckFavAsync async = new CheckFavAsync(requestBody, new CheckFavAsyncListener() {
                 @Override
@@ -81,14 +83,9 @@ public class Methods {
                 public void onEnd(boolean status, boolean isFav) {
                     if(context != null){
                         if(isNetworkConnected(context)){
-                            if(status){
-                                listener.isFav(isFav);
-                            }else{
-                                // call when query fail
-                                listener.onFailure();
-                            }
+                            listener.onComplete(status, isFav);
                         }else{
-                            listener.onFailure();
+                            listener.onComplete(false, false);
                             Toast.makeText(context, "Please check internet connection!", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -96,11 +93,53 @@ public class Methods {
             }, this);
 
             async.execute();
+        }else{
+            listener.onComplete(false, false);
+            Toast.makeText(context, "Please login first!", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    public void setFavState(Context context, int vid_id, boolean isFav, SetFavListener listener){
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("uid", base64Encode(uid));
+            bundle.putInt("vid_id", vid_id);
+            bundle.putInt("is_fav", isFav?1:0);
+
+            RequestBody requestBody = getVideoRequestBody("SET_FAV_VIDEO", bundle);
+
+            ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, new ExecuteQueryAsyncListener() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onEnd(boolean status) {
+                    if(context != null){
+                        if(isNetworkConnected(context)){
+
+                            if(!status){
+                                Toast.makeText(context, "Something went wrong. Try again!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            listener.onComplete(status);
+
+                        }else{
+                            listener.onComplete(false);
+                            Toast.makeText(context, "Please check internet connection!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+            async.execute();
 
         }else{
-            listener.onFailure();
             Toast.makeText(context, "Please login first!", Toast.LENGTH_SHORT).show();
+            listener.onComplete(false);
         }
     }
 
@@ -159,13 +198,10 @@ public class Methods {
         postObj.addProperty("method_name", method_name);
 
         switch (method_name){
-            case "METHOD_SIGNUP":
+            case "CHECK_IS_FAV":
                 postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
-                postObj.addProperty("name", base64Encode(bundle.getString("name")));
-                postObj.addProperty("email", base64Encode(bundle.getString("email")));
-                postObj.addProperty("phone", base64Encode(bundle.getString("phone")));
-                postObj.addProperty("password", base64Encode(bundle.getString("password")));
-                postObj.addProperty("age", bundle.getInt("age"));
+                postObj.addProperty("vid_id", bundle.getInt("vid_id"));
+
                 break;
         }
 
@@ -194,6 +230,11 @@ public class Methods {
                 postObj.addProperty("cat_id", bundle.getInt("cat_id"));
                 postObj.addProperty("page", bundle.getInt("page"));
                 postObj.addProperty("step", bundle.getInt("step"));
+                break;
+            case "CHECK_IS_FAV":
+                postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
+                postObj.addProperty("vid_id", bundle.getInt("vid_id"));
+
                 break;
         }
 
