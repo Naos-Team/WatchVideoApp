@@ -13,7 +13,7 @@
         android:title="TV"
         android:icon="@drawable/ic_tv"/>
     <item
-        android:id="@+id/radioFragment"
+        android:id="@+id/baseRadioFragment"
         android:title="Radio"
         android:icon="@drawable/ic_radio"/>
     <item

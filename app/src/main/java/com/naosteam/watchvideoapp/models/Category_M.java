@@ -1,6 +1,8 @@
 package com.naosteam.watchvideoapp.models;
 
-public class Category_M {
+import java.io.Serializable;
+
+public class Category_M implements Serializable {
     private int cat_id;
     private String cat_name;
     private String cat_image;

@@ -1,13 +1,8 @@
 package com.naosteam.watchvideoapp.fragments;
 
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -17,14 +12,24 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.adapters.RadioCategoryAdapter;
 import com.naosteam.watchvideoapp.adapters.RadioItemAdapter;
-import com.naosteam.watchvideoapp.adapters.TVFragmentAdapter;
 import com.naosteam.watchvideoapp.asynctasks.LoadRadioAsync;
+import com.naosteam.watchvideoapp.asynctasks.LoadRadioCatItemAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentRadioBinding;
+import com.naosteam.watchvideoapp.databinding.FragmentRadioCatItemBinding;
 import com.naosteam.watchvideoapp.listeners.LoadRadioAsyncListener;
-import com.naosteam.watchvideoapp.listeners.OnRadioCatClickListeners;
+import com.naosteam.watchvideoapp.listeners.LoadRadioCatItemAsyncListener;
 import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
@@ -36,27 +41,25 @@ import java.util.ArrayList;
 
 import okhttp3.RequestBody;
 
-public class RadioFragment extends Fragment {
+public class RadioCatItemFragment extends Fragment {
 
     private View rootView;
     private NavController navController;
-    private TextView tv_video;
-    private FragmentRadioBinding binding;
-    private ArrayList<Videos_M> mTrendings;
-    private ArrayList<Category_M> mCats;
-    private RadioCategoryAdapter categoryAdapter;
-
+    private TextView tv_cat_name;
+    private RoundedImageView imv_cat;
+    private FragmentRadioCatItemBinding binding;
+    private ArrayList<Videos_M> mRadios;
+    private Category_M cat;
+    private RadioItemAdapter radioItemAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentRadioBinding.inflate(inflater, container, false);
+        binding = FragmentRadioCatItemBinding.inflate(inflater, container, false);
         rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
-        categoryAdapter = null;
-
-        mTrendings = new ArrayList<>();
-        mCats = new ArrayList<>();
+        radioItemAdapter = null;
+        mRadios = new ArrayList<>();
 
         LoadData();
 
@@ -74,29 +77,33 @@ public class RadioFragment extends Fragment {
     }
 
     private void LoadData(){
-        RequestBody requestBody = Methods.getInstance().GetRadioRequestBody("LOAD_RADIO_SCREEN", null);
-        LoadRadioAsyncListener listener = new LoadRadioAsyncListener() {
+            cat = (Category_M) getArguments().getSerializable("category");
+
+            Picasso.get().load(cat.getCat_image()).into(binding.imvCatRadio);
+            binding.tvCatName.setText(cat.getCat_name());
+            Bundle bundle = new Bundle();
+            bundle.putInt("cat_id",cat.getCat_id());
+
+            Picasso.get().load(cat.getCat_image()).into(binding.imvBackground);
+
+        RequestBody requestBody = Methods.getInstance().GetRadioRequestBody("LOAD_RADIOS_OF_CATEGORY", bundle);
+        LoadRadioCatItemAsyncListener listener = new LoadRadioCatItemAsyncListener() {
             @Override
             public void onStart() {
-
-                binding.progressCircular1.setVisibility(View.VISIBLE);
-                binding.progressCircular2.setVisibility(View.VISIBLE);
+                binding.progressCircular.setVisibility(View.VISIBLE);
 
             }
 
             @Override
-            public void onEnd(boolean status, ArrayList<Videos_M> arrayList_trending, ArrayList<Category_M> arrayList_category) {
+            public void onEnd(boolean status, ArrayList<Videos_M> arrayList_radios) {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
-                            mTrendings.addAll(arrayList_trending);
-                            mCats.addAll(arrayList_category);
+                            mRadios.addAll(arrayList_radios);
 
-                            binding.progressCircular1.setVisibility(View.GONE);
-                            binding.progressCircular2.setVisibility(View.GONE);
+                            binding.progressCircular.setVisibility(View.GONE);
 
                             updateUI();
-
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
                         }
@@ -107,33 +114,22 @@ public class RadioFragment extends Fragment {
             }
         };
 
-        LoadRadioAsync async = new LoadRadioAsync(requestBody, listener, Methods.getInstance());
+        LoadRadioCatItemAsync async = new LoadRadioCatItemAsync(requestBody, listener, Methods.getInstance());
         async.execute();
     }
 
     private void updateUI() {
-        binding.rclCatRadioFrag.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false));
-        binding.rclRadioTrending.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        binding.rclCatRadioItem.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
 
         int width = getContext().getResources().getDisplayMetrics().widthPixels;
-        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams((int)Math.round(width*0.4), (int)Math.round(width*0.3));
-        layoutParams.setMargins(20,20,20,20);
+        ConstraintLayout.LayoutParams layoutParams= new ConstraintLayout.LayoutParams((int)Math.round(width), (int)Math.round(width*0.17));
+        layoutParams.setMargins(0,20,0,20);
 
-        ConstraintLayout.LayoutParams layoutParams1 = new ConstraintLayout.LayoutParams((int)Math.round(width), (int)Math.round(width*0.17));
-        layoutParams1.setMargins(0,20,0,20);
-
-        categoryAdapter = new RadioCategoryAdapter(layoutParams, mCats, new OnRadioCatClickListeners() {
-            @Override
-            public void onClick(Category_M category) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("category", category);
-                navController.navigate(R.id.radio_screen_to_cat_item, bundle);
-            }
+        binding.imvBackToRadio.setOnClickListener(v->{
+            navController.navigate(R.id.radio_cat_item_to_radio_screen);
         });
 
-        binding.rclCatRadioFrag.setAdapter(categoryAdapter);
-
-        binding.rclRadioTrending.setAdapter(new RadioItemAdapter(layoutParams1, mTrendings, new OnRadioClickListeners() {
+        radioItemAdapter = new RadioItemAdapter(layoutParams, mRadios, new OnRadioClickListeners() {
             @Override
             public void onClick(Videos_M radio) {
 
@@ -141,7 +137,10 @@ public class RadioFragment extends Fragment {
                 binding.tvRadioListeningName.setText(Constant.Radio_Listening.getVid_title());
                 Picasso.get().load(Constant.Radio_Listening.getVid_thumbnail()).into(binding.imvRadioListening);
             }
-        }));
+        });
+
+
+        binding.rclCatRadioItem.setAdapter(radioItemAdapter);
 
         binding.itemRadioListening.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,9 +148,10 @@ public class RadioFragment extends Fragment {
                 if(Constant.Radio_Listening.getCat_id()!=-1)
                 {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("radio", Constant.Radio_Listening);
-                    bundle.putString("from","from_radio_screen");
-                    navController.navigate(R.id.radio_screen_to_radio_detail, bundle);
+                    bundle.putSerializable("radio", Constant.Radio_Listening );
+                    bundle.putString("from", "from_cat_item");
+                    bundle.putSerializable("category", cat);
+                    navController.navigate(R.id.radio_cat_item_to_radio_detail, bundle);
                 }
                 else{
                     Toast.makeText(getActivity(), "No Radio Playing", Toast.LENGTH_SHORT).show();
@@ -160,8 +160,7 @@ public class RadioFragment extends Fragment {
             }
         });
 
-
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        binding.searchViewCatitem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -171,27 +170,26 @@ public class RadioFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 onSearch(newText);
                 if(newText.length() == 0){
-                    categoryAdapter.LoadList_Cat(mCats);
-                    categoryAdapter.notifyDataSetChanged();
+                    radioItemAdapter.setList_Radio(mRadios);
+                    radioItemAdapter.notifyDataSetChanged();
                 }
                 return false;
             }
         });
-
     }
 
     private void onSearch(String text){
-        ArrayList<Category_M> list_search = new ArrayList<>();
-        for(Category_M i : mCats){
-            if(i.getCat_name().toLowerCase().contains(text.toLowerCase()))
+        ArrayList<Videos_M> list_search = new ArrayList<>();
+        for(Videos_M i : mRadios){
+            if(i.getVid_title().toLowerCase().contains(text.toLowerCase()))
                 list_search.add(i);
         }
         if(list_search.isEmpty()) {
             if (text.length() > 0)
-                Toast.makeText(getActivity(), "No Radio Category Found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "No Radio Found", Toast.LENGTH_SHORT).show();
         } else {
-            categoryAdapter.LoadList_Cat(list_search);
-            categoryAdapter.notifyDataSetChanged();
+            radioItemAdapter.setList_Radio(list_search);
+            radioItemAdapter.notifyDataSetChanged();
         }
     }
 
