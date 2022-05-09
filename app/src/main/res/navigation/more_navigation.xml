@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_more" >
         <action
             android:id="@+id/more_to_profile"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/baseProfileFragment" />
         <action
             android:id="@+id/more_to_favorite"
             app:destination="@id/favoriteFragment" />
