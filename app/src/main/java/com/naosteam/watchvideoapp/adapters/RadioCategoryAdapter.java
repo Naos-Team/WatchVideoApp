@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.naosteam.watchvideoapp.R;
-import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
+import com.naosteam.watchvideoapp.listeners.OnRadioCatClickListeners;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.squareup.picasso.Picasso;
 
@@ -19,13 +19,17 @@ import java.util.ArrayList;
 
 public class RadioCategoryAdapter extends RecyclerView.Adapter<RadioCategoryAdapter.RadioCategoryHolder>{
     private ArrayList<Category_M> list_cat;
-    private OnRadioClickListeners listeners;
+    private OnRadioCatClickListeners listeners;
     private ViewGroup.LayoutParams layoutParams;
 
-    public RadioCategoryAdapter(ViewGroup.LayoutParams layoutParams, ArrayList<Category_M> list_cat, OnRadioClickListeners listeners) {
+    public RadioCategoryAdapter(ViewGroup.LayoutParams layoutParams, ArrayList<Category_M> list_cat, OnRadioCatClickListeners listeners) {
         this.list_cat = list_cat;
         this.listeners = listeners;
         this.layoutParams = layoutParams;
+    }
+
+    public void LoadList_Cat(ArrayList<Category_M>  list_cats){
+        this.list_cat = list_cats;
     }
 
     @NonNull
@@ -58,12 +62,14 @@ public class RadioCategoryAdapter extends RecyclerView.Adapter<RadioCategoryAdap
         }
 
         public void bindView(int position){
+            list_cat.get(position).getCat_image();
             Picasso.get().load(list_cat.get(position).getCat_image()).into(imv_radio_cat);
+            tv_radio_cat_name.setText(list_cat.get(position).getCat_name());
             layout_radio_cat_item.setLayoutParams(layoutParams);
             layout_radio_cat_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listeners.onClick(position);
+                    listeners.onClick(list_cat.get(position));
                 }
             });
         }

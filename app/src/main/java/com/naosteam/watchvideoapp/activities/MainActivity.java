@@ -8,6 +8,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,7 +19,7 @@ import com.naosteam.watchvideoapp.R;
 public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
-    private BottomNavigationView bottomNavigationView;
+    private static BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,4 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public static void hide_Navi(){
+        bottomNavigationView.setVisibility(View.GONE);
+    }
+
+    public static void show_Navi(){
+        bottomNavigationView.setVisibility(View.VISIBLE);
+    }
 }

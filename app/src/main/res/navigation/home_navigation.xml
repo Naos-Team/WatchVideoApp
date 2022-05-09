@@ -11,20 +11,28 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/HomeToRadio"
-            app:destination="@id/radioFragment2" />
-        <action
-            android:id="@+id/action_homeFragment_to_tvDeltailFragment"
+            android:id="@+id/homeFrag_to_TVDetailFrag"
             app:destination="@id/tvDeltailFragment" />
+        <action
+            android:id="@+id/home_to_radioDetails"
+            app:destination="@id/radioDetailsFragment2" />
     </fragment>
-    <fragment
-        android:id="@+id/radioFragment2"
-        android:name="com.naosteam.watchvideoapp.fragments.RadioFragment"
-        android:label="fragment_radio"
-        tools:layout="@layout/fragment_radio" />
     <fragment
         android:id="@+id/tvDeltailFragment"
         android:name="com.naosteam.watchvideoapp.fragments.TvDetailFragment"
         android:label="fragment_tv_deltail"
-        tools:layout="@layout/fragment_tv_deltail" />
+        tools:layout="@layout/fragment_tv_deltail" >
+        <action
+            android:id="@+id/TVDetail_to_HomeFrag"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/radioDetailsFragment2"
+        android:name="com.naosteam.watchvideoapp.fragments.RadioDetailsFragment"
+        android:label="fragment_radio_details"
+        tools:layout="@layout/fragment_radio_details" >
+        <action
+            android:id="@+id/radioDetail_to_homeFrag"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

@@ -137,8 +137,11 @@ public class TvFragment extends Fragment {
             @Override
             public void onClick_homeItem(int position) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("amount", 15);
-                navController.navigate(R.id.tv_navigation);
+                bundle.putString("url", list_cate_video.get(position).getVid_url());
+                bundle.putString("url_img", list_cate_video.get(position).getVid_thumbnail());
+                bundle.putString("des", list_cate_video.get(position).getVid_description());
+                bundle.putBoolean("isHome", false);
+                navController.navigate(R.id.fromTVToDetail, bundle);
             }
         });
         binding.rclItemTvFrag.setLayoutManager(new GridLayoutManager(getActivity(), 3));
