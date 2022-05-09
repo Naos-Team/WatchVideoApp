@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.utils.Constant;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
     private AwesomeValidation awesomeValidation;
     private FirebaseAuth mAuth;
     private GoogleSignInOptions options;
-    private GoogleSignInClient client;
     private final static int RC_SIGN_IN = 123;
 
 
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
 
-        client = GoogleSignIn.getClient(this, options);
+        Constant.ggclient = GoogleSignIn.getClient(this, options);
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(LoginActivity.this, R.id.edt_login_user, RegexTemplate.NOT_EMPTY, R.string.invalid_login_user);
         awesomeValidation.addValidation(LoginActivity.this, R.id.edt_login_pass, RegexTemplate.NOT_EMPTY, R.string.invalid_login_pass);
@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }    private void SignInWithGoogle() {
-        Intent intent = client.getSignInIntent();
+        Intent intent = Constant.ggclient.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
 
     }
