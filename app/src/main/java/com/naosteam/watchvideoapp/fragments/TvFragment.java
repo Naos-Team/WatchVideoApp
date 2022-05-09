@@ -103,21 +103,21 @@ public class TvFragment extends Fragment {
         list_video.add(
                 new Videos_M(1, 1, "Tenchnology 1",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 4.5f, 1,
+                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
                         true, d)
         );
 
         list_video.add(
                 new Videos_M(1, 0, "Tenchnology 12",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 4.5f, 1,
+                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
                         true, d)
         );
 
         list_video.add(
                 new Videos_M(1, 2, "Tenchnology 123",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 4.5f, 1,
+                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
                         true, d)
         );
 
@@ -125,7 +125,7 @@ public class TvFragment extends Fragment {
         list_video.add(
                 new Videos_M(1, 2, "Tenchnology 1234",
                         "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 4.5f, 1,
+                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
                         true, d)
         );
         list_cate_video = new ArrayList<>(list_video);
