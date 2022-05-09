@@ -55,7 +55,9 @@ public class LoginActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.web_client_id))
                 .requestEmail()
                 .build();
-        client = GoogleSignIn.getClient(LoginActivity.this, options);
+
+
+        client = GoogleSignIn.getClient(this, options);
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(LoginActivity.this, R.id.edt_login_user, RegexTemplate.NOT_EMPTY, R.string.invalid_login_user);
         awesomeValidation.addValidation(LoginActivity.this, R.id.edt_login_pass, RegexTemplate.NOT_EMPTY, R.string.invalid_login_pass);
@@ -130,8 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-    }
-    private void SignInWithGoogle() {
+    }    private void SignInWithGoogle() {
         Intent intent = client.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
 
@@ -162,6 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                         }
@@ -169,4 +171,5 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
     }
+
 }

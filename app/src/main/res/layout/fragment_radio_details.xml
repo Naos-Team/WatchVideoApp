@@ -7,23 +7,42 @@
     tools:context=".fragments.RadioDetailsFragment">
 
     <ImageView
+        android:scaleType="centerCrop"
+        android:id="@+id/imv_radio"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@color/grayApp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.55"
+        app:layout_constraintHeight_percent="0.7"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintWidth_percent="1" />
+
+    <ImageView
+        android:id="@+id/imv_back_radio_detail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/radio_detail_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.50"
+        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
@@ -61,6 +80,8 @@
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
                 android:text="Radio"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textColor="@color/neonGreen"
                 android:textSize="22sp"
                 android:textStyle="bold"
@@ -102,14 +123,17 @@
                 android:id="@+id/seekbar_duration"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:padding="5dp"
                 android:gravity="center"
+                android:padding="5dp"
+                android:progressDrawable="@drawable/seekbar_custom"
+                android:thumb="@drawable/seekbar_thumb"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="5:1"
                 app:layout_constraintEnd_toStartOf="@+id/tv_du_end"
                 app:layout_constraintStart_toEndOf="@+id/tv_du_start"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.7"/>
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintWidth_percent="0.7" />
 
             <TextView
                 android:id="@+id/tv_du_end"

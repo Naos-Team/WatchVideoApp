@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintVertical_weight="1.5">
 
@@ -34,7 +35,7 @@
             android:layout_height="0dp"
             android:gravity="center"
             android:paddingLeft="10dp"
-            android:text="Radio"
+            android:text="Radio Category"
             android:textColor="@color/neonGreen"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -52,9 +53,22 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/txt_trending_radio"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
-        app:layout_constraintVertical_weight="5" />
+        app:layout_constraintVertical_weight="6" />
+
+    <ProgressBar
+        android:id="@+id/progress_circular1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:indeterminateTint="@color/neonGreen"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintTop_toTopOf="@+id/rcl_cat_radio_frag"
+        app:layout_constraintBottom_toBottomOf="@+id/rcl_cat_radio_frag"
+        app:layout_constraintStart_toStartOf="@+id/rcl_cat_radio_frag"
+        app:layout_constraintEnd_toEndOf="@+id/rcl_cat_radio_frag"
+       />
 
     <TextView
         android:id="@+id/txt_trending_radio"
@@ -76,9 +90,120 @@
         android:id="@+id/rcl_radio_trending"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/item_radio_listening"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_trending_radio"
         app:layout_constraintVertical_weight="8" />
+    <ProgressBar
+        android:id="@+id/progress_circular2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:indeterminateTint="@color/neonGreen"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintTop_toTopOf="@+id/rcl_radio_trending"
+        app:layout_constraintBottom_toBottomOf="@+id/rcl_radio_trending"
+        app:layout_constraintStart_toStartOf="@+id/rcl_radio_trending"
+        app:layout_constraintEnd_toEndOf="@+id/rcl_radio_trending"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_radio_listening"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_radio_listening_item"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rcl_radio_trending"
+        app:layout_constraintHeight_percent="0.092">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imv_radio_listening"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/tv_radio_listening_name"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintHorizontal_weight="2.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:riv_corner_radius_bottom_left="50dp"
+            app:riv_corner_radius_bottom_right="50dp"
+            app:riv_corner_radius_top_left="50dp"
+            app:riv_corner_radius_top_right="50dp" />
+
+        <TextView
+            android:id="@+id/tv_radio_listening_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeStepGranularity="2sp"
+            android:autoSizeTextType="uniform"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:gravity="center_vertical"
+            android:text="Radio Name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imv_back_listening"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="7"
+            app:layout_constraintStart_toEndOf="@+id/imv_radio_listening"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.03" />
+
+        <ImageView
+            android:id="@+id/imv_back_listening"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/back_radio"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/imv_play_listening"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintStart_toEndOf="@+id/tv_radio_listening_name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <ImageView
+            android:id="@+id/imv_play_listening"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_play_radio"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/imv_next_listening"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1.2"
+            app:layout_constraintStart_toEndOf="@+id/imv_back_listening"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <ImageView
+            android:id="@+id/imv_next_listening"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="1dp"
+            android:src="@drawable/next_radio"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintStart_toEndOf="@+id/imv_play_listening"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

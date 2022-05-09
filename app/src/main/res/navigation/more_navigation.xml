@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/more_navigation"
+    app:startDestination="@id/moreFragment2">
+
+    <fragment
+        android:id="@+id/moreFragment2"
+        android:name="com.naosteam.watchvideoapp.fragments.MoreFragment"
+        android:label="fragment_more"
+        tools:layout="@layout/fragment_more" >
+        <action
+            android:id="@+id/more_to_profile"
+            app:destination="@id/baseProfileFragment" />
+        <action
+            android:id="@+id/more_to_favorite"
+            app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_moreFragment2_to_profile_navigation"
+            app:destination="@id/profile_navigation" />
+        <action
+            android:id="@+id/action_moreFragment2_to_baseProfileFragment"
+            app:destination="@id/baseProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/favorite_to_more"
+            app:destination="@id/moreFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/baseProfileFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.BaseProfileFragment"
+        android:label="fragment_base_profile"
+        tools:layout="@layout/fragment_base_profile" >
+        <action
+            android:id="@+id/action_baseProfileFragment_to_moreFragment2"
+            app:destination="@id/moreFragment2" />
+    </fragment>
+</navigation>

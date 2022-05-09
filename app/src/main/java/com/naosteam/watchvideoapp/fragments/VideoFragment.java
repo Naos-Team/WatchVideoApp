@@ -156,21 +156,24 @@ public class VideoFragment extends Fragment {
         binding.rvLatestVideo.setAdapter(new FeaturedVideoAdapter(layoutParams, mLatests, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
-
+                Videos_M video = mLatests.get(position);
+                openVideoDetail(video);
             }
         }));
 
         binding.rvTopRating.setAdapter(new FeaturedVideoAdapter(layoutParams, mTopRates, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
-
+                Videos_M video = mTopRates.get(position);
+                openVideoDetail(video);
             }
         }));
 
         binding.rvMostView.setAdapter(new FeaturedVideoAdapter(layoutParams, mMostViews, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
-
+                Videos_M video = mMostViews.get(position);
+                openVideoDetail(video);
             }
         }));
 
@@ -192,7 +195,8 @@ public class VideoFragment extends Fragment {
         TrendingMoviePagerAdapter pagerAdapter = new TrendingMoviePagerAdapter(getContext(), mTrendings, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
-
+                Videos_M video = mTrendings.get(position);
+                openVideoDetail(video);
             }
         });
 
@@ -201,5 +205,13 @@ public class VideoFragment extends Fragment {
         pagerAdapter.registerDataSetObserver(binding.circleIndicator.getDataSetObserver());
 
     }
+
+    private void openVideoDetail(Videos_M videos){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("video", videos);
+
+        navController.navigate(R.id.VideoToDetail, bundle);
+    }
+
 
 }
