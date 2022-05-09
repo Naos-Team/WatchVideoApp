@@ -2,6 +2,9 @@ package com.naosteam.watchvideoapp.fragments;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,8 @@ public class TvDetailFragment extends Fragment {
     private FragmentTvDeltailBinding binding;
     private NavController navController;
     private SimpleExoPlayer player;
+    private long last_show_des = 0;
+    private boolean show = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +41,21 @@ public class TvDetailFragment extends Fragment {
     }
 
     private void setUp(){
+        last_show_des = SystemClock.elapsedRealtime();
+        Handler handler = new Handler(Looper.getMainLooper());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if(show && (SystemClock.elapsedRealtime() - last_show_des > 3000)){
+                    binding.layoutInfTvDetailFrag.setVisibility(View.GONE);
+                    binding.btnOutTvDetailFrag.setVisibility(View.GONE);
+                    show = false;
+                }
+
+            }
+        };
+        handler.removeCallbacks(runnable);
+        handler.postDelayed(runnable, 1000);
         MainActivity.hide_Navi();
         getActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -47,8 +67,13 @@ public class TvDetailFragment extends Fragment {
                 int state = -1;
                 if(binding.layoutInfTvDetailFrag.getVisibility() == View.VISIBLE){
                     state = View.GONE;
+                    binding.videoTvDetailFrag.setKeepScreenOn(true);
+                    show = false;
                 } else {
                     state = View.VISIBLE;
+                    binding.videoTvDetailFrag.setKeepScreenOn(false);
+                    show = true;
+                    last_show_des = SystemClock.elapsedRealtime();
                 }
                 binding.layoutInfTvDetailFrag.setVisibility(state);
                 binding.btnOutTvDetailFrag.setVisibility(state);
@@ -67,12 +92,14 @@ public class TvDetailFragment extends Fragment {
                     navController.navigate(R.id.TVDetail_to_HomeFrag);
                 } else {
                     navController.navigate(R.id.fromDetailtoTVFrag);
+
                 }
             }
         });
 
         player = new SimpleExoPlayer.Builder(getContext()).build();
         binding.videoTvDetailFrag.setPlayer(player);
+        binding.videoTvDetailFrag.setKeepScreenOn(true);
         MediaItem mediaItem = MediaItem.fromUri(bundle.getString("url"));
         player.setMediaItem(mediaItem);
         player.prepare();
