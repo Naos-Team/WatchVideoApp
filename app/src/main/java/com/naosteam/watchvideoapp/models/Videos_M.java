@@ -1,8 +1,9 @@
 package com.naosteam.watchvideoapp.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Videos_M {
+public class Videos_M implements Serializable {
     private int vid_id;
     private int cat_id;
     private String vid_title;

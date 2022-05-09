@@ -10,24 +10,34 @@
         android:label="fragment_radio"
         tools:layout="@layout/fragment_radio" >
         <action
-            android:id="@+id/action_radioFragment4_to_radioDetailsFragment"
+            android:id="@+id/radio_screen_to_radio_detail"
             app:destination="@id/radioDetailsFragment" />
         <action
-            android:id="@+id/action_radioFragment4_to_radioCatItemFragment"
+            android:id="@+id/radio_screen_to_cat_item"
             app:destination="@id/radioCatItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/radioDetailsFragment"
         android:name="com.naosteam.watchvideoapp.fragments.RadioDetailsFragment"
         android:label="fragment_radio_details"
-        tools:layout="@layout/fragment_radio_details" />
+        tools:layout="@layout/fragment_radio_details" >
+        <action
+            android:id="@+id/radio_detail_to_radio_screen"
+            app:destination="@id/radioFragment4" />
+        <action
+            android:id="@+id/raio_detail_to_radio_cat_item"
+            app:destination="@id/radioCatItemFragment" />
+    </fragment>
     <fragment
         android:id="@+id/radioCatItemFragment"
-        android:name="com.naosteam.watchvideoapp.RadioCatItemFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.RadioCatItemFragment"
         android:label="fragment_radio_cat_item"
         tools:layout="@layout/fragment_radio_cat_item" >
         <action
-            android:id="@+id/action_radioCatItemFragment_to_radioDetailsFragment"
+            android:id="@+id/radio_cat_item_to_radio_detail"
             app:destination="@id/radioDetailsFragment" />
+        <action
+            android:id="@+id/radio_cat_item_to_radio_screen"
+            app:destination="@id/radioFragment4" />
     </fragment>
 </navigation>

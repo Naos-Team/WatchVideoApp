@@ -172,4 +172,26 @@ public class Methods {
         return builder.build();
 
     }
+
+    public RequestBody GetRadioRequestBody(String method_name, Bundle bundle) {
+        JsonObject postObj = new JsonObject();
+        postObj.addProperty("method_name", method_name);
+
+        switch (method_name){
+            case "LOAD_RADIOS_OF_CATEGORY":
+                //TODO: encode it again
+                postObj.addProperty("cat_id", bundle.getInt("cat_id"));
+                break;
+            case "LOAD_RADIO_SCREEN":
+                break;
+        }
+
+        String post_data = postObj.toString();
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        builder.addFormDataPart("data", post_data);
+
+        return builder.build();
+
+    }
 }

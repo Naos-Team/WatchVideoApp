@@ -51,11 +51,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
-                .requestEmail()
-                .build();
-        client = GoogleSignIn.getClient(LoginActivity.this, options);
+//        options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.web_client_id))
+//                .requestEmail()
+//                .build();
+//        client = GoogleSignIn.getClient(LoginActivity.this, options);
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(LoginActivity.this, R.id.edt_login_user, RegexTemplate.NOT_EMPTY, R.string.invalid_login_user);
         awesomeValidation.addValidation(LoginActivity.this, R.id.edt_login_pass, RegexTemplate.NOT_EMPTY, R.string.invalid_login_pass);
@@ -110,12 +110,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btn_login_gg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SignInWithGoogle();
-            }
-        });
+//        btn_login_gg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SignInWithGoogle();
+//            }
+//        });
         tv_forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,42 +131,42 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-    private void SignInWithGoogle() {
-        Intent intent = client.getSignInIntent();
-        startActivityForResult(intent, RC_SIGN_IN);
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode==RC_SIGN_IN){
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try{
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogleAccount(account);
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void firebaseAuthWithGoogleAccount(GoogleSignInAccount account)
-    {
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-    }
+//    private void SignInWithGoogle() {
+//        Intent intent = client.getSignInIntent();
+//        startActivityForResult(intent, RC_SIGN_IN);
+//
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(requestCode==RC_SIGN_IN){
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//            try{
+//                GoogleSignInAccount account = task.getResult(ApiException.class);
+//                firebaseAuthWithGoogleAccount(account);
+//            }
+//            catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    private void firebaseAuthWithGoogleAccount(GoogleSignInAccount account)
+//    {
+//        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                        } else {
+//                            Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//
+//    }
 }

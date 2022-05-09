@@ -29,6 +29,10 @@ public class RadioItemAdapter extends RecyclerView.Adapter<RadioItemAdapter.Radi
         this.layoutParams = layoutParams;
     }
 
+    public void setList_Radio(ArrayList<Videos_M> list_radio) {
+        this.list_radio = list_radio;
+    }
+
     @NonNull
     @Override
     public RadioItemAdapter.RadioItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -61,11 +65,13 @@ public class RadioItemAdapter extends RecyclerView.Adapter<RadioItemAdapter.Radi
 
         public void bindView(int position){
             Picasso.get().load(list_radio.get(position).getVid_thumbnail()).into(imv_radio_item);
+            tv_radio_item_name.setText(list_radio.get(position).getVid_title());
+            tv_radio_item_view.setText(list_radio.get(position).getVid_view()+" views");
             layout_radio_item.setLayoutParams(layoutParams);
             layout_radio_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listeners.onClick(position);
+                    listeners.onClick(list_radio.get(position));
                 }
             });
         }
