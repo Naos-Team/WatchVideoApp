@@ -67,11 +67,11 @@ public class TvDetailFragment extends Fragment {
                 int state = -1;
                 if(binding.layoutInfTvDetailFrag.getVisibility() == View.VISIBLE){
                     state = View.GONE;
-                    binding.videoTvDetailFrag.setKeepScreenOn(true);
+                    //binding.videoTvDetailFrag.setKeepScreenOn(true);
                     show = false;
                 } else {
                     state = View.VISIBLE;
-                    binding.videoTvDetailFrag.setKeepScreenOn(false);
+                   // binding.videoTvDetailFrag.setKeepScreenOn(false);
                     show = true;
                     last_show_des = SystemClock.elapsedRealtime();
                 }
