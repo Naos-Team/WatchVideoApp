@@ -1,5 +1,6 @@
 package com.naosteam.watchvideoapp.fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.activities.UpdateProfileActivity;
 import com.naosteam.watchvideoapp.databinding.FragmentMoreBinding;
 import com.naosteam.watchvideoapp.databinding.FragmentProfileBinding;
 import com.naosteam.watchvideoapp.models.Users_M;
@@ -83,7 +86,8 @@ public class ProfileFragment extends Fragment {
         binding.imvEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigate(R.id.profile_to_update);
+                Intent intent = new Intent(getContext(), UpdateProfileActivity.class);
+                startActivity(intent);
             }
         });
 

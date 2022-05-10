@@ -32,19 +32,7 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/profile_to_update"
-            app:destination="@id/profileUpdateFragment2" />
-        <action
             android:id="@+id/profile_to_more"
             app:destination="@id/moreFragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/profileUpdateFragment2"
-        android:name="com.naosteam.watchvideoapp.fragments.ProfileUpdateFragment"
-        android:label="fragment_profile_update"
-        tools:layout="@layout/fragment_profile_update" >
-        <action
-            android:id="@+id/update_open_profile"
-            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>
