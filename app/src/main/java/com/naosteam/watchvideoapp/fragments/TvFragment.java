@@ -19,16 +19,23 @@ import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.MainActivity;
 import com.naosteam.watchvideoapp.adapters.CateTvFragmentAdapter;
 import com.naosteam.watchvideoapp.adapters.TVFragmentAdapter;
+import com.naosteam.watchvideoapp.asynctasks.LoadTVAsync;
+import com.naosteam.watchvideoapp.asynctasks.LoadVideoAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentTvBinding;
+import com.naosteam.watchvideoapp.listeners.LoadTVAsyncListener;
+import com.naosteam.watchvideoapp.listeners.LoadVideoAsyncListener;
 import com.naosteam.watchvideoapp.listeners.OnHomeItemClickListeners;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.Methods;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import okhttp3.RequestBody;
 
 public class TvFragment extends Fragment {
     private FragmentTvBinding binding;
@@ -46,7 +53,7 @@ public class TvFragment extends Fragment {
         View rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
         setUp();
-
+        Load_TV_Screen();
         return rootView;
     }
 
@@ -56,15 +63,6 @@ public class TvFragment extends Fragment {
         list_category = new ArrayList<>();
         list_category.add(
                 new Category_M(-1,"All", "https://d1j8r0kxyu9tj8.cloudfront.net/images/1566809284X4pyEDCj7CFMsGu.jpg", 1)
-        );
-        list_category.add(
-                new Category_M(0,"Fun", "https://intphcm.com/data/upload/mau-poster-hinh-anh-lon-phim-mat-biec.jpg", 1)
-        );
-        list_category.add(
-                new Category_M(1,"Thriller", "https://upload.wikimedia.org/wikipedia/vi/3/32/Poster_phim_T%C3%AAn_b%E1%BA%A1n_l%C3%A0_g%C3%AC.jpg", 1)
-        );
-        list_category.add(
-                new Category_M(2,"Sport", "https://d1j8r0kxyu9tj8.cloudfront.net/images/1566809340Y397jnilYDd15KN.jpg", 1)
         );
 
         catetvFragmentAdapter = new CateTvFragmentAdapter(list_category, (MainActivity) getActivity(),
@@ -91,43 +89,6 @@ public class TvFragment extends Fragment {
         binding.rclCategoryTvFrag.setAdapter(catetvFragmentAdapter);
 
         list_video = new ArrayList<>();
-        String strTime = "20:15:40";
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
-
-        Date d = new Date();
-        try {
-            d = dateFormat.parse(strTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        list_video.add(
-                new Videos_M(1, 1, "Tenchnology 1",
-                        "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
-                        true, d)
-        );
-
-        list_video.add(
-                new Videos_M(1, 0, "Tenchnology 12",
-                        "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
-                        true, d)
-        );
-
-        list_video.add(
-                new Videos_M(1, 2, "Tenchnology 123",
-                        "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
-                        true, d)
-        );
-
-
-        list_video.add(
-                new Videos_M(1, 2, "Tenchnology 1234",
-                        "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
-                        true, d)
-        );
         list_cate_video = new ArrayList<>(list_video);
 
         ConstraintLayout.LayoutParams layoutParams_TV_item = new ConstraintLayout.LayoutParams(getActivity().getResources().
@@ -178,5 +139,38 @@ public class TvFragment extends Fragment {
             tvFragmentAdapter.setList_TV(list_search);
             tvFragmentAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void Load_TV_Screen(){
+        RequestBody requestBody = Methods.getInstance().GetTVRequestBody("LOAD_TV_SCREEN", null);
+        LoadTVAsyncListener listener = new LoadTVAsyncListener() {
+            @Override
+            public void onPre() {
+                binding.prgTVFrag.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onEnd(Boolean ablBoolean, ArrayList<Videos_M> list_tv_all,
+                              ArrayList<Videos_M> list_tv_trending, ArrayList<Category_M> list_categList_tv) {
+                binding.prgTVFrag.setVisibility(View.GONE);
+                if(getContext() != null){
+                    if(Methods.getInstance().isNetworkConnected(getContext())){
+                        if(ablBoolean){
+                            TvFragment.this.list_video.addAll(list_tv_all);
+                            TvFragment.this.list_cate_video.addAll(list_tv_all);
+                            TvFragment.this.list_category.addAll(list_categList_tv);
+                            tvFragmentAdapter.notifyDataSetChanged();
+                            catetvFragmentAdapter.notifyDataSetChanged();
+                        }else{
+                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        };
+        LoadTVAsync async = new LoadTVAsync(requestBody, listener);
+        async.execute();
     }
 }
