@@ -11,17 +11,11 @@
         android:label="fragment_more"
         tools:layout="@layout/fragment_more" >
         <action
-            android:id="@+id/more_to_profile"
-            app:destination="@id/baseProfileFragment" />
-        <action
             android:id="@+id/more_to_favorite"
             app:destination="@id/favoriteFragment" />
         <action
-            android:id="@+id/action_moreFragment2_to_profile_navigation"
-            app:destination="@id/profile_navigation" />
-        <action
-            android:id="@+id/action_moreFragment2_to_baseProfileFragment"
-            app:destination="@id/baseProfileFragment" />
+            android:id="@+id/more_open_profile"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -33,12 +27,24 @@
             app:destination="@id/moreFragment2" />
     </fragment>
     <fragment
-        android:id="@+id/baseProfileFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.BaseProfileFragment"
-        android:label="fragment_base_profile"
-        tools:layout="@layout/fragment_base_profile" >
+        android:id="@+id/profileFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_baseProfileFragment_to_moreFragment2"
+            android:id="@+id/profile_to_update"
+            app:destination="@id/profileUpdateFragment2" />
+        <action
+            android:id="@+id/profile_to_more"
             app:destination="@id/moreFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileUpdateFragment2"
+        android:name="com.naosteam.watchvideoapp.fragments.ProfileUpdateFragment"
+        android:label="fragment_profile_update"
+        tools:layout="@layout/fragment_profile_update" >
+        <action
+            android:id="@+id/update_open_profile"
+            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>

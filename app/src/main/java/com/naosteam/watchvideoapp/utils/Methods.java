@@ -259,6 +259,12 @@ public class Methods {
                 postObj.addProperty("phone", base64Encode(bundle.getString("phone")));
                 postObj.addProperty("age", bundle.getInt("age"));
                 break;
+            case "METHOD_UPDATE_PROFILE":
+                postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
+                postObj.addProperty("name", base64Encode(bundle.getString("name")));
+                postObj.addProperty("email", base64Encode(bundle.getString("email")));
+                postObj.addProperty("phone", base64Encode(bundle.getString("phone")));
+                postObj.addProperty("age", bundle.getInt("age"));
         }
 
         String post_data = postObj.toString();

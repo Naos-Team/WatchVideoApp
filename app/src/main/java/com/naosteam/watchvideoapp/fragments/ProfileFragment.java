@@ -1,66 +1,97 @@
 package com.naosteam.watchvideoapp.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.databinding.FragmentMoreBinding;
+import com.naosteam.watchvideoapp.databinding.FragmentProfileBinding;
+import com.naosteam.watchvideoapp.models.Users_M;
+import com.squareup.picasso.Picasso;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Map;
+import java.util.Set;
+
 public class ProfileFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    private View rootView;
+    private NavController navController;
+    private FragmentProfileBinding binding;
+    private DatabaseReference databaseReference;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
+        rootView = binding.getRoot();
+        navController = NavHostFragment.findNavController(this);
+
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+            databaseReference = FirebaseDatabase.getInstance().getReference();
+            binding.imvStart.setVisibility(View.VISIBLE);
+            binding.progressStart.setVisibility(View.VISIBLE);
+            LoadData();
+        }
+
+        return rootView;
+    }
+
+    private void LoadData(){
+
+        databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+                .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+
+                        if(task.isSuccessful()){
+                            binding.imvStart.setVisibility(View.GONE);
+                            binding.progressStart.setVisibility(View.GONE);
+                            Gson gson = new Gson();
+                            JsonElement jsonElement = gson.toJsonTree(task.getResult().getValue());
+                            JsonObject obj = jsonElement.getAsJsonObject();
+                            Users_M user = gson.fromJson(obj.toString(), Users_M.class);
+
+                            binding.edtName.setText(user.getUser_name());
+                            binding.edtEmail.setText(user.getUser_email());
+                            binding.edtPhone.setText(user.getUser_phone());
+                            binding.edtAge.setText(String.valueOf(user.getUser_age()));
+                            if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null){
+                                Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+                                Picasso.get().load(uri).into(binding.imvUser);
+                            }
+                        }
+                    }
+                });
+
+        binding.imvEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.profile_to_update);
+            }
+        });
+
+        binding.imvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.profile_to_more);
+            }
+        });
     }
 }
