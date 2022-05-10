@@ -71,7 +71,7 @@ public class VideoFragment extends Fragment {
         mLatests = new ArrayList<>();
         mTopRates = new ArrayList<>();
         mCategories = new ArrayList<>();
-        mCategories.add(new Category_M(0, "All", "", 1));
+        mCategories.add(new Category_M(-1, "All", "", 1));
 
         SetupView();
 
@@ -84,12 +84,11 @@ public class VideoFragment extends Fragment {
         binding.ivSearch.setOnClickListener(v->{
             if(!binding.edtSearch.getText().toString().isEmpty()){
                 Bundle bundle = new Bundle();
+                bundle.putString("type", "search");
                 bundle.putString("search_text", binding.edtSearch.getText().toString());
                 navController.navigate(R.id.VideoToSearchVideo, bundle);
             }else{
-                binding.edtSearch.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(binding.edtSearch, InputMethodManager.SHOW_IMPLICIT);
+                Toast.makeText(getContext(), "Please fill the text input!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -184,7 +183,12 @@ public class VideoFragment extends Fragment {
         binding.rvCategory.setAdapter(new HorizontalCategoryAdapter(layoutParam_category, mCategories, new OnCategoryHorizontalListener() {
             @Override
             public void onClick(int position) {
-
+                Category_M c = mCategories.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "category");
+                bundle.putInt("cat_id", c.getCat_id());
+                bundle.putString("cat_name", c.getCat_name());
+                navController.navigate(R.id.VideoToSearchVideo, bundle);
             }
         }));
 

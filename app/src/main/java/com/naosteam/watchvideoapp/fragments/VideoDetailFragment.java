@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.databinding.FragmentVideoDetailBinding;
 import com.naosteam.watchvideoapp.listeners.CheckFavListener;
+import com.naosteam.watchvideoapp.listeners.SetFavListener;
 import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
@@ -34,6 +35,7 @@ public class VideoDetailFragment extends Fragment {
     private NavController navController;
     private FragmentVideoDetailBinding binding;
     private Videos_M mVideo;
+    private Boolean mIsFav = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,17 +45,16 @@ public class VideoDetailFragment extends Fragment {
 
         mVideo = (Videos_M) getArguments().getSerializable("video");
 
-        SetupView();
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.csMain.setVisibility(View.GONE);
 
         Methods.getInstance().checkVideoFav(getContext(), mVideo.getVid_id(), new CheckFavListener() {
             @Override
-            public void isFav(boolean isFav) {
-
-            }
-
-            @Override
-            public void onFailure() {
-
+            public void onComplete(boolean isSuccess, boolean isFav) {
+                if(isSuccess){
+                    mIsFav = isFav;
+                }
+                SetupView();
             }
         });
 
@@ -61,6 +62,7 @@ public class VideoDetailFragment extends Fragment {
     }
 
     private void SetupView() {
+
         binding.btnBack.setOnClickListener(v->{
             navController.navigate(R.id.DetailVideoToVideo);
         });
@@ -81,7 +83,6 @@ public class VideoDetailFragment extends Fragment {
         long diffInYear = TimeUnit.MILLISECONDS.toDays(diffInTime) / 365l;
         long diffInMonth = TimeUnit.MILLISECONDS.toDays(diffInTime) / 30l;
         long diffInDay = TimeUnit.MILLISECONDS.toDays(diffInTime);
-
 
         if (diffInYear < 1) {
             if (diffInMonth < 1) {
@@ -129,7 +130,6 @@ public class VideoDetailFragment extends Fragment {
         int minutes = (sec % 3600) / 60;
         int seconds = sec % 60;
 
-
         String timeString = "";
 
         if(hours >= 1){
@@ -141,5 +141,41 @@ public class VideoDetailFragment extends Fragment {
         binding.tvDuration.setText(timeString);
 
         binding.tvRate.setText("" + mVideo.getVid_avg_rate());
+
+        if(mIsFav){
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_check)
+                    .into(binding.ivHeart);
+        }else{
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_uncheckpng)
+                    .into(binding.ivHeart);
+        }
+
+        binding.ivHeart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Methods.getInstance().setFavState(getContext(), mVideo.getVid_id(), !mIsFav, new SetFavListener() {
+                    @Override
+                    public void onComplete(boolean isSuccess) {
+                        if(isSuccess){
+                            mIsFav = !mIsFav;
+                            if(mIsFav){
+                                Picasso.get()
+                                        .load(R.drawable.ic_heart4_check)
+                                        .into(binding.ivHeart);
+                            }else{
+                                Picasso.get()
+                                        .load(R.drawable.ic_heart4_uncheckpng)
+                                        .into(binding.ivHeart);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        binding.progressBar.setVisibility(View.GONE);
+        binding.csMain.setVisibility(View.VISIBLE);
     }
 }

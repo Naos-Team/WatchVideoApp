@@ -23,9 +23,11 @@ import com.naosteam.watchvideoapp.adapters.RadioItemAdapter;
 import com.naosteam.watchvideoapp.adapters.SlideShowHomeFragAdapter;
 import com.naosteam.watchvideoapp.adapters.TVFragmentAdapter;
 import com.naosteam.watchvideoapp.asynctasks.LoadRadioAsync;
+import com.naosteam.watchvideoapp.asynctasks.LoadTVAsync;
 import com.naosteam.watchvideoapp.asynctasks.LoadVideoAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentHomeBinding;
 import com.naosteam.watchvideoapp.listeners.LoadRadioAsyncListener;
+import com.naosteam.watchvideoapp.listeners.LoadTVAsyncListener;
 import com.naosteam.watchvideoapp.listeners.LoadVideoAsyncListener;
 import com.naosteam.watchvideoapp.listeners.OnHomeItemClickListeners;
 import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
@@ -74,13 +76,8 @@ public class HomeFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
         setUp();
         Load_Video_Trending();
+        Load_TV_Trending();
         Load_Radio_Trending();
-//        tv_home = rootView.findViewById(R.id.tv_home);
-//        tv_home.setOnClickListener(v -> {
-////            Bundle bundle = new Bundle();
-////            bundle.putInt("amount", 15);
-//            navController.navigate(R.id.HomeToRadio);
-//        });
 
         return  rootView;
     }
@@ -90,7 +87,7 @@ public class HomeFragment extends Fragment {
         if(runnable != null){
             runnable = null;
         }
-        Runnable runnable = new Runnable() {
+        runnable = new Runnable() {
             @Override
             public void run() {
                 int currentPosition = binding.vpgSlideHomeFrag.getCurrentItem();
@@ -161,45 +158,7 @@ public class HomeFragment extends Fragment {
         binding.rcvTrendVidHomeFrag.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         binding.rcvTrendVidHomeFrag.setAdapter(featuredVideoAdapter);
 
-
-        String strTime = "20:15:40";
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
-
-        Date d = new Date();
-        try {
-            d = dateFormat.parse(strTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         list_TV_trending = new ArrayList<>();
-        list_TV_trending.add(
-                new Videos_M(1, 1, "Tenchnology 1",
-                        "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
-                        true, d)
-        );
-
-        list_video_trending.add(
-                new Videos_M(1, 1, "Tenchnology 1",
-                        "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
-                        true, d)
-        );
-
-        list_video_trending.add(
-                new Videos_M(1, 1, "Tenchnology 1",
-                        "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
-                        true, d)
-        );
-
-
-        list_video_trending.add(
-                new Videos_M(1, 1, "Tenchnology 1",
-                        "https://ieltsplanet.info/wp-content/uploads/2017/04/healthcare-technology-8-04-2015.jpg","des",
-                        "https://www.youtube.com/watch?v=2OKYsYErfFo", 44, 0, 4.5f, 1,
-                        true, d)
-        );
 
         ConstraintLayout.LayoutParams layoutParams_TV_item = new ConstraintLayout.LayoutParams(getActivity().getResources().
                 getDisplayMetrics().widthPixels*1/3, (getActivity().getResources().getDisplayMetrics().widthPixels)*1/3*3/4);
@@ -265,6 +224,34 @@ public class HomeFragment extends Fragment {
             }
         };
         LoadVideoAsync async = new LoadVideoAsync(requestBody, listener, Methods.getInstance());
+        async.execute();
+    }
+
+    private void Load_TV_Trending(){
+        RequestBody requestBody = Methods.getInstance().GetTVRequestBody("LOAD_TV_SCREEN", null);
+        LoadTVAsyncListener listener = new LoadTVAsyncListener() {
+            @Override
+            public void onPre() {
+            }
+
+            @Override
+            public void onEnd(Boolean ablBoolean, ArrayList<Videos_M> list_tv_all,
+                              ArrayList<Videos_M> list_tv_trending, ArrayList<Category_M> list_categList_tv) {
+                if(getContext() != null){
+                    if(Methods.getInstance().isNetworkConnected(getContext())){
+                        if(ablBoolean){
+                            HomeFragment.this.list_TV_trending.addAll(list_tv_trending);
+                            tvFragmentAdapter.notifyDataSetChanged();
+                        }else{
+                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        };
+        LoadTVAsync async = new LoadTVAsync(requestBody, listener);
         async.execute();
     }
 
