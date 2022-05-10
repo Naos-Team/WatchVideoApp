@@ -12,6 +12,8 @@ import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInOptions options;
     private final static int RC_SIGN_IN = 123;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -50,7 +53,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+
         mAuth = FirebaseAuth.getInstance();
+
+//        if(mAuth.getCurrentUser()!=null){
+//            mAuth.signOut();
+//            if (Constant.ggclient!=null){
+//                Constant.ggclient.signOut();
+//            }
+//        }
         options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
                 .requestEmail()
@@ -73,6 +85,9 @@ public class LoginActivity extends AppCompatActivity {
         tv_forgot = findViewById(R.id.tv_forgotpass_open);
         tv_signup = findViewById(R.id.tv_signup_open);
         btn_skip = findViewById(R.id.btn_skip);
+        progressBar = findViewById(R.id.progress_startlg);
+
+        progressBar.setVisibility(View.GONE);
     }
 
     private void ViewClick() {
@@ -94,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         if(user.isEmailVerified()){
+                                            progressBar.setVisibility(View.VISIBLE);
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                         }
                                         else{
@@ -163,6 +179,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            progressBar.setVisibility(View.VISIBLE);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();

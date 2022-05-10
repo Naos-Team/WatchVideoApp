@@ -24,7 +24,6 @@ public class ExecuteQueryAsync extends AsyncTask<Void, String, Boolean> {
         try{
             String api_url = Constant.SERVER_URL;
 
-            //result is json_string
             String result = JsonUtils.okhttpPost(api_url, requestBody);
 
             if(result.equals("success")){
