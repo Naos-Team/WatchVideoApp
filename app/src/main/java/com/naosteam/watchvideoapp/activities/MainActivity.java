@@ -41,4 +41,8 @@ public class MainActivity extends AppCompatActivity {
     public static void show_Navi(){
         bottomNavigationView.setVisibility(View.VISIBLE);
     }
+
+    public static void choice_Navi(int id_case){
+        bottomNavigationView.setSelectedItemId(id_case);
+    }
 }
