@@ -23,13 +23,14 @@
         android:background="@drawable/bg_gg_login"
         android:padding="10dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/video_tv_detail_frag"
-        app:layout_constraintDimensionRatio="w,4:1"
+        app:layout_constraintBottom_toTopOf="@+id/controlView_TVDetail_frag"
+        app:layout_constraintDimensionRatio="h,1:4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.32"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6">
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_chainStyle="packed">
 
         <ImageView
             android:id="@+id/img_tv_detail_frag"
@@ -37,29 +38,56 @@
             android:layout_height="0dp"
             android:src="@drawable/forgotpass_main_img"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/txt_tv_detail_frag"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/scrollViewTvDetailFrag"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txt_tv_detail_frag"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollViewTvDetailFrag"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imgLikeTvdetailFrag"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="6"
+            app:layout_constraintStart_toEndOf="@+id/img_tv_detail_frag"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_tv_detail_frag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="24sp"
+                    android:autoSizeMinTextSize="14sp"
+                    android:autoSizeStepGranularity="2sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center|left"
+                    android:padding="10dp"
+                    android:text="Description" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <ImageView
+            android:id="@+id/imgLikeTvdetailFrag"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:autoSizeMaxTextSize="24sp"
-            android:autoSizeMinTextSize="14sp"
-            android:autoSizeStepGranularity="2sp"
-            android:autoSizeTextType="uniform"
-            android:gravity="center|left"
             android:padding="10dp"
-            android:text="Description"
+            android:src="@drawable/ic_fav_app"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="7"
-            app:layout_constraintStart_toEndOf="@+id/img_tv_detail_frag"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/scrollViewTvDetailFrag"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
@@ -87,4 +115,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.exoplayer2.ui.PlayerControlView
+        android:id="@+id/controlView_TVDetail_frag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_inf_tv_detail_frag" />
 </androidx.constraintlayout.widget.ConstraintLayout>
