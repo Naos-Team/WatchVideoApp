@@ -122,55 +122,76 @@ public class ProfileUpdateFragment extends Fragment {
         String phone = binding.edtPhone1.getText().toString().trim();
         int age =  Integer.parseInt(binding.edtAge1.getText().toString());
 
-        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
-            @Override
-            public void onStart() {
+        HashMap User = new HashMap();
+        User.put("user_name", name);
+        User.put("user_email", email);
+        User.put("user_phone", phone);
+        User.put("user_age", age);
+        databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(User).
+                addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            binding.imvStart1.setVisibility(View.VISIBLE);
+                            binding.progressStart1.setVisibility(View.VISIBLE);
+                            Toast.makeText(getContext(), "Successfully. Your info has been updated.", Toast.LENGTH_LONG).show();
+                            navController.navigate(R.id.update_open_profile);
+                        }
+                        else{
+                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
-            }
-
-            @Override
-            public void onEnd(boolean status) {
-
-                if(status){
-                    HashMap User = new HashMap();
-                    User.put("user_name", name);
-                    User.put("user_email", email);
-                    User.put("user_phone", phone);
-                    User.put("user_age", age);
-                    databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(User).
-                            addOnCompleteListener(new OnCompleteListener() {
-                                @Override
-                                public void onComplete(@NonNull Task task) {
-                                    if(task.isSuccessful()){
-                                        binding.imvStart1.setVisibility(View.VISIBLE);
-                                        binding.progressStart1.setVisibility(View.VISIBLE);
-                                        Toast.makeText(getContext(), "Successfully. Your info has been updated.", Toast.LENGTH_LONG).show();
-                                        navController.navigate(R.id.update_open_profile);
-                                    }
-                                    else{
-                                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }else{
-                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-        };
-
-        Bundle bundle = new Bundle();
-        bundle.putString("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-        bundle.putString("name", name);
-        bundle.putString("email",email);
-        bundle.putInt("age", age);
-        bundle.putString("phone", phone);
-
-
-        RequestBody requestBody = Methods.getInstance().getLoginRequestBody("METHOD_UPDATE_PROFILE",bundle);
-
-        ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
-        async.execute();
+//        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
+//            @Override
+//            public void onStart() {
+//
+//            }
+//
+//            @Override
+//            public void onEnd(boolean status) {
+//
+//                if(status){
+//                    HashMap User = new HashMap();
+//                    User.put("user_name", name);
+//                    User.put("user_email", email);
+//                    User.put("user_phone", phone);
+//                    User.put("user_age", age);
+//                    databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(User).
+//                            addOnCompleteListener(new OnCompleteListener() {
+//                                @Override
+//                                public void onComplete(@NonNull Task task) {
+//                                    if(task.isSuccessful()){
+//                                        binding.imvStart1.setVisibility(View.VISIBLE);
+//                                        binding.progressStart1.setVisibility(View.VISIBLE);
+//                                        Toast.makeText(getContext(), "Successfully. Your info has been updated.", Toast.LENGTH_LONG).show();
+//                                        navController.navigate(R.id.update_open_profile);
+//                                    }
+//                                    else{
+//                                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//                            });
+//                }else{
+//                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//        };
+//
+//        Bundle bundle = new Bundle();
+//        bundle.putString("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+//        bundle.putString("name", name);
+//        bundle.putString("email",email);
+//        bundle.putInt("age", age);
+//        bundle.putString("phone", phone);
+//
+//
+//        RequestBody requestBody = Methods.getInstance().getLoginRequestBody("METHOD_UPDATE_PROFILE",bundle);
+//
+//        ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
+//        async.execute();
 
     }
 }
