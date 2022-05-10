@@ -209,6 +209,7 @@ public class VideoFragment extends Fragment {
     private void openVideoDetail(Videos_M videos){
         Bundle bundle = new Bundle();
         bundle.putSerializable("video", videos);
+        bundle.putBoolean("is_home", false);
 
         navController.navigate(R.id.VideoToDetail, bundle);
     }
