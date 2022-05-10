@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.activities.MainActivity;
 import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
 import com.naosteam.watchvideoapp.adapters.RadioItemAdapter;
 import com.naosteam.watchvideoapp.adapters.SlideShowHomeFragAdapter;
@@ -72,8 +73,6 @@ public class HomeFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
         setUp();
         Load_Video_Trending();
-        Load_TV_Trending();
-        Load_Radio_Trending();
 
         return  rootView;
     }
@@ -107,14 +106,32 @@ public class HomeFragment extends Fragment {
         });
 
         LinearLayout.LayoutParams layoutParams_slideShow = new LinearLayout.LayoutParams(getActivity().getResources().
-                getDisplayMetrics().widthPixels, 4*(getActivity().getResources().getDisplayMetrics().widthPixels)/3);
+                getDisplayMetrics().widthPixels, (int)3.2*(getActivity().getResources().getDisplayMetrics().widthPixels)/5);
         binding.vpg2HomeFrag.setLayoutParams(layoutParams_slideShow);
 
         LinearLayout.LayoutParams layoutParams_TextView = new LinearLayout.LayoutParams(getActivity().getResources().
                 getDisplayMetrics().widthPixels, 5*(getActivity().getResources().getDisplayMetrics().heightPixels)/100);
         binding.txtTrendingVidHomeFrag.setLayoutParams(layoutParams_TextView);
+        binding.txtTrendingVidHomeFrag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.choice_Navi(R.id.baseVideoFragment);
+            }
+        });
         binding.txtTrendingTVHomeFrag.setLayoutParams(layoutParams_TextView);
+        binding.txtTrendingTVHomeFrag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.choice_Navi(R.id.baseTvFragment2);
+            }
+        });
         binding.txtTrendingRadHomeFrag.setLayoutParams(layoutParams_TextView);
+        binding.txtTrendingRadHomeFrag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.choice_Navi(R.id.baseRadioFragment);
+            }
+        });
         list_cat_Video = new ArrayList<>();
         list_cat_Video.add(
                 new Category_M(1,"Ten", "https://marvelphim.com/wp-content/uploads/2022/01/poster-da%CC%82%CC%80u-cho-series-moon-knight.jpg", 1)
@@ -204,16 +221,17 @@ public class HomeFragment extends Fragment {
         LoadVideoAsyncListener listener = new LoadVideoAsyncListener() {
             @Override
             public void onStart() {
-
+                binding.prgHomeFrag.setVisibility(View.VISIBLE);
+                binding.imgTempHomeFrag.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onEnd(boolean status, ArrayList<Videos_M> arrayList_trending, ArrayList<Videos_M> arrayList_mostview, ArrayList<Videos_M> arrayList_latest, ArrayList<Videos_M> arrayList_toprate, ArrayList<Category_M> arrayList_category) {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
+                        Load_TV_Trending();
                         if(status){
                            list_video_trending.addAll(arrayList_trending);
-                           featuredVideoAdapter.notifyDataSetChanged();
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
                         }
@@ -239,9 +257,9 @@ public class HomeFragment extends Fragment {
                               ArrayList<Videos_M> list_tv_trending, ArrayList<Category_M> list_categList_tv) {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
+                        Load_Radio_Trending();
                         if(ablBoolean){
                             HomeFragment.this.list_TV_trending.addAll(list_tv_trending);
-                            tvFragmentAdapter.notifyDataSetChanged();
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
                         }
@@ -266,6 +284,14 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onEnd(boolean status, ArrayList<Videos_M> arrayList_trending, ArrayList<Category_M> arrayList_category) {
+                binding.prgHomeFrag.setVisibility(View.GONE);
+
+                binding.imgTempHomeFrag.setVisibility(View.GONE);
+
+                featuredVideoAdapter.notifyDataSetChanged();
+
+                tvFragmentAdapter.notifyDataSetChanged();
+
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){

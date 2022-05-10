@@ -49,15 +49,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setVisibility(View.VISIBLE);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if(requestCode == 225 && resultCode == RESULT_OK){
-//            int orientation = this.getResources().getConfiguration().orientation;
-//            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//            }
-//        }
-//    }
+    public static void choice_Navi(int id_case){
+        bottomNavigationView.setSelectedItemId(id_case);
+    }
 }
