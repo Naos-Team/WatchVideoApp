@@ -64,7 +64,11 @@ public class VideoDetailFragment extends Fragment {
     private void SetupView() {
 
         binding.btnBack.setOnClickListener(v->{
-            navController.navigate(R.id.DetailVideoToVideo);
+            if(getArguments().getBoolean("is_home")){
+                navController.navigate(R.id.Video_Detail_to_Home);
+            } else {
+                navController.navigate(R.id.DetailVideoToVideo);
+            }
         });
 
         Picasso.get()

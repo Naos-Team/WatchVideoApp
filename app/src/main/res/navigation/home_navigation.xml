@@ -16,6 +16,9 @@
         <action
             android:id="@+id/home_to_radioDetails"
             app:destination="@id/radioDetailsFragment2" />
+        <action
+            android:id="@+id/Home_to_Video_Detail"
+            app:destination="@id/videoDetailFragment2" />
     </fragment>
     <fragment
         android:id="@+id/tvDeltailFragment"
@@ -33,6 +36,15 @@
         tools:layout="@layout/fragment_radio_details" >
         <action
             android:id="@+id/radioDetail_to_homeFrag"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoDetailFragment2"
+        android:name="com.naosteam.watchvideoapp.fragments.VideoDetailFragment"
+        android:label="fragment_video_detail"
+        tools:layout="@layout/fragment_video_detail" >
+        <action
+            android:id="@+id/Video_Detail_to_Home"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

@@ -147,7 +147,11 @@ public class HomeFragment extends Fragment {
         featuredVideoAdapter = new FeaturedVideoAdapter(layoutParams_video_item, list_video_trending, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("video", list_video_trending.get(position));
+                bundle.putBoolean("is_home", true);
 
+                navController.navigate(R.id.Home_to_Video_Detail, bundle);
             }
         });
 
