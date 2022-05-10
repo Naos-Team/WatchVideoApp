@@ -147,12 +147,15 @@ public class TvFragment extends Fragment {
             @Override
             public void onPre() {
                 binding.prgTVFrag.setVisibility(View.VISIBLE);
+                binding.imgTempTVFragment.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onEnd(Boolean ablBoolean, ArrayList<Videos_M> list_tv_all,
                               ArrayList<Videos_M> list_tv_trending, ArrayList<Category_M> list_categList_tv) {
                 binding.prgTVFrag.setVisibility(View.GONE);
+                binding.imgTempTVFragment.setVisibility(View.GONE);
+
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(ablBoolean){

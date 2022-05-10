@@ -17,6 +17,10 @@
             android:name=".activities.UpdateProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.VideoPlayerActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection"/>
+        <activity
             android:name=".activities.ForgotPassActivity"
             android:exported="false" />
         <activity

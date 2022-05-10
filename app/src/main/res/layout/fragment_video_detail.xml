@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout9"
+            android:id="@+id/playVideo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/primaryColor"
@@ -37,7 +37,7 @@
                 tools:src="@tools:sample/avatars" />
 
             <RelativeLayout
-                android:id="@+id/relativeLayout"
+                android:id="@+id/btn_play"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/shape_btn_play_bg"
@@ -55,15 +55,15 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:src="@drawable/ic_btn_play"
-                app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_play"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
+                app:layout_constraintEnd_toEndOf="@+id/btn_play"
                 app:layout_constraintHeight_percent="0.1"
                 app:layout_constraintHorizontal_bias="0.54"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/relativeLayout"
-                app:layout_constraintTop_toTopOf="@+id/relativeLayout" />
+                app:layout_constraintStart_toStartOf="@+id/btn_play"
+                app:layout_constraintTop_toTopOf="@+id/btn_play" />
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -159,7 +159,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout9"
+            app:layout_constraintTop_toBottomOf="@+id/playVideo"
             app:layout_constraintVertical_weight="5">
 
             <TextView

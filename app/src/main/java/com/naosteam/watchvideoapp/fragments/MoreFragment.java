@@ -57,6 +57,8 @@ public class MoreFragment extends Fragment {
         if (FirebaseAuth.getInstance().getCurrentUser()==null){
             binding.tvNameUser.setText("You haven't logged in");
             binding.tvEmailUser.setText("Join us");
+            binding.imvStart.setVisibility(View.GONE);
+            binding.progressStart.setVisibility(View.GONE);
         }
         else{
             databaseReference = FirebaseDatabase.getInstance().getReference();
