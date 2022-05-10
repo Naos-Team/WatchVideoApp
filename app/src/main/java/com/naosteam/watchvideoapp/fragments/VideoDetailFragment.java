@@ -1,9 +1,13 @@
 package com.naosteam.watchvideoapp.fragments;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.media.MediaMetadataRetriever;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -15,6 +19,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.activities.MainActivity;
+import com.naosteam.watchvideoapp.activities.VideoPlayerActivity;
 import com.naosteam.watchvideoapp.databinding.FragmentVideoDetailBinding;
 import com.naosteam.watchvideoapp.listeners.CheckFavListener;
 import com.naosteam.watchvideoapp.listeners.SetFavListener;
@@ -69,6 +75,14 @@ public class VideoDetailFragment extends Fragment {
             } else {
                 navController.navigate(R.id.DetailVideoToVideo);
             }
+        });
+
+        binding.playVideo.setOnClickListener(v->{
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("video", mVideo);
+            Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, 225);
         });
 
         Picasso.get()
@@ -181,5 +195,18 @@ public class VideoDetailFragment extends Fragment {
 
         binding.progressBar.setVisibility(View.GONE);
         binding.csMain.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 225 && resultCode == -1){
+            int orientation = this.getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        }
+
     }
 }
