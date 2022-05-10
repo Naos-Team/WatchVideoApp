@@ -1,5 +1,6 @@
 package com.naosteam.watchvideoapp.fragments;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,8 +27,8 @@ public class TvDetailFragment extends Fragment {
     private FragmentTvDeltailBinding binding;
     private NavController navController;
     private SimpleExoPlayer player;
-    private long last_show_des = 0;
-    private boolean show = true;
+    private Handler handler =  new Handler(Looper.getMainLooper());
+    private Runnable runnable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,26 +37,20 @@ public class TvDetailFragment extends Fragment {
         binding = FragmentTvDeltailBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
         setUp();
-
         return rootView;
     }
 
     private void setUp(){
-        last_show_des = SystemClock.elapsedRealtime();
-        Handler handler = new Handler(Looper.getMainLooper());
-        Runnable runnable = new Runnable() {
+        runnable = new Runnable() {
             @Override
             public void run() {
-                if(show && (SystemClock.elapsedRealtime() - last_show_des > 3000)){
-                    binding.layoutInfTvDetailFrag.setVisibility(View.GONE);
-                    binding.btnOutTvDetailFrag.setVisibility(View.GONE);
-                    show = false;
-                }
-
+                binding.layoutInfTvDetailFrag.setVisibility(View.GONE);
+                binding.btnOutTvDetailFrag.setVisibility(View.GONE);
+                binding.videoTvDetailFrag.hideController();
             }
         };
         handler.removeCallbacks(runnable);
-        handler.postDelayed(runnable, 1000);
+        handler.postDelayed(runnable, 5000);
         MainActivity.hide_Navi();
         getActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -68,13 +63,23 @@ public class TvDetailFragment extends Fragment {
                 if(binding.layoutInfTvDetailFrag.getVisibility() == View.VISIBLE){
                     state = View.GONE;
                     binding.videoTvDetailFrag.showController();
-                    show = false;
                 } else {
                     state = View.VISIBLE;
                     binding.videoTvDetailFrag.hideController();
-                    binding.videoTvDetailFrag.setControllerAutoShow(false);
-                    show = true;
-                    last_show_des = SystemClock.elapsedRealtime();
+
+                    if(runnable != null){
+                        runnable = null;
+                    }
+                    runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.layoutInfTvDetailFrag.setVisibility(View.GONE);
+                            binding.btnOutTvDetailFrag.setVisibility(View.GONE);
+                            binding.videoTvDetailFrag.hideController();
+                        }
+                    };
+                    handler.removeCallbacks(runnable);
+                    handler.postDelayed(runnable, 5000);
                 }
                 binding.layoutInfTvDetailFrag.setVisibility(state);
                 binding.btnOutTvDetailFrag.setVisibility(state);

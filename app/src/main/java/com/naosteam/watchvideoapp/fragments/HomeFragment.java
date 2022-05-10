@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment {
         if(runnable != null){
             runnable = null;
         }
-        Runnable runnable = new Runnable() {
+        runnable = new Runnable() {
             @Override
             public void run() {
                 int currentPosition = binding.vpgSlideHomeFrag.getCurrentItem();
