@@ -121,35 +121,35 @@ public class SignUpActivity extends AppCompatActivity {
                                     if (task.isSuccessful()){
                                         FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
 
-                                        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
-                                            @Override
-                                            public void onStart() {
-
-                                            }
-
-                                            @Override
-                                            public void onEnd(boolean status) {
-
-                                                if(status){
-                                                    Toast.makeText(SignUpActivity.this, "Successfully. Please check your email.", Toast.LENGTH_SHORT).show();
-                                                }else{
-                                                    Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-
-                                        };
-
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                        bundle.putString("name", name);
-                                        bundle.putString("email",email);
-                                        bundle.putInt("age", age);
-                                        bundle.putString("phone", phone);
-
-                                        RequestBody requestBody = Methods.getInstance().getLoginRequestBody("METHOD_SIGNUP",bundle);
-
-                                        ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
-                                        async.execute();
+//                                        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
+//                                            @Override
+//                                            public void onStart() {
+//
+//                                            }
+//
+//                                            @Override
+//                                            public void onEnd(boolean status) {
+//
+//                                                if(status){
+//                                                    Toast.makeText(SignUpActivity.this, "Successfully. Please check your email.", Toast.LENGTH_SHORT).show();
+//                                                }else{
+//                                                    Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            }
+//
+//                                        };
+//
+//                                        Bundle bundle = new Bundle();
+//                                        bundle.putString("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                                        bundle.putString("name", name);
+//                                        bundle.putString("email",email);
+//                                        bundle.putInt("age", age);
+//                                        bundle.putString("phone", phone);
+//
+//                                        RequestBody requestBody = Methods.getInstance().getLoginRequestBody("METHOD_SIGNUP",bundle);
+//
+//                                        ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
+//                                        async.execute();
                                     }
                                 }
                             });
