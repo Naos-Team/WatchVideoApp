@@ -126,6 +126,7 @@
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
             android:hint="Password"
+            android:inputType="textPassword"
             android:textColor="@color/white"
             />
 

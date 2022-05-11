@@ -236,6 +236,13 @@ public class Methods {
                 postObj.addProperty("vid_id", bundle.getInt("vid_id"));
 
                 break;
+            case "SET_FAV_VIDEO":
+
+                postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
+                postObj.addProperty("vid_id", bundle.getInt("vid_id"));
+                postObj.addProperty("is_fav", bundle.getInt("is_fav"));
+
+                break;
         }
 
         String post_data = postObj.toString();
