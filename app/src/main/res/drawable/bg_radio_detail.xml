@@ -9,4 +9,8 @@
         android:topLeftRadius="50dp"
         android:topRightRadius="50dp"/>
 
+    <stroke
+        android:color="@color/neonGreen"
+        android:width="0.5"/>
+
 </shape>

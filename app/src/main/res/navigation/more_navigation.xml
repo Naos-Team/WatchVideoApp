@@ -16,6 +16,9 @@
         <action
             android:id="@+id/more_open_profile"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/more_to_privacy"
+            app:destination="@id/privacyFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -33,6 +36,15 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/profile_to_more"
+            app:destination="@id/moreFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.PrivacyFragment"
+        android:label="fragment_privacy"
+        tools:layout="@layout/fragment_privacy" >
+        <action
+            android:id="@+id/privacy_to_more"
             app:destination="@id/moreFragment2" />
     </fragment>
 </navigation>

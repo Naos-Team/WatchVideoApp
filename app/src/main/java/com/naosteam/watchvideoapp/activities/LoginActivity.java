@@ -98,14 +98,14 @@ public class LoginActivity extends AppCompatActivity {
         FindView();
         ViewClick();
 
-        if (mAuth.getCurrentUser()!=null){
-            if (gg_email!=null){
-                CheckUser(mAuth.getCurrentUser());
-            }
-            else{
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            }
-        }
+//        if (mAuth.getCurrentUser()!=null){
+//            if (gg_email!=null){
+//                CheckUser(mAuth.getCurrentUser());
+//            }
+//            else{
+//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//            }
+//        }
     }
 
     private void FindView(){
