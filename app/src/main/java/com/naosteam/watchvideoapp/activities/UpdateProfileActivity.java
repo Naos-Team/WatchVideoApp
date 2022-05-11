@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -43,7 +45,10 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private ActivityUpdateProfileBinding binding;
     private DatabaseReference databaseReference;
     private AwesomeValidation awesomeValidation;
+    private static GoogleSignInAccount gg_account;
     private static String gg_email;
+    private SharedPreferences sharedPreferences;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -53,11 +58,16 @@ public class UpdateProfileActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle.getString("gg_email")!=null){
-            gg_email = bundle.getString("gg_email");
-
+        mAuth = FirebaseAuth.getInstance();
+        sharedPreferences = getSharedPreferences("GoogleLogin", Context.MODE_PRIVATE);
+        String  jsonString = sharedPreferences.getString("gg_account", "");
+        if(!jsonString.isEmpty()){
+            Gson gson = new Gson();
+            gg_account= gson.fromJson(jsonString,GoogleSignInAccount.class);
+            gg_email = gg_account.getEmail();
+        }
+        else{
+            gg_account = null;
         }
 
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
