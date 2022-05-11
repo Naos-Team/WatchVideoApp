@@ -72,7 +72,9 @@ public class VideoDetailFragment extends Fragment {
         binding.btnBack.setOnClickListener(v->{
             if(getArguments().getBoolean("is_home")){
                 navController.navigate(R.id.Video_Detail_to_Home);
-            } else {
+            } else if(getArguments().getBoolean("is_favorite")) {
+                navController.navigate(R.id.video_detail_to_favorite);
+            }else{
                 navController.navigate(R.id.DetailVideoToVideo);
             }
         });

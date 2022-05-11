@@ -243,6 +243,10 @@ public class Methods {
                 postObj.addProperty("is_fav", bundle.getInt("is_fav"));
 
                 break;
+
+            case "GET_FAV_DATA":
+                postObj.addProperty("vid_type", bundle.getInt("vid_type"));
+                break;
         }
 
         String post_data = postObj.toString();

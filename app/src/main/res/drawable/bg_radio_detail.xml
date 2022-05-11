@@ -11,6 +11,6 @@
 
     <stroke
         android:color="@color/neonGreen"
-        android:width="0.5"/>
+        android:width="0.5dp"/>
 
 </shape>

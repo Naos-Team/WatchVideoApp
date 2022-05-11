@@ -28,6 +28,15 @@
         <action
             android:id="@+id/favorite_to_more"
             app:destination="@id/moreFragment2" />
+        <action
+            android:id="@+id/favorite_to_tv_detail"
+            app:destination="@id/tvDetailFragment" />
+        <action
+            android:id="@+id/favorite_to_video_detail"
+            app:destination="@id/videoDetailFragment3" />
+        <action
+            android:id="@+id/favorite_to_radio_detail"
+            app:destination="@id/radioDetailsFragment4" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -46,5 +55,32 @@
         <action
             android:id="@+id/privacy_to_more"
             app:destination="@id/moreFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoDetailFragment3"
+        android:name="com.naosteam.watchvideoapp.fragments.VideoDetailFragment"
+        android:label="fragment_video_detail"
+        tools:layout="@layout/fragment_video_detail" >
+        <action
+            android:id="@+id/video_detail_to_favorite"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tvDetailFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.TvDetailFragment"
+        android:label="fragment_tv_deltail"
+        tools:layout="@layout/fragment_tv_deltail" >
+        <action
+            android:id="@+id/tv_detail_to_favorite"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/radioDetailsFragment4"
+        android:name="com.naosteam.watchvideoapp.fragments.RadioDetailsFragment"
+        android:label="fragment_radio_details"
+        tools:layout="@layout/fragment_radio_details" >
+        <action
+            android:id="@+id/radio_detail_to_favorite"
+            app:destination="@id/favoriteFragment" />
     </fragment>
 </navigation>

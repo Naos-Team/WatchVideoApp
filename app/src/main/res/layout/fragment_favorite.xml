@@ -4,49 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FavoriteFragment">
+    tools:context=".fragments.FavoriteFragment"
+    android:background="@color/primaryColor">
 
-    <ImageView
+    <TextView
         android:id="@+id/imv_back"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/tablayout"
-        app:layout_constraintEnd_toStartOf="@+id/tv_favorite"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintDimensionRatio="1:1"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
+        android:padding="2dp"
         android:src="@drawable/nhi_back"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:text="Back"
+        android:gravity="center_vertical"
+        android:textColor="@color/neonGreen"
+        app:layout_constraintBottom_toTopOf="@+id/tablayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_favorite"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeMaxTextSize="21sp"
-        android:autoSizeMinTextSize="15sp"
-        android:autoSizeStepGranularity="2sp"
-        android:autoSizeTextType="uniform"
-        android:text="Favorite"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:layout_constraintWidth_percent="0.2"
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toTopOf="@+id/tablayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintStart_toEndOf="@+id/imv_back"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:tabSelectedTextColor="@color/neonGreen"
+        app:tabTextColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/viewpager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.1"
+        android:autoSizeMaxTextSize="30sp"
+        android:autoSizeMinTextSize="20sp"
+        android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_favorite" />
+        app:layout_constraintTop_toBottomOf="@+id/imv_back"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
@@ -55,5 +51,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tablayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tablayout"
+        tools:ignore="SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,7 +24,10 @@ import com.google.android.exoplayer2.ui.StyledPlayerControlView;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.MainActivity;
 import com.naosteam.watchvideoapp.databinding.FragmentTvDeltailBinding;
+import com.naosteam.watchvideoapp.listeners.CheckFavListener;
 import com.naosteam.watchvideoapp.listeners.OnHomeItemClickListeners;
+import com.naosteam.watchvideoapp.listeners.SetFavListener;
+import com.naosteam.watchvideoapp.utils.Methods;
 import com.squareup.picasso.Picasso;
 
 public class TvDetailFragment extends Fragment {
@@ -32,6 +35,9 @@ public class TvDetailFragment extends Fragment {
     private FragmentTvDeltailBinding binding;
     private NavController navController;
     private ExoPlayer player;
+    private Boolean mIsFav = false;
+    private int id;
+    Bundle bundle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,7 +45,18 @@ public class TvDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentTvDeltailBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
-        setUp();
+        bundle = getArguments();
+        id = bundle.getInt("id");
+        Methods.getInstance().checkVideoFav(getContext(), id, new CheckFavListener() {
+            @Override
+            public void onComplete(boolean isSuccess, boolean isFav) {
+                if(isSuccess){
+                    mIsFav = isFav;
+                }
+                setUp();
+            }
+        });
+
         return rootView;
     }
 
@@ -72,7 +89,9 @@ public class TvDetailFragment extends Fragment {
             }
         });
 
-        Bundle bundle = getArguments();
+
+
+
 
         Picasso.get().load(bundle.getString("url_img")).into(binding.imgTvDetailFrag);
         binding.txtTvDetailFrag.setText(bundle.getString("des"));
@@ -89,10 +108,12 @@ public class TvDetailFragment extends Fragment {
             public void onClick(View v) {
                 if(bundle.getBoolean("isHome")){
                     navController.navigate(R.id.TVDetail_to_HomeFrag);
-                } else {
-                    navController.navigate(R.id.fromDetailtoTVFrag);
-
+                } if(bundle.getBoolean("isFavorite")) {
+                    navController.navigate(R.id.tv_detail_to_favorite);
                 }
+                else{
+
+                }navController.navigate(R.id.fromDetailtoTVFrag);
             }
         });
 
@@ -137,6 +158,40 @@ public class TvDetailFragment extends Fragment {
         player.setMediaItem(mediaItem);
         player.prepare();
         player.play();
+
+        if(mIsFav){
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_check)
+                    .into(binding.imgLikeTvdetailFrag);
+        }else{
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_uncheckpng)
+                    .into(binding.imgLikeTvdetailFrag);
+        }
+
+
+        binding.imgLikeTvdetailFrag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Methods.getInstance().setFavState(getContext(), id, !mIsFav, new SetFavListener() {
+                    @Override
+                    public void onComplete(boolean isSuccess) {
+                        if(isSuccess){
+                            mIsFav = !mIsFav;
+                            if(mIsFav){
+                                Picasso.get()
+                                        .load(R.drawable.ic_heart4_check)
+                                        .into(binding.imgLikeTvdetailFrag);
+                            }else{
+                                Picasso.get()
+                                        .load(R.drawable.ic_heart4_uncheckpng)
+                                        .into(binding.imgLikeTvdetailFrag);
+                            }
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override

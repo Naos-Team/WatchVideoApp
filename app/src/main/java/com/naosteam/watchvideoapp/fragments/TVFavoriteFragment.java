@@ -2,65 +2,106 @@ package com.naosteam.watchvideoapp.fragments;
 
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.adapters.RadioItemAdapter;
+import com.naosteam.watchvideoapp.adapters.TVFragmentAdapter;
+import com.naosteam.watchvideoapp.asynctasks.LoadFavoriteListAsync;
+import com.naosteam.watchvideoapp.databinding.FragmentRadioFavoriteBinding;
+import com.naosteam.watchvideoapp.databinding.FragmentTVFavoriteBinding;
+import com.naosteam.watchvideoapp.listeners.LoadSearchVideoAsyncListener;
+import com.naosteam.watchvideoapp.listeners.OnHomeItemClickListeners;
+import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
+import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.Constant;
+import com.naosteam.watchvideoapp.utils.Methods;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TVFavoriteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
+import okhttp3.RequestBody;
+
 public class TVFavoriteFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public TVFavoriteFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TVFavoriteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TVFavoriteFragment newInstance(String param1, String param2) {
-        TVFavoriteFragment fragment = new TVFavoriteFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    private View rootView;
+    private FragmentTVFavoriteBinding binding;
+    private ArrayList<Videos_M> arrayList_fav;
+    private TVFragmentAdapter tvFragmentAdapter;
+    private NavController navController;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_t_v_favorite, container, false);
+        binding = FragmentTVFavoriteBinding.inflate(inflater, container, false);
+        rootView = binding.getRoot();
+
+        arrayList_fav = new ArrayList<Videos_M>();
+        navController = NavHostFragment.findNavController(this);
+
+        LoadData();
+
+        return rootView;
+    }
+
+    private void LoadData(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("vid_type",2);
+        RequestBody requestBody = Methods.getInstance().getVideoRequestBody("GET_FAV_DATA", bundle);
+        LoadSearchVideoAsyncListener listener = new LoadSearchVideoAsyncListener() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onEnd(boolean status, ArrayList<Videos_M> arrayList_fav) {
+                if(getContext() != null){
+                    if(Methods.getInstance().isNetworkConnected(getContext())){
+                        if(status){
+                            arrayList_fav.addAll(arrayList_fav);
+                            updateUI();
+                        }else{
+                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        };
+        LoadFavoriteListAsync async = new LoadFavoriteListAsync(requestBody, listener, Methods.getInstance());
+        async.execute();
+
+    }
+
+    private void updateUI() {
+        binding.recyclerFavTv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+
+        int width = getContext().getResources().getDisplayMetrics().widthPixels;
+        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams((int) Math.round(width), (int) Math.round(width * 0.17));
+        layoutParams.setMargins(0, 20, 0, 20);
+
+        tvFragmentAdapter = new TVFragmentAdapter(arrayList_fav, layoutParams, new OnHomeItemClickListeners() {
+            @Override
+            public void onClick_homeItem(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("url", arrayList_fav.get(position).getVid_url());
+                bundle.putString("url_img", arrayList_fav.get(position).getVid_thumbnail());
+                bundle.putString("des", arrayList_fav.get(position).getVid_description());
+                bundle.putBoolean("isFavorite", true);
+                navController.navigate(R.id.favorite_to_tv_detail, bundle);
+            }
+        });
+
+
+        binding.recyclerFavTv.setAdapter(tvFragmentAdapter);
+
     }
 }
