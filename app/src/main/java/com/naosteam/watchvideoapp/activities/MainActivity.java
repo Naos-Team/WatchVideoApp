@@ -41,10 +41,11 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
+        PlayerRadio.setContext(MainActivity.this);
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
-                if(navDestination.getId() == R.id.baseRadioFragment){
+                if(navDestination.getId() != R.id.baseRadioFragment){
                     PlayerRadio playerRadio = PlayerRadio.getInstance(new OnUpdateViewRadioPlayListener() {
                         @Override
                         public void onBuffering() {
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        PlayerRadio.setContext(MainActivity.this);
     }
 
 
