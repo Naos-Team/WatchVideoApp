@@ -14,6 +14,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.asynctasks.LoadRadioAsync;
@@ -32,15 +34,14 @@ import okhttp3.RequestBody;
 
 public class RadioDetailsFragment extends Fragment {
 
-    ImageView imv_radio, fav_radio, btn_next, btn_back, btn_back_radio_frag, btn_play;
-    TextView tv_radio, tv_start_du, tv_end_du;
-    SeekBar seekbar;
+
     private View rootView;
     private NavController navController;
     private TextView tv_cat_name;
     private RoundedImageView imv_cat;
     private FragmentRadioDetailsBinding binding;
     private Videos_M radio;
+    private ExoPlayer player;
 
 
     @Override
@@ -55,13 +56,31 @@ public class RadioDetailsFragment extends Fragment {
     }
 
     private void LoadData(){
+        player = RadioFragment.getPlayer();
         radio = Constant.Radio_Listening;//(Videos_M) getArguments().getSerializable("radio");
+
         Picasso.get().load(radio.getVid_thumbnail()).into(binding.imvRadio);
         binding.tvRadioName.setText(radio.getVid_title());
 
         binding.radioDetailFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            }
+        });
+
+        binding.seekbarDuration.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                player.seekTo(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
         });
@@ -69,21 +88,27 @@ public class RadioDetailsFragment extends Fragment {
         binding.imvNextRadio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RadioFragment.nextSong();
             }
         });
 
         binding.imvBackRadio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RadioFragment.previousSong();
             }
         });
 
         binding.imvPlayRadio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(player.isPlaying()){
+                    player.pause();
+                    binding.imvPlayRadio.setImageResource(R.drawable.ic_btn_play);
+                } else {
+                    player.play();
+                    binding.imvPlayRadio.setImageResource(R.drawable.ic_pause_radio);
+                }
             }
         });
 

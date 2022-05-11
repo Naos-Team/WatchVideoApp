@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.adapters.RadioCategoryAdapter;
 import com.naosteam.watchvideoapp.adapters.RadioItemAdapter;
@@ -40,12 +42,49 @@ public class RadioFragment extends Fragment {
 
     private View rootView;
     private NavController navController;
-    private TextView tv_video;
     private FragmentRadioBinding binding;
-    private ArrayList<Videos_M> mTrendings;
+    private static ArrayList<Videos_M> mTrendings;
     private ArrayList<Category_M> mCats;
     private RadioCategoryAdapter categoryAdapter;
+    private static ExoPlayer player;
+    private static int index_selected = -1;
+    private static MediaItem mediaItem;
 
+    public static void nextSong(){
+        if(index_selected == mTrendings.size() - 1){
+            Constant.Radio_Listening = mTrendings.get(0);
+        } else {
+            Constant.Radio_Listening = mTrendings.get(index_selected + 1);
+        }
+        playSong();
+    }
+
+    public static void previousSong(){
+        if(index_selected == 0){
+            Constant.Radio_Listening = mTrendings.get(mTrendings.size() - 1);
+        } else {
+            Constant.Radio_Listening = mTrendings.get(index_selected - 1);
+        }
+        playSong();
+    }
+
+    public static void playSong(){
+        if(player.isPlaying()){
+            player.stop();
+        }
+        mediaItem = MediaItem.fromUri(Constant.Radio_Listening.getVid_url());
+        player.setMediaItem(mediaItem);
+        player.prepare();
+        player.play();
+    }
+
+    public static ExoPlayer getPlayer() {
+        return player;
+    }
+
+    public static void setPlayer(ExoPlayer player) {
+        RadioFragment.player = player;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +96,7 @@ public class RadioFragment extends Fragment {
 
         mTrendings = new ArrayList<>();
         mCats = new ArrayList<>();
-
+        player = new ExoPlayer.Builder(getContext()).build();
         LoadData();
 
         if(Constant.Radio_Listening.getCat_id()==-1){
@@ -135,9 +174,11 @@ public class RadioFragment extends Fragment {
 
         binding.rclRadioTrending.setAdapter(new RadioItemAdapter(layoutParams1, mTrendings, new OnRadioClickListeners() {
             @Override
-            public void onClick(Videos_M radio) {
-
-                Constant.Radio_Listening = radio;
+            public void onClick(int position) {
+                index_selected = position;
+                Constant.Radio_Listening = mTrendings.get(position);
+                mediaItem = MediaItem.fromUri(Constant.Radio_Listening.getVid_url());
+                playSong();
                 binding.tvRadioListeningName.setText(Constant.Radio_Listening.getVid_title());
                 Picasso.get().load(Constant.Radio_Listening.getVid_thumbnail()).into(binding.imvRadioListening);
             }

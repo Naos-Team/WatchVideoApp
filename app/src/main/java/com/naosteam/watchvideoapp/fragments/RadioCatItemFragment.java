@@ -131,9 +131,9 @@ public class RadioCatItemFragment extends Fragment {
 
         radioItemAdapter = new RadioItemAdapter(layoutParams, mRadios, new OnRadioClickListeners() {
             @Override
-            public void onClick(Videos_M radio) {
+            public void onClick(int position) {
 
-                Constant.Radio_Listening = radio;
+                Constant.Radio_Listening = mRadios.get(position);
                 binding.tvRadioListeningName.setText(Constant.Radio_Listening.getVid_title());
                 Picasso.get().load(Constant.Radio_Listening.getVid_thumbnail()).into(binding.imvRadioListening);
             }

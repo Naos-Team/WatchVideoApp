@@ -10,10 +10,12 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +32,10 @@ public class VideoPlayerActivity extends AppCompatActivity {
     private ActivityVideoPlayerBinding binding;
     private ExoPlayer player;
     private NavController navController;
-    private ImageView btn_ffwd, btn_rew, btn_back;
+    private ImageView btn_ffwd, btn_rew, btn_back, btn_speed, btn_rotate;
     private TextView tv_title;
     private Videos_M mVideo;
-    private ConstraintLayout main_cs, cs_toolbar;
+    private ConstraintLayout main_cs, cs_toolbar, cs_shadow_up, cs_shadow_down, cs_control, cs_progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,12 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         mVideo = (Videos_M) getIntent().getExtras().getSerializable("video");
 
+        btn_rotate = findViewById(R.id.btn_rotate);
+        btn_speed = findViewById(R.id.btn_speed);
+        cs_progress = findViewById(R.id.cs_progress);
+        cs_control = findViewById(R.id.cs_control);
+        cs_shadow_up = findViewById(R.id.cs_shadow_up);
+        cs_shadow_down = findViewById(R.id.cs_shadow_down);
         main_cs = findViewById(R.id.main_cs);
         cs_toolbar = findViewById(R.id.cs_toolbar);
         btn_ffwd = findViewById(R.id.btn_ffwd);
@@ -53,6 +61,14 @@ public class VideoPlayerActivity extends AppCompatActivity {
         btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(v->{
             onBackPressed();
+        });
+        btn_rotate.setOnClickListener(v->{
+            int orientation = this.getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }else{
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
         });
 
         tv_title.setText(mVideo.getVid_title());
@@ -78,6 +94,10 @@ public class VideoPlayerActivity extends AppCompatActivity {
         btn_rew.setOnClickListener(v->{
             player.seekTo(player.getCurrentPosition() - 10000);
         });
+
+        btn_speed.setOnClickListener(v->{
+            openSpeedSelection();
+        });
     }
 
     private void playError() {
@@ -89,6 +109,54 @@ public class VideoPlayerActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void openSpeedSelection(){
+
+        PopupMenu menu = new PopupMenu(this, btn_speed);
+
+        menu.inflate(R.menu.menu_speed);
+
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+
+                switch (id) {
+                    case R.id.menu_speed_x0_5:
+                        player.setPlaybackSpeed(0.5f);
+                        Toast.makeText(VideoPlayerActivity.this, "x0.25 speed", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menu_speed_x0_75:
+                        player.setPlaybackSpeed(0.75f);
+                        Toast.makeText(VideoPlayerActivity.this, "x0.75 speed", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menu_speed_x1:
+                        player.setPlaybackSpeed(1f);
+                        Toast.makeText(VideoPlayerActivity.this, "Standard speed", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menu_speed_x1_25:
+                        player.setPlaybackSpeed(1.25f);
+                        Toast.makeText(VideoPlayerActivity.this, "x1.25 speed", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menu_speed_x1_5:
+                        player.setPlaybackSpeed(1.5f);
+                        Toast.makeText(VideoPlayerActivity.this, "x1.5 speed", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menu_speed_x1_75:
+                        player.setPlaybackSpeed(1.75f);
+                        Toast.makeText(VideoPlayerActivity.this, "x1.75 speed", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menu_speed_x2:
+                        player.setPlaybackSpeed(2f);
+                        Toast.makeText(VideoPlayerActivity.this, "x2 speed", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        menu.show();
     }
 
     @Override
@@ -140,11 +208,17 @@ public class VideoPlayerActivity extends AppCompatActivity {
         cs.clone(main_cs);
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
             cs.constrainPercentHeight(cs_toolbar.getId(), 0.1f);
+            cs.constrainPercentHeight(cs_shadow_up.getId(), 0.35f);
+            cs.constrainPercentHeight(cs_shadow_down.getId(), 0.4f);
+            cs.constrainPercentHeight(cs_control.getId(), 0.1f);
+            cs.constrainPercentHeight(cs_progress.getId(), 0.1f);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             cs.constrainPercentHeight(cs_toolbar.getId(), 0.05f);
-
+            cs.constrainPercentHeight(cs_shadow_up.getId(), 0.13f);
+            cs.constrainPercentHeight(cs_shadow_down.getId(), 0.18f);
+            cs.constrainPercentHeight(cs_control.getId(), 0.05f);
+            cs.constrainPercentHeight(cs_progress.getId(), 0.05f);
         }
 
         cs.applyTo(main_cs);

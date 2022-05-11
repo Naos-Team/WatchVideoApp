@@ -6,17 +6,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cs_shadow_up"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_video_player_shadow_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.13"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout12"
+        android:id="@+id/cs_shadow_down"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_video_player_shadow_down"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.18"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cs_control"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95">
+        app:layout_constraintVertical_bias="0.96">
+
+        <ImageView
+            android:id="@+id/btn_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_play_speed"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_rew"
+            app:layout_constraintHeight_percent="0.7"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/btn_rew"
@@ -24,10 +62,12 @@
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:src="@drawable/ic__rewind_10"
+            android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/exo_play"
+            app:layout_constraintHeight_percent="0.7"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_speed"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -36,6 +76,7 @@
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:src="@drawable/ic_exo_play"
+            android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/exo_pause"
             app:layout_constraintHorizontal_bias="0.5"
@@ -48,8 +89,10 @@
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:src="@drawable/ic__forward_10"
+            android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_rotate"
+            app:layout_constraintHeight_percent="0.7"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/exo_pause"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,20 +103,35 @@
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:src="@drawable/ic_exo_pause"
+            android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_ffwd"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/exo_play"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btn_rotate"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_rotate"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.55"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_ffwd"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/progress"
+        android:id="@+id/cs_progress"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout12"
+        app:layout_constraintBottom_toTopOf="@+id/cs_control"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
@@ -82,6 +140,7 @@
             android:id="@+id/exo_position"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:textColor="@color/white"
             android:autoSizeMaxTextSize="100sp"
             android:autoSizeMinTextSize="5sp"
             android:autoSizeStepGranularity="2sp"
@@ -91,7 +150,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintHorizontal_bias="0.01"
+            app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
@@ -101,6 +160,7 @@
             android:id="@+id/exo_duration"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:textColor="@color/white"
             android:autoSizeMaxTextSize="100sp"
             android:autoSizeMinTextSize="5sp"
             android:autoSizeStepGranularity="2sp"
@@ -110,7 +170,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintHorizontal_bias="0.99"
+            app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.1" />
@@ -149,6 +209,7 @@
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:text="Video title"
+            android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -203,9 +203,9 @@ public class HomeFragment extends Fragment {
 
         radioItemAdapter = new RadioItemAdapter(layoutParams_radio, list_radio_trending, new OnRadioClickListeners() {
             @Override
-            public void onClick(Videos_M radio) {
+            public void onClick(int position) {
                 Bundle bundle = new Bundle();
-                Constant.Radio_Listening = radio;
+                Constant.Radio_Listening = list_radio_trending.get(position);
                 bundle.putString("from", "from_home_screen");
                 navController.navigate(R.id.home_to_radioDetails, bundle);
             }
