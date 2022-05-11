@@ -84,14 +84,20 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     private void playVideo() {
+
+        String video_url = Constant.SERVER_URL + "video/" + mVideo.getVid_url();
+
         player = new ExoPlayer.Builder(this).build();
         binding.playerView.setPlayer(player);
-        MediaItem mediaItem = MediaItem.fromUri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
+
+        MediaItem mediaItem = MediaItem.fromUri(video_url);
+        //MediaItem mediaItem = MediaItem.fromUri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
         player.addMediaItem(mediaItem);
         player.prepare();
-        player.setPlayWhenReady(true);
 
         playListener();
+
+        player.setPlayWhenReady(true);
 
         btn_ffwd.setOnClickListener(v->{
             player.seekTo(player.getCurrentPosition() + 10000);

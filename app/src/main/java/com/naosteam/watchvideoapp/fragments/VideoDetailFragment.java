@@ -3,11 +3,14 @@ package com.naosteam.watchvideoapp.fragments;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.media.MediaMetadataRetriever;
-import android.os.AsyncTask;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -15,24 +18,27 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.naosteam.watchvideoapp.R;
-import com.naosteam.watchvideoapp.activities.MainActivity;
 import com.naosteam.watchvideoapp.activities.VideoPlayerActivity;
 import com.naosteam.watchvideoapp.databinding.FragmentVideoDetailBinding;
 import com.naosteam.watchvideoapp.listeners.CheckFavListener;
+import com.naosteam.watchvideoapp.listeners.CheckRatingListener;
 import com.naosteam.watchvideoapp.listeners.SetFavListener;
+import com.naosteam.watchvideoapp.listeners.SetRatingListener;
+import com.naosteam.watchvideoapp.models.Rating_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
-import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
-import wseemann.media.FFmpegMediaMetadataRetriever;
 
 
 public class VideoDetailFragment extends Fragment {
@@ -74,6 +80,14 @@ public class VideoDetailFragment extends Fragment {
                 navController.navigate(R.id.Video_Detail_to_Home);
             } else {
                 navController.navigate(R.id.DetailVideoToVideo);
+            }
+        });
+
+        binding.ivStar.setOnClickListener(v->{
+            if(FirebaseAuth.getInstance().getCurrentUser() != null){
+                showRatingDialog();
+            }else{
+                Toast.makeText(getContext(), "Please login first to rate this video!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -187,6 +201,8 @@ public class VideoDetailFragment extends Fragment {
                                         .load(R.drawable.ic_heart4_uncheckpng)
                                         .into(binding.ivHeart);
                             }
+                        }else{
+                            Toast.makeText(getContext(), "Something went wrong. Try again!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -196,6 +212,81 @@ public class VideoDetailFragment extends Fragment {
         binding.progressBar.setVisibility(View.GONE);
         binding.csMain.setVisibility(View.VISIBLE);
     }
+
+    private void showRatingDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view1 = LayoutInflater.from(getContext()).inflate(R.layout.dialog_rating_layout, null,false);
+        builder.setView(view1);
+        builder.setCancelable(false);
+
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ProgressBar progressBar = view1.findViewById(R.id.progressBar);
+        ConstraintLayout cs_main = view1.findViewById(R.id.cs_main);
+        RatingBar ratingBar = view1.findViewById(R.id.ratingBar);
+        Button btn_submit = view1.findViewById(R.id.btn_submit);
+        Button btn_cancel = view1.findViewById(R.id.btn_cancel);
+        TextView tv_dialog_alert = view1.findViewById(R.id.tv_dialog_alert);
+
+        btn_cancel.setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
+
+        btn_submit.setOnClickListener(v ->{
+            if(Methods.getInstance().isNetworkConnected(getContext())){
+                if(ratingBar.getRating() > 0){
+                    progressBar.setVisibility(View.VISIBLE);
+                    cs_main.setVisibility(View.GONE);
+                    Methods.getInstance().setRating(getContext(), mVideo.getVid_id(), ratingBar.getRating(), new SetRatingListener(){
+                        @Override
+                        public void onComplete(boolean isSuccess, float returnRate) {
+                            if(isSuccess){
+                                binding.tvRate.setText(""+returnRate);
+                                Toast.makeText(getContext(), "Rating successfully!", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                            }
+                            progressBar.setVisibility(View.GONE);
+                            cs_main.setVisibility(View.VISIBLE);
+                            alertDialog.dismiss();
+                        }
+                    });
+                }else{
+                    Toast.makeText(getContext(), "You must rate as least one star!", Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                Toast.makeText(getContext(), "Please check internet connection!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        progressBar.setVisibility(View.VISIBLE);
+        cs_main.setVisibility(View.GONE);
+
+        Methods.getInstance().checkRating(getContext(), mVideo.getVid_id(), new CheckRatingListener() {
+            @Override
+            public void onComplete(boolean isSuccess, double rate) {
+                if(isSuccess){
+                    if(rate == 0){
+                        tv_dialog_alert.setText("Is this video awesome?");
+                        btn_submit.setText("submit");
+                    }else{
+                        tv_dialog_alert.setText("You have already rated it \nRate it again!");
+                        btn_submit.setText("resubmit");
+                    }
+                }else{
+                    Toast.makeText(getContext(), "Error when check your rating!", Toast.LENGTH_SHORT).show();
+                }
+                ratingBar.setRating((float) rate);
+                progressBar.setVisibility(View.GONE);
+                cs_main.setVisibility(View.VISIBLE);
+            }
+        });
+
+        alertDialog.show();
+
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

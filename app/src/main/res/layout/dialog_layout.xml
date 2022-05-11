@@ -51,7 +51,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_next_gg"
+            android:id="@+id/btn_submit"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="20sp"
@@ -77,7 +77,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="35:13"
             app:layout_constraintHeight_percent="0.15"
-            app:layout_constraintStart_toEndOf="@id/btn_next_gg"
+            app:layout_constraintStart_toEndOf="@id/btn_submit"
             app:layout_constraintTop_toBottomOf="@id/tv_dialog_alert"
             android:autoSizeMaxTextSize="20sp"
             android:autoSizeMinTextSize="10sp"
