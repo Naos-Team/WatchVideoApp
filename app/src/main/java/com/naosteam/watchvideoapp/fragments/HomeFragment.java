@@ -27,6 +27,7 @@ import com.naosteam.watchvideoapp.asynctasks.LoadRadioAsync;
 import com.naosteam.watchvideoapp.asynctasks.LoadTVAsync;
 import com.naosteam.watchvideoapp.asynctasks.LoadVideoAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentHomeBinding;
+import com.naosteam.watchvideoapp.listeners.ControlRadioListener;
 import com.naosteam.watchvideoapp.listeners.LoadRadioAsyncListener;
 import com.naosteam.watchvideoapp.listeners.LoadTVAsyncListener;
 import com.naosteam.watchvideoapp.listeners.LoadVideoAsyncListener;
@@ -46,7 +47,9 @@ import okhttp3.RequestBody;
 public class HomeFragment extends Fragment {
     private NavController navController;
     private ArrayList<Category_M> list_cat_Video;
-    private ArrayList<Videos_M> list_video_trending, list_TV_trending, list_radio_trending;
+    private ArrayList<Videos_M> list_video_trending, list_TV_trending;
+    private static ArrayList<Videos_M> list_radio_trending;
+    private static int index_selected_radio = -1;
     private FragmentHomeBinding binding;
     private SlideShowHomeFragAdapter slideShowHomeFragAdapter;
     private FeaturedVideoAdapter featuredVideoAdapter;
@@ -196,7 +199,9 @@ public class HomeFragment extends Fragment {
         binding.rcvTrendTVHomeFrag.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         binding.rcvTrendTVHomeFrag.setAdapter(tvFragmentAdapter);
 
-        list_radio_trending = new ArrayList<>();
+        if(list_radio_trending == null) {
+            list_radio_trending = new ArrayList<>();
+        }
         ConstraintLayout.LayoutParams layoutParams_radio = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 getActivity().getResources().getDisplayMetrics().heightPixels*1/10);
         layoutParams_radio.setMargins(5, 10, 5, 10);
@@ -205,7 +210,29 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(int position) {
                 Bundle bundle = new Bundle();
-                Constant.Radio_Listening = list_radio_trending.get(position);
+                index_selected_radio = position;
+                Constant.Radio_Listening = list_radio_trending.get(index_selected_radio);
+                bundle.putSerializable("listener", new ControlRadioListener() {
+                    @Override
+                    public void onNext() {
+                        if(index_selected_radio == list_radio_trending.size() - 1){
+                            index_selected_radio = 0;
+                        } else {
+                            index_selected_radio = index_selected_radio + 1;
+                        }
+                        Constant.Radio_Listening = list_radio_trending.get(index_selected_radio);
+                    }
+
+                    @Override
+                    public void onPrevious() {
+                        if(index_selected_radio == 0 || index_selected_radio == -1){
+                            index_selected_radio = list_radio_trending.size() - 1;
+                        } else {
+                            index_selected_radio = index_selected_radio - 1;
+                        }
+                        Constant.Radio_Listening = list_radio_trending.get(index_selected_radio);
+                    }
+                });
                 bundle.putString("from", "from_home_screen");
                 navController.navigate(R.id.home_to_radioDetails, bundle);
             }
@@ -295,6 +322,7 @@ public class HomeFragment extends Fragment {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
+                            list_radio_trending.clear();
                             for(int i = 0; i < 5; ++i){
                                 list_radio_trending.add(arrayList_trending.get(i));
                                 if(i > arrayList_trending.size()){

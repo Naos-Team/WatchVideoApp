@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -21,6 +22,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.listeners.OnUpdateViewRadioPlayListener;
+import com.naosteam.watchvideoapp.utils.PlayerRadio;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,9 +40,37 @@ public class MainActivity extends AppCompatActivity {
 
         navController = navHostFragment.getNavController();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
+                if(navDestination.getId() == R.id.baseRadioFragment){
+                    PlayerRadio playerRadio = PlayerRadio.getInstance(new OnUpdateViewRadioPlayListener() {
+                        @Override
+                        public void onBuffering() {
+
+                        }
+
+                        @Override
+                        public void onReady() {
+
+                        }
+
+                        @Override
+                        public void onEnd() {
+
+                        }
+                    });
+                    if(playerRadio.checkPlay()){
+                        playerRadio.pauseRadio();
+                    }
+                }
+            }
+        });
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        PlayerRadio.setContext(MainActivity.this);
     }
+
 
     public static void hide_Navi(){
         bottomNavigationView.setVisibility(View.GONE);

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -17,21 +16,21 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.MediaItem;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.adapters.RadioCategoryAdapter;
 import com.naosteam.watchvideoapp.adapters.RadioItemAdapter;
-import com.naosteam.watchvideoapp.adapters.TVFragmentAdapter;
 import com.naosteam.watchvideoapp.asynctasks.LoadRadioAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentRadioBinding;
+import com.naosteam.watchvideoapp.listeners.ControlRadioListener;
 import com.naosteam.watchvideoapp.listeners.LoadRadioAsyncListener;
 import com.naosteam.watchvideoapp.listeners.OnRadioCatClickListeners;
 import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
+import com.naosteam.watchvideoapp.listeners.OnUpdateViewRadioPlayListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
+import com.naosteam.watchvideoapp.utils.PlayerRadio;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,44 +45,25 @@ public class RadioFragment extends Fragment {
     private static ArrayList<Videos_M> mTrendings;
     private ArrayList<Category_M> mCats;
     private RadioCategoryAdapter categoryAdapter;
-    private static ExoPlayer player;
+    private PlayerRadio playerRadio;
     private static int index_selected = -1;
-    private static MediaItem mediaItem;
 
-    public static void nextSong(){
+    public void nextRadio(){
         if(index_selected == mTrendings.size() - 1){
-            Constant.Radio_Listening = mTrendings.get(0);
+            index_selected = 0;
         } else {
-            Constant.Radio_Listening = mTrendings.get(index_selected + 1);
+            index_selected = index_selected + 1;
         }
-        playSong();
+        Constant.Radio_Listening = mTrendings.get(index_selected);
     }
 
-    public static void previousSong(){
-        if(index_selected == 0){
-            Constant.Radio_Listening = mTrendings.get(mTrendings.size() - 1);
+    public void previousRadio(){
+        if(index_selected == 0 || index_selected == -1){
+            index_selected = mTrendings.size() - 1;
         } else {
-            Constant.Radio_Listening = mTrendings.get(index_selected - 1);
+            index_selected = index_selected - 1;
         }
-        playSong();
-    }
-
-    public static void playSong(){
-        if(player.isPlaying()){
-            player.stop();
-        }
-        mediaItem = MediaItem.fromUri(Constant.Radio_Listening.getVid_url());
-        player.setMediaItem(mediaItem);
-        player.prepare();
-        player.play();
-    }
-
-    public static ExoPlayer getPlayer() {
-        return player;
-    }
-
-    public static void setPlayer(ExoPlayer player) {
-        RadioFragment.player = player;
+        Constant.Radio_Listening = mTrendings.get(index_selected);
     }
 
     @Override
@@ -94,9 +74,41 @@ public class RadioFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
         categoryAdapter = null;
 
-        mTrendings = new ArrayList<>();
+        if(mTrendings == null){
+            mTrendings = new ArrayList<>();
+        }
         mCats = new ArrayList<>();
-        player = new ExoPlayer.Builder(getContext()).build();
+
+        playerRadio = PlayerRadio.getInstance(new OnUpdateViewRadioPlayListener() {
+            @Override
+            public void onBuffering() {
+                binding.prgRadioLoadRadioDetailFrag.setVisibility(View.VISIBLE);
+                binding.itemRadioListening.setClickable(false);
+                binding.imvPlayListening.setClickable(false);
+                binding.imvPlayListening.setImageResource(R.drawable.ic_play_radio);
+            }
+
+            @Override
+            public void onReady() {
+                binding.prgRadioLoadRadioDetailFrag.setVisibility(View.GONE);
+                binding.itemRadioListening.setClickable(true);
+                binding.imvPlayListening.setClickable(true);
+                binding.imvPlayListening.setImageResource(R.drawable.ic_pause_radio);
+            }
+
+            @Override
+            public void onEnd() {
+                nextRadio();
+                binding.tvRadioListeningName.setText(Constant.Radio_Listening.getVid_title());
+                Picasso.get().load(Constant.Radio_Listening.getVid_thumbnail()).into(binding.imvRadioListening);
+                playerRadio.startRadio();
+            }
+        });
+
+        int img_play_btn = (playerRadio.checkPlay()) ? R.drawable.ic_pause_radio :
+                R.drawable.ic_play_radio;
+        binding.imvPlayListening.setImageResource(img_play_btn);
+
         LoadData();
 
         if(Constant.Radio_Listening.getCat_id()==-1){
@@ -128,6 +140,7 @@ public class RadioFragment extends Fragment {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
+                            mTrendings.clear();
                             mTrendings.addAll(arrayList_trending);
                             mCats.addAll(arrayList_category);
 
@@ -177,8 +190,7 @@ public class RadioFragment extends Fragment {
             public void onClick(int position) {
                 index_selected = position;
                 Constant.Radio_Listening = mTrendings.get(position);
-                mediaItem = MediaItem.fromUri(Constant.Radio_Listening.getVid_url());
-                playSong();
+                playerRadio.startRadio();
                 binding.tvRadioListeningName.setText(Constant.Radio_Listening.getVid_title());
                 Picasso.get().load(Constant.Radio_Listening.getVid_thumbnail()).into(binding.imvRadioListening);
             }
@@ -190,7 +202,17 @@ public class RadioFragment extends Fragment {
                 if(Constant.Radio_Listening.getCat_id()!=-1)
                 {
                     Bundle bundle = new Bundle();
-                    //bundle.putSerializable("radio", Constant.Radio_Listening);
+                    bundle.putSerializable("listener", new ControlRadioListener() {
+                        @Override
+                        public void onNext() {
+                            nextRadio();
+                        }
+
+                        @Override
+                        public void onPrevious() {
+                            previousRadio();
+                        }
+                    });
                     bundle.putString("from","from_radio_screen");
                     navController.navigate(R.id.radio_screen_to_radio_detail, bundle);
                 }
@@ -201,6 +223,41 @@ public class RadioFragment extends Fragment {
             }
         });
 
+        binding.imvPlayListening.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Constant.Radio_Listening.getVid_id() == -1){
+                    return;
+                }
+                if(playerRadio.checkPlay()){
+                    binding.imvPlayListening.setImageResource(R.drawable.ic_play_radio);
+                    playerRadio.pauseRadio();
+                } else {
+                    binding.imvPlayListening.setImageResource(R.drawable.ic_pause_radio);
+                    playerRadio.playRadio();
+                }
+            }
+        });
+
+        binding.imvNextListening.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextRadio();
+                playerRadio.startRadio();
+                binding.tvRadioListeningName.setText(Constant.Radio_Listening.getVid_title());
+                Picasso.get().load(Constant.Radio_Listening.getVid_thumbnail()).into(binding.imvRadioListening);
+            }
+        });
+
+        binding.imvBackListening.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                previousRadio();
+                playerRadio.startRadio();
+                binding.tvRadioListeningName.setText(Constant.Radio_Listening.getVid_title());
+                Picasso.get().load(Constant.Radio_Listening.getVid_thumbnail()).into(binding.imvRadioListening);
+            }
+        });
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
