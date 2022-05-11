@@ -10,22 +10,26 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.databinding.ActivityVideoPlayerBinding;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.Constant;
 
 public class VideoPlayerActivity extends AppCompatActivity {
 
@@ -36,6 +40,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
     private TextView tv_title;
     private Videos_M mVideo;
     private ConstraintLayout main_cs, cs_toolbar, cs_shadow_up, cs_shadow_down, cs_control, cs_progress;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         mVideo = (Videos_M) getIntent().getExtras().getSerializable("video");
 
+        progressBar = findViewById(R.id.progressBar);
         btn_rotate = findViewById(R.id.btn_rotate);
         btn_speed = findViewById(R.id.btn_speed);
         cs_progress = findViewById(R.id.cs_progress);
@@ -85,7 +91,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         player.prepare();
         player.setPlayWhenReady(true);
 
-        playError();
+        playListener();
 
         btn_ffwd.setOnClickListener(v->{
             player.seekTo(player.getCurrentPosition() + 10000);
@@ -100,12 +106,26 @@ public class VideoPlayerActivity extends AppCompatActivity {
         });
     }
 
-    private void playError() {
+    private void playListener() {
         player.addAnalyticsListener(new AnalyticsListener() {
             @Override
             public void onPlayerError(EventTime eventTime, PlaybackException error) {
                 Toast.makeText(VideoPlayerActivity.this, "Video playing error. Try again!", Toast.LENGTH_SHORT).show();
                 AnalyticsListener.super.onPlayerError(eventTime, error);
+            }
+
+            @Override
+            public void onPlaybackStateChanged(EventTime eventTime, int state) {
+                AnalyticsListener.super.onPlaybackStateChanged(eventTime, state);
+                switch (state){
+                    case Player.STATE_BUFFERING:
+                        progressBar.setVisibility(View.VISIBLE);
+                        Log.e(Constant.ERR_TAG, "buffering");
+                        break;
+                    case Player.STATE_READY:
+                        progressBar.setVisibility(View.GONE);
+                        Log.e(Constant.ERR_TAG, "ready");
+                }
             }
         });
 
@@ -213,12 +233,14 @@ public class VideoPlayerActivity extends AppCompatActivity {
             cs.constrainPercentHeight(cs_shadow_down.getId(), 0.4f);
             cs.constrainPercentHeight(cs_control.getId(), 0.1f);
             cs.constrainPercentHeight(cs_progress.getId(), 0.1f);
+            cs.constrainPercentHeight(progressBar.getId(), 0.15f);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             cs.constrainPercentHeight(cs_toolbar.getId(), 0.05f);
             cs.constrainPercentHeight(cs_shadow_up.getId(), 0.13f);
             cs.constrainPercentHeight(cs_shadow_down.getId(), 0.18f);
             cs.constrainPercentHeight(cs_control.getId(), 0.05f);
             cs.constrainPercentHeight(cs_progress.getId(), 0.05f);
+            cs.constrainPercentHeight(progressBar.getId(), 0.07f);
         }
 
         cs.applyTo(main_cs);
