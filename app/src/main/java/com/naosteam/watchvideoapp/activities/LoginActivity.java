@@ -49,10 +49,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
+import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
 import com.naosteam.watchvideoapp.utils.Constant;
+import com.naosteam.watchvideoapp.utils.Methods;
 
 import java.nio.charset.StandardCharsets;
+
+import okhttp3.RequestBody;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -65,27 +72,21 @@ public class LoginActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 123;
     private ProgressBar progressBar;
     private SharedPreferences sharedPreferences;
-    private boolean check_alert;
-    private GoogleSignInAccount gg_account;
+    private boolean check_alert, is_first;
+    private String gg_email;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        GoogleSignInAccount gg_account;
         mAuth = FirebaseAuth.getInstance();
-        sharedPreferences = getSharedPreferences("GoogleLogin", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("DataLogin", Context.MODE_PRIVATE);
         check_alert = sharedPreferences.getBoolean("check_not_show_alert", false);
-        String  jsonString =sharedPreferences.getString("gg_account", "");
-        if(!jsonString.isEmpty()){
-            Gson gson = new Gson();
-            gg_account= gson.fromJson(jsonString,GoogleSignInAccount.class);
-        }
-        else{
-            gg_account = null;
-        }
-
-
+        is_first = sharedPreferences.getBoolean("is_first", true);
+        gg_email = sharedPreferences.getString("gg_email", "");
         options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
                 .requestEmail()
@@ -98,8 +99,8 @@ public class LoginActivity extends AppCompatActivity {
         ViewClick();
 
         if (mAuth.getCurrentUser()!=null){
-            if (gg_account!=null){
-                CheckUser(mAuth.getCurrentUser(), gg_account);
+            if (gg_email!=null){
+                CheckUser(mAuth.getCurrentUser());
             }
             else{
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -146,6 +147,9 @@ public class LoginActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.VISIBLE);
 //                                AuthCredential credential = EmailAuthProvider.getCredential(email,password);
 //                                mAuth.getCurrentUser().linkWithCredential(credential);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("is_first", false);
+                                editor.apply();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             }
                             else{
@@ -265,8 +269,12 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
 //                            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
 //                            mAuth.getCurrentUser().linkWithCredential(credential);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("is_first", false);
+                            editor.putString("gg_email", account.getEmail());
+                            editor.apply();
                             progressBar.setVisibility(View.VISIBLE);
-                            CheckUser(mAuth.getCurrentUser(), account);
+                            CheckUser(mAuth.getCurrentUser());
 
                         } else {
                             Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
@@ -276,7 +284,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void CheckUser(FirebaseUser user, GoogleSignInAccount account){
+    private void CheckUser(FirebaseUser user){
         DatabaseReference databaseReference;
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -287,12 +295,6 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
-                    intent.putExtra("gg_email", account.getEmail());
-                    Gson gson = new Gson();
-                    String json = gson.toJson(account);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("gg_account", json);
-                    editor.apply();
                     startActivity(intent);
                 }
             }
@@ -303,5 +305,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 
 }
