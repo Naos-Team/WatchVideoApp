@@ -48,6 +48,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.utils.Constant;
 
@@ -64,7 +65,8 @@ public class LoginActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 123;
     private ProgressBar progressBar;
     private SharedPreferences sharedPreferences;
-    private static boolean check_alert;
+    private boolean check_alert;
+    private GoogleSignInAccount gg_account;
 
 
     @Override
@@ -74,25 +76,35 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences("GoogleLogin", Context.MODE_PRIVATE);
         check_alert = sharedPreferences.getBoolean("check_not_show_alert", false);
+        String  jsonString =sharedPreferences.getString("gg_account", "");
+        if(!jsonString.isEmpty()){
+            Gson gson = new Gson();
+            gg_account= gson.fromJson(jsonString,GoogleSignInAccount.class);
+        }
+        else{
+            gg_account = null;
+        }
 
-//        if(mAuth.getCurrentUser()!=null){
-//            mAuth.signOut();
-//            if (Constant.ggclient!=null){
-//                Constant.ggclient.signOut();
-//            }
-//        }
+
         options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
                 .requestEmail()
                 .build();
-
-
         Constant.ggclient = GoogleSignIn.getClient(this, options);
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(LoginActivity.this, R.id.edt_login_user, RegexTemplate.NOT_EMPTY, R.string.invalid_login_user);
         awesomeValidation.addValidation(LoginActivity.this, R.id.edt_login_pass, RegexTemplate.NOT_EMPTY, R.string.invalid_login_pass);
         FindView();
         ViewClick();
+
+        if (mAuth.getCurrentUser()!=null){
+            if (gg_account!=null){
+                CheckUser(mAuth.getCurrentUser(), gg_account);
+            }
+            else{
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
+        }
     }
 
     private void FindView(){
@@ -104,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
         tv_signup = findViewById(R.id.tv_signup_open);
         btn_skip = findViewById(R.id.btn_skip);
         progressBar = findViewById(R.id.progress_startlg);
-
         progressBar.setVisibility(View.GONE);
     }
 
@@ -135,7 +146,6 @@ public class LoginActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.VISIBLE);
 //                                AuthCredential credential = EmailAuthProvider.getCredential(email,password);
 //                                mAuth.getCurrentUser().linkWithCredential(credential);
-
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             }
                             else{
@@ -158,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Button btn_yes, btn_no;
+                Button btn_gg, btn_su;
                 CheckBox check_dialog;
                 ViewGroup viewGroup = findViewById(android.R.id.content);
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
@@ -166,15 +176,15 @@ public class LoginActivity extends AppCompatActivity {
                 builder.setCancelable(false);
                 builder.setView(view1);
 
-                btn_no = view1.findViewById(R.id.btn_no);
-                btn_yes = view1.findViewById(R.id.btn_yes);
+                btn_gg = view1.findViewById(R.id.btn_next_gg);
+                btn_su = view1.findViewById(R.id.btn_next_su);
                 check_dialog = view1.findViewById(R.id.check_dialog);
 
                 final AlertDialog alertDialog = builder.create();
 
                 alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                btn_yes.setOnClickListener(new View.OnClickListener() {
+                btn_gg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(check_dialog.isChecked()){
@@ -187,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
-                btn_no.setOnClickListener(new View.OnClickListener() {
+                btn_su.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(check_dialog.isChecked()){
@@ -195,19 +205,17 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putBoolean("check_not_show_alert", true);
                             editor.apply();
                         }
+                        startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
                         alertDialog.dismiss();
                     }
                 });
 
-                if (check_alert){
+                if (sharedPreferences.getBoolean("check_not_show_alert", false)){
                     SignInWithGoogle();
                 }
                 else{
                     alertDialog.show();
                 }
-
-
-
             }
         });
         tv_forgot.setOnClickListener(new View.OnClickListener() {
@@ -258,33 +266,42 @@ public class LoginActivity extends AppCompatActivity {
 //                            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
 //                            mAuth.getCurrentUser().linkWithCredential(credential);
                             progressBar.setVisibility(View.VISIBLE);
-                            DatabaseReference databaseReference;
-                            databaseReference = FirebaseDatabase.getInstance().getReference();
-                            databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.exists()) {
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
-                                        intent.putExtra("gg_email", account.getEmail());
-                                        String email = account.getEmail();
-                                        startActivity(intent);
-                                    }
-                                }
+                            CheckUser(mAuth.getCurrentUser(), account);
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
                         } else {
                             Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
 
+    }
+
+    private void CheckUser(FirebaseUser user, GoogleSignInAccount account){
+        DatabaseReference databaseReference;
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("Users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
+                    intent.putExtra("gg_email", account.getEmail());
+                    Gson gson = new Gson();
+                    String json = gson.toJson(account);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("gg_account", json);
+                    editor.apply();
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

@@ -155,7 +155,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                         }
                                                     });
                                                 } else if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                                    AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+                                                    Toast.makeText(SignUpActivity.this, "This account has already been in use", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
