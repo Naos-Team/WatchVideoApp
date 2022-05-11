@@ -100,7 +100,7 @@ public class ProfileUpdateFragment extends Fragment {
         binding.imvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigate(R.id.update_open_profile);
+                //navController.navigate(R.id.update_open_profile);
             }
         });
 
@@ -135,7 +135,7 @@ public class ProfileUpdateFragment extends Fragment {
                             binding.imvStart1.setVisibility(View.VISIBLE);
                             binding.progressStart1.setVisibility(View.VISIBLE);
                             Toast.makeText(getContext(), "Successfully. Your info has been updated.", Toast.LENGTH_LONG).show();
-                            navController.navigate(R.id.update_open_profile);
+//                            navController.navigate(R.id.update_open_profile);
                         }
                         else{
                             Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
