@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -22,6 +24,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.collect.Range;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,19 +34,27 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
 import com.naosteam.watchvideoapp.databinding.ActivityUpdateProfileBinding;
+import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
 import com.naosteam.watchvideoapp.models.Users_M;
 import com.naosteam.watchvideoapp.utils.Constant;
+import com.naosteam.watchvideoapp.utils.Methods;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+
+import okhttp3.RequestBody;
 
 public class UpdateProfileActivity extends AppCompatActivity {
     private View rootView;
     private ActivityUpdateProfileBinding binding;
     private DatabaseReference databaseReference;
     private AwesomeValidation awesomeValidation;
+    private static GoogleSignInAccount gg_account;
     private static String gg_email;
+    private SharedPreferences sharedPreferences;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -53,12 +64,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle.getString("gg_email")!=null){
-            gg_email = bundle.getString("gg_email");
-
-        }
+        mAuth = FirebaseAuth.getInstance();
+        sharedPreferences = getSharedPreferences("DataLogin", Context.MODE_PRIVATE);
+        gg_email = sharedPreferences.getString("gg_email", "");
 
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(UpdateProfileActivity.this, R.id.edt_name1, RegexTemplate.NOT_EMPTY, R.string.invalid_signup_name);
@@ -140,12 +148,12 @@ public class UpdateProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void Update_PF(){
+    private void Update_PF() {
 
         String email = binding.edtEmail1.getText().toString().trim();
         String name = binding.edtName1.getText().toString().trim();
         String phone = binding.edtPhone1.getText().toString().trim();
-        int age =  Integer.parseInt(binding.edtAge1.getText().toString());
+        int age = Integer.parseInt(binding.edtAge1.getText().toString());
 
         Users_M user = new Users_M(FirebaseAuth.getInstance().getUid(), name, email, phone, age);
         HashMap User = new HashMap();
@@ -161,19 +169,17 @@ public class UpdateProfileActivity extends AppCompatActivity {
                             addOnCompleteListener(new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
-                                    if(task.isSuccessful()){
+                                    if (task.isSuccessful()) {
                                         binding.imvStart1.setVisibility(View.VISIBLE);
                                         binding.progressStart1.setVisibility(View.VISIBLE);
                                         Toast.makeText(UpdateProfileActivity.this, "Successfully. Your info has been updated.", Toast.LENGTH_LONG).show();
                                         onBackPressed();
-                                    }
-                                    else{
+                                    } else {
                                         Toast.makeText(UpdateProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
-                }
-                else {
+                } else {
 
                     FirebaseDatabase.getInstance().getReference("Users")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -181,6 +187,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
+                                CallAsync(FirebaseAuth.getInstance().getCurrentUser());
                                 startActivity(new Intent(UpdateProfileActivity.this, MainActivity.class));
                             }
                         }
@@ -197,10 +204,36 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     });
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+    }
+        private void CallAsync(FirebaseUser user){
+            ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onEnd(boolean status) {
+                    if(status){
+                    }else{
+                        Toast.makeText(UpdateProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            };
+
+            Bundle bundle = new Bundle();
+            bundle.putString("uid", user.getUid());
+
+            RequestBody requestBody = Methods.getInstance().getLoginRequestBody("METHOD_SIGNUP",bundle);
+            ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
+            async.execute();
+        }
 
 
 //        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
@@ -253,5 +286,5 @@ public class UpdateProfileActivity extends AppCompatActivity {
 //        ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
 //        async.execute();
 
-    }
+
 }
