@@ -110,7 +110,6 @@
                     android:id="@+id/iv_star"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:paddingVertical="3sp"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_star"
                     app:layout_constraintBottom_toBottomOf="parent"

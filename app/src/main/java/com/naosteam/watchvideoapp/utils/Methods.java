@@ -10,11 +10,17 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.asynctasks.CheckFavAsync;
+import com.naosteam.watchvideoapp.asynctasks.CheckRatingAsync;
 import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
+import com.naosteam.watchvideoapp.asynctasks.SetRatingAsync;
 import com.naosteam.watchvideoapp.listeners.CheckFavAsyncListener;
 import com.naosteam.watchvideoapp.listeners.CheckFavListener;
+import com.naosteam.watchvideoapp.listeners.CheckRatingAsyncListener;
+import com.naosteam.watchvideoapp.listeners.CheckRatingListener;
 import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
 import com.naosteam.watchvideoapp.listeners.SetFavListener;
+import com.naosteam.watchvideoapp.listeners.SetRatingAsyncListener;
+import com.naosteam.watchvideoapp.listeners.SetRatingListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Users_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
@@ -95,7 +101,41 @@ public class Methods {
             async.execute();
         }else{
             listener.onComplete(false, false);
-            Toast.makeText(context, "Please login first!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void checkRating(Context context, int vid_id, CheckRatingListener listener) {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("vid_id", vid_id);
+            bundle.putString("uid", uid);
+            RequestBody requestBody = getVideoRequestBody("CHECK_RATING", bundle);
+
+            CheckRatingAsync async = new CheckRatingAsync(requestBody, new CheckRatingAsyncListener() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onEnd(boolean status, double rate) {
+                    if(context != null){
+                        if(isNetworkConnected(context)){
+                            listener.onComplete(status, rate);
+                        }else{
+                            listener.onComplete(false, 0);
+                            Toast.makeText(context, "Please check internet connection!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+            }, this);
+
+            async.execute();
+        }else{
+            listener.onComplete(false, 0);
         }
     }
 
@@ -105,7 +145,7 @@ public class Methods {
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             Bundle bundle = new Bundle();
-            bundle.putString("uid", base64Encode(uid));
+            bundle.putString("uid", uid);
             bundle.putInt("vid_id", vid_id);
             bundle.putInt("is_fav", isFav?1:0);
 
@@ -121,11 +161,9 @@ public class Methods {
                 public void onEnd(boolean status) {
                     if(context != null){
                         if(isNetworkConnected(context)){
-
-                            if(!status){
-                                Toast.makeText(context, "Something went wrong. Try again!", Toast.LENGTH_SHORT).show();
-                            }
-
+//                            if(!status){
+//                                Toast.makeText(context, "Something went wrong. Try again!", Toast.LENGTH_SHORT).show();
+//                            }
                             listener.onComplete(status);
 
                         }else{
@@ -140,6 +178,48 @@ public class Methods {
         }else{
             Toast.makeText(context, "Please login first!", Toast.LENGTH_SHORT).show();
             listener.onComplete(false);
+        }
+    }
+
+    public void setRating(Context context, int vid_id, double rate, SetRatingListener listener){
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("uid", uid);
+            bundle.putInt("vid_id", vid_id);
+            bundle.putInt("rate", (int)rate);
+
+            RequestBody requestBody = getVideoRequestBody("SET_RATING", bundle);
+
+            SetRatingAsync async = new SetRatingAsync(requestBody, new SetRatingAsyncListener() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onEnd(boolean status, float returnRate) {
+                    if(context != null){
+                        if(isNetworkConnected(context)){
+//                            if(!status){
+//                                Toast.makeText(context, "Something went wrong. Try again!", Toast.LENGTH_SHORT).show();
+//                            }
+                            listener.onComplete(status, returnRate);
+                        }else{
+                            listener.onComplete(false, returnRate);
+                            Toast.makeText(context, "Please check internet connection!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+            });
+            async.execute();
+
+        }else{
+            Toast.makeText(context, "Please login first!", Toast.LENGTH_SHORT).show();
+            listener.onComplete(false, 0);
         }
     }
 
@@ -232,10 +312,11 @@ public class Methods {
                 postObj.addProperty("step", bundle.getInt("step"));
                 break;
             case "CHECK_IS_FAV":
+            case "CHECK_RATING":
                 postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
                 postObj.addProperty("vid_id", bundle.getInt("vid_id"));
-
                 break;
+
             case "SET_FAV_VIDEO":
 
                 postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
@@ -247,6 +328,16 @@ public class Methods {
             case "GET_FAV_DATA":
                 postObj.addProperty("vid_type", bundle.getInt("vid_type"));
                 break;
+
+            case "SET_RATING":
+
+                postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
+                postObj.addProperty("vid_id", bundle.getInt("vid_id"));
+                postObj.addProperty("rate", bundle.getInt("rate"));
+
+                break;
+
+
         }
 
         String post_data = postObj.toString();

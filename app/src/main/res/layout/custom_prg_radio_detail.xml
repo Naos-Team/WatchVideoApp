@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_cs"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cs_shadow_up"
@@ -35,6 +36,7 @@
         android:id="@+id/cs_control"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
@@ -128,7 +130,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cs_progress"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/cs_control"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
@@ -140,13 +142,13 @@
             android:id="@+id/exo_position"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:textColor="@color/white"
             android:autoSizeMaxTextSize="100sp"
             android:autoSizeMinTextSize="5sp"
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:gravity="center"
             android:text="0:0"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.5"
@@ -160,13 +162,13 @@
             android:id="@+id/exo_duration"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:textColor="@color/white"
             android:autoSizeMaxTextSize="100sp"
             android:autoSizeMinTextSize="5sp"
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:gravity="center"
             android:text="0:0"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.5"
@@ -180,18 +182,19 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="5sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:played_color="@color/neonGreen"
             app:buffered_color="@color/darkGreen"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/exo_position"
             app:layout_constraintRight_toLeftOf="@id/exo_duration"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:played_color="@color/neonGreen" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cs_toolbar"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
@@ -216,7 +219,7 @@
             app:layout_constraintHeight_percent="0.8"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/btn_back"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/btn_back"
@@ -232,22 +235,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/neonGreen"
-        android:indeterminateTintMode="src_atop"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintHeight_percent="0.07"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

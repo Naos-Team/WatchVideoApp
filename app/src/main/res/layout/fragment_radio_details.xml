@@ -106,46 +106,16 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"
             app:layout_constraintVertical_weight="2">
 
-            <TextView
-                android:id="@+id/tv_du_start"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:text="0:00"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/seekbar_duration"
-                android:gravity="center"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <SeekBar
-                android:id="@+id/seekbar_duration"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:padding="5dp"
-                android:progressDrawable="@drawable/seekbar_custom"
-                android:thumb="@drawable/seekbar_thumb"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="5:1"
-                app:layout_constraintEnd_toStartOf="@+id/tv_du_end"
-                app:layout_constraintStart_toEndOf="@+id/tv_du_start"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:layout_constraintWidth_percent="0.7" />
-
-            <TextView
-                android:id="@+id/tv_du_end"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:text="1:00"
-                android:gravity="center"
-                android:textSize="17sp"
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/player_view_radio_details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/seekbar_duration"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:use_controller="true"
+                app:controller_layout_id="@layout/custom_prg_radio_detail"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -204,6 +174,6 @@
 
 
 
-    
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
