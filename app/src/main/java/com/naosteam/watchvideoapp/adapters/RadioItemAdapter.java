@@ -71,7 +71,7 @@ public class RadioItemAdapter extends RecyclerView.Adapter<RadioItemAdapter.Radi
             layout_radio_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listeners.onClick(list_radio.get(position));
+                    listeners.onClick(position);
                 }
             });
         }
