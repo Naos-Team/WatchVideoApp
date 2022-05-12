@@ -60,7 +60,7 @@ public class CmtVideoFragment extends Fragment {
                if(FirebaseAuth.getInstance().getCurrentUser() == null){
                    Toast.makeText(getActivity(), "Please", Toast.LENGTH_SHORT).show();
                } else {
-                   DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                    Date date =new Date();
                    try {
                        date = dateFormat.parse(dateFormat.format(new Date().getTime()));
@@ -115,7 +115,7 @@ public class CmtVideoFragment extends Fragment {
             Comment_M cmt = new Comment_M(i, videos_m.getVid_id(),
 //                           FirebaseAuth.getInstance().getCurrentUser().toString(),
                     "OmLDtiOcq1WFe2oaxn3a3DiYxpc2",
-                    "TEE",
+                    "2020-07-13 20:00:00",
                     "TEST" + i);
             insert(cmt);
         }
