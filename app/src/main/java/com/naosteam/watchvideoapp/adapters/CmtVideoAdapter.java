@@ -22,9 +22,13 @@ import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.MainActivity;
 import com.naosteam.watchvideoapp.listeners.OnCmtItemListener;
 import com.naosteam.watchvideoapp.models.Comment_M;
+import com.naosteam.watchvideoapp.utils.Methods;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CmtVideoAdapter extends RecyclerView.Adapter<CmtVideoAdapter.CmtVideoHolder> {
     private ArrayList<Comment_M> list_cmt;
@@ -77,7 +81,13 @@ public class CmtVideoAdapter extends RecyclerView.Adapter<CmtVideoAdapter.CmtVid
         public void bindView(int position){
 
             txtCmt_item.setEnabled(false);
-            txtTime_cmt_item.setText(list_cmt.get(position).getCmt_time());
+            Date date1 = new Date();
+            try {
+                date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(list_cmt.get(position).getCmt_time());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            txtTime_cmt_item.setText(Methods.getInstance().getPastTimeString(date1));
             txtCmt_item.setText(list_cmt.get(position).getCmt_text());
             btn_del_cmt_item.setOnClickListener(new View.OnClickListener() {
                 @Override
