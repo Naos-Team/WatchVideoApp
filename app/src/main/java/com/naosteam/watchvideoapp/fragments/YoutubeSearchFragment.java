@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.DailymotionPlayerActivity;
+import com.naosteam.watchvideoapp.activities.YoutubePlayerActivity;
 import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
 import com.naosteam.watchvideoapp.asynctasks.LoadDailymotionVideoAsync;
 import com.naosteam.watchvideoapp.asynctasks.LoadYoutubeVideoAsync;
@@ -165,7 +166,7 @@ public class YoutubeSearchFragment extends Fragment {
             public void onClick(int position) {
                 String vid_id = mVideos.get(position).getVid_url();
 
-                Intent intent = new Intent(getContext(), DailymotionPlayerActivity.class);
+                Intent intent = new Intent(getContext(), YoutubePlayerActivity.class);
                 intent.putExtra("vid_id", vid_id);
 
                 startActivityForResult(intent, 225);

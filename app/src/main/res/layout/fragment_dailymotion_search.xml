@@ -16,7 +16,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         app:borderWidth="0dp"
-        android:backgroundTint="@color/dailymotionColor"
+        android:backgroundTint="@color/neonGreen"
         android:tint="@color/white"
         android:src="@drawable/ic_arrow_back" />
 
@@ -57,7 +57,7 @@
                         android:adjustViewBounds="true"
                         android:paddingVertical="10dp"
                         android:src="@drawable/ic_back"
-                        android:tint="@color/dailymotionColor" />
+                        android:tint="@color/neonGreen" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -124,7 +124,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="30dp"
                     android:indeterminate="true"
-                    android:indeterminateTint="@color/dailymotionColor"
+                    android:indeterminateTint="@color/neonGreen"
                     android:indeterminateTintMode="src_atop"
                     android:visibility="visible" />
 
@@ -140,7 +140,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:indeterminate="true"
-                android:indeterminateTint="@color/dailymotionColor"
+                android:indeterminateTint="@color/neonGreen"
                 android:indeterminateTintMode="src_atop"
                 android:visibility="gone" />
 

@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -84,17 +85,22 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
 
         int views = video.getVid_view();
 
+        DecimalFormat df = new DecimalFormat("0.00");
+
         if(views > 1000){
             if(views > 1000000){
                 if(views > 1000000000){
-                    double view1 = (double)Math.round(views/1000000000 * 10d) / 10d;
+//                    double view1 = (double)Math.round(views/1000000000 * 100d) / 100d;
+                    String view1 = df.format(views/1000000000d);
                     holder.tv_view.setText(view1 + "B views");
                 }else{
-                    double view1 = (double)Math.round(views/1000000 * 10d) / 10d;
+//                    double view1 = (double)Math.round(views/1000000 * 100d) / 100d;
+                    String view1 = df.format(views/1000000d);
                     holder.tv_view.setText(view1 + "M views");
                 }
             }else{
-                double view1 = (double)Math.round(views/1000 * 10d) / 10d;
+//                double view1 = (double)Math.round(views/1000 * 100d) / 100d;
+                String view1 = df.format(views/1000d);
                 holder.tv_view.setText(view1 + "K views");
             }
         }else{
