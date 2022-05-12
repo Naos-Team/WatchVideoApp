@@ -83,7 +83,7 @@ public class RadioDetailsFragment extends Fragment {
             public void onEnd() {
                 controlRadioListener.onNext();
                 updateView();
-                playerRadio.playRadio();
+                playerRadio.startRadio();
             }
         });
         LoadData();

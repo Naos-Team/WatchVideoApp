@@ -16,6 +16,9 @@
         <action
             android:id="@+id/VideoToSearchVideo"
             app:destination="@id/searchVideoFragment" />
+        <action
+            android:id="@+id/action_videoFragment2_to_dailymotionSearchFragment"
+            app:destination="@id/dailymotionSearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/videoDetailFragment"
@@ -25,6 +28,9 @@
         <action
             android:id="@+id/DetailVideoToVideo"
             app:destination="@id/videoFragment2" />
+        <action
+            android:id="@+id/action_videoDetailFragment_to_cmtVideoFragment"
+            app:destination="@id/cmtVideoFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchVideoFragment"
@@ -35,4 +41,18 @@
             android:id="@+id/searchVideoBackToVideo"
             app:destination="@id/videoFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/cmtVideoFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.CmtVideoFragment"
+        android:label="fragment_cmt_video"
+        tools:layout="@layout/fragment_cmt_video" >
+        <action
+            android:id="@+id/action_cmtVideoFragment_to_videoDetailFragment"
+            app:destination="@id/videoDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dailymotionSearchFragment"
+        android:name="com.naosteam.watchvideoapp.DailymotionSearchFragment"
+        android:label="fragment_dailymotion_search"
+        tools:layout="@layout/fragment_dailymotion_search" />
 </navigation>
