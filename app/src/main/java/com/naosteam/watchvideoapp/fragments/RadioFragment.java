@@ -168,7 +168,7 @@ public class RadioFragment extends Fragment {
         binding.rclRadioTrending.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
 
         int width = getContext().getResources().getDisplayMetrics().widthPixels;
-        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams((int)Math.round(width*0.4), (int)Math.round(width*0.35));
+        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams((int)Math.round(width*0.45), (int)Math.round(width*0.4));
         layoutParams.setMargins(20,20,20,20);
 
         ConstraintLayout.LayoutParams layoutParams1 = new ConstraintLayout.LayoutParams((int)Math.round(width), (int)Math.round(width*0.17));

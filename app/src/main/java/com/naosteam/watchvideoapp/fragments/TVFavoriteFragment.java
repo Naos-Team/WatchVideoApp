@@ -78,9 +78,17 @@ public class TVFavoriteFragment extends Fragment {
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
                             binding.progress.setVisibility(View.GONE);
-                            arrayListfav.addAll(arrayList_fav);
-                            mArrayList = arrayListfav;
-                            updateUI();
+                            if(arrayListfav==null){
+                                binding.tvNoResult.setVisibility(View.VISIBLE);
+                                binding.recyclerFavTv.setVisibility(View.GONE);
+                            }
+                            else{
+
+                                arrayListfav.addAll(arrayList_fav);
+                                mArrayList = arrayListfav;
+                                updateUI();
+                            }
+
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
                         }

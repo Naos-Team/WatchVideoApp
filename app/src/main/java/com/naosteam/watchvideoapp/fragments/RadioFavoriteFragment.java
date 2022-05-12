@@ -109,9 +109,16 @@ public class RadioFavoriteFragment extends Fragment {
                         if(Methods.getInstance().isNetworkConnected(getContext())){
                             if(status){
                                 binding.progress.setVisibility(View.GONE);
-                                arrayList_fav.addAll(arrayListfav);
-                                mArrayList = arrayList_fav;
-                                updateUI();
+                                if(arrayListfav==null){
+                                    binding.tvNoResult.setVisibility(View.VISIBLE);
+                                    binding.recyclerRadioFav.setVisibility(View.GONE);
+                                }
+                                else{
+                                    arrayList_fav.addAll(arrayListfav);
+                                    mArrayList = arrayList_fav;
+                                    updateUI();
+                                }
+
                             }else{
                                 Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
                             }
