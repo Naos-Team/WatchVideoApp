@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -104,19 +105,27 @@ public class CmtVideoAdapter extends RecyclerView.Adapter<CmtVideoAdapter.CmtVid
                 }
             });
 
-            if(list_cmt.get(position).getUid().equals(FirebaseAuth.getInstance().getCurrentUser().toString())){
+            if(list_cmt.get(position).getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                 FirebaseDatabase.getInstance().getReference().child("Users").
                         child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String user_name = (snapshot.child("user_name").getValue().toString().equals("empty"))
-                                ? snapshot.child("user_name").getValue().toString() : "User";
-                        txtName_cmt_item.setText(user_name);
-                        Log.e("tuyen", snapshot.child("photo_url").getValue().toString());
-                        if(!snapshot.child("photo_url").getValue().toString().equals("empty")) {
-                            Picasso.get().load(snapshot.child("photo_url").getValue().toString()).into(img_usder_cmt_item);
-                        } else {
+                        if(snapshot.child("user_name").getValue() == null ){
+                            txtName_cmt_item.setText("User");
+                        }
+                        if(snapshot.child("photo_url").getValue() == null){
                             img_usder_cmt_item.setImageResource(R.drawable.ic_nouser_setting);
+                        }
+                        if(snapshot.child("user_name").getValue() != null &&
+                                snapshot.child("photo_url").getValue() != null ) {
+                            String user_name = (!snapshot.child("user_name").getValue().toString().equals("empty"))
+                                    ? snapshot.child("user_name").getValue().toString() : "User";
+                            txtName_cmt_item.setText(user_name);
+                            if(snapshot.child("photo_url").getValue().toString().equals("empty")) {
+                                img_usder_cmt_item.setImageResource(R.drawable.ic_nouser_setting);
+                            } else {
+                                Picasso.get().load(snapshot.child("photo_url").getValue().toString()).into(img_usder_cmt_item);
+                            }
                         }
                     }
 
@@ -131,14 +140,22 @@ public class CmtVideoAdapter extends RecyclerView.Adapter<CmtVideoAdapter.CmtVid
                         child(list_cmt.get(position).getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String user_name = (snapshot.child("user_name").getValue().toString().equals("empty"))
-                                ? snapshot.child("user_name").getValue().toString() : "User";
-                        txtName_cmt_item.setText(user_name);
-                        Log.e("tuyen", snapshot.child("photo_url").getValue().toString());
-                        if(!snapshot.child("photo_url").getValue().toString().equals("empty")) {
-                            Picasso.get().load(snapshot.child("photo_url").getValue().toString()).into(img_usder_cmt_item);
-                        } else {
+                        if(snapshot.child("user_name").getValue() == null ){
+                            txtName_cmt_item.setText("User");
+                        }
+                        if(snapshot.child("photo_url").getValue() == null){
                             img_usder_cmt_item.setImageResource(R.drawable.ic_nouser_setting);
+                        }
+                        if(snapshot.child("user_name").getValue() != null &&
+                                snapshot.child("photo_url").getValue() != null ) {
+                            String user_name = (!snapshot.child("user_name").getValue().toString().equals("empty"))
+                                    ? snapshot.child("user_name").getValue().toString() : "User";
+                            txtName_cmt_item.setText(user_name);
+                            if(snapshot.child("photo_url").getValue().toString().equals("empty")) {
+                                img_usder_cmt_item.setImageResource(R.drawable.ic_nouser_setting);
+                            } else {
+                                Picasso.get().load(snapshot.child("photo_url").getValue().toString()).into(img_usder_cmt_item);
+                            }
                         }
                     }
 

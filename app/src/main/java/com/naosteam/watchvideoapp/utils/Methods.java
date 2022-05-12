@@ -25,6 +25,7 @@ import com.naosteam.watchvideoapp.listeners.SetFavListener;
 import com.naosteam.watchvideoapp.listeners.SetRatingAsyncListener;
 import com.naosteam.watchvideoapp.listeners.SetRatingListener;
 import com.naosteam.watchvideoapp.models.Category_M;
+import com.naosteam.watchvideoapp.models.Comment_M;
 import com.naosteam.watchvideoapp.models.Users_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
 
@@ -255,6 +256,21 @@ public class Methods {
         return new Videos_M(vid_id, cat_id, vid_title, vid_thumbnail, vid_description, vid_url, vid_view, vid_duration, vid_avg_rate, vid_type, vid_is_premium, vid_time);
     }
 
+    public Comment_M getCommentVideo(JSONObject obj) throws Exception{
+        int cmt_id = obj.getInt("cmt_id");
+        int vid_id =  obj.getInt("vid_id");
+        String uid = checkForEncode(obj.getString("uid"))
+                ? base64Decode(obj.getString("uid"))
+                : obj.getString("uid") ;
+        String cmt_time = checkForEncode(obj.getString("cmt_time"))
+                ? base64Decode(obj.getString("cmt_time"))
+                : obj.getString("cmt_time");
+        String cmt_text = checkForEncode(obj.getString("cmt_text"))
+                ? base64Decode(obj.getString("cmt_text")) : obj.getString("cmt_text");
+
+        return new Comment_M(cmt_id, vid_id, uid, cmt_time, cmt_text);
+    }
+
     public Videos_M getJsonDailymotionVideo(JSONObject obj) throws Exception {
         String vid_title = obj.getString("title");
         String vid_url = obj.getString("id");
@@ -360,6 +376,7 @@ public class Methods {
 
             case "GET_FAV_DATA":
                 postObj.addProperty("vid_type", bundle.getInt("vid_type"));
+                postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
                 break;
 
             case "SET_RATING":
@@ -439,6 +456,39 @@ public class Methods {
 
         return builder.build();
 
+    }
+
+    public RequestBody GetCmtRequestBody(String method_name, Bundle bundle){
+        JsonObject postObj = new JsonObject();
+        postObj.addProperty("method_name", method_name);
+
+        JsonObject cmt_obj = new JsonObject();
+        switch (method_name){
+            case "INSERT_CMT":
+                cmt_obj.addProperty("uid", base64Encode(bundle.getString("uid")));
+                cmt_obj.addProperty("cmt_time", bundle.getString("cmt_time"));
+                cmt_obj.addProperty("cmt_text", base64Encode(bundle.getString("cmt_text")));
+                cmt_obj.addProperty("vid_id", bundle.getInt("vid_id"));
+                break;
+            case "GET_CMT_DATA":
+                postObj.addProperty("vid_id", bundle.getInt("vid_id"));
+                break;
+            case "UPDATE_CMT":
+                postObj.addProperty("cmt_text", base64Encode(bundle.getString("cmt_text")));
+            case "DEL_CMT":
+                postObj.addProperty("cmt_id", bundle.getInt("cmt_id"));
+                break;
+        }
+
+        String post_data = postObj.toString();
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        String cmt_data = cmt_obj.toString();
+        builder.addFormDataPart("cmt", cmt_data);
+
+        builder.addFormDataPart("data", post_data);
+
+        return builder.build();
     }
 
     public String getPastTimeString(Date postDate) {

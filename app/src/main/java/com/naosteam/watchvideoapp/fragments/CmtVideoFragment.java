@@ -1,9 +1,13 @@
 package com.naosteam.watchvideoapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -16,16 +20,23 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.MainActivity;
 import com.naosteam.watchvideoapp.adapters.CmtVideoAdapter;
+import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
+import com.naosteam.watchvideoapp.asynctasks.LoadCmtAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentCmtVideoBinding;
+import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
+import com.naosteam.watchvideoapp.listeners.LoadCmtListener;
 import com.naosteam.watchvideoapp.listeners.OnCmtItemListener;
 import com.naosteam.watchvideoapp.models.Comment_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.Methods;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import okhttp3.RequestBody;
 
 public class CmtVideoFragment extends Fragment {
     private View rootView;
@@ -58,7 +69,7 @@ public class CmtVideoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                if(FirebaseAuth.getInstance().getCurrentUser() == null){
-                   Toast.makeText(getActivity(), "Please", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(getActivity(), "Please login to comment!", Toast.LENGTH_SHORT).show();
                } else {
                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                    Date date =new Date();
@@ -68,9 +79,10 @@ public class CmtVideoFragment extends Fragment {
                        e.printStackTrace();
                    }
                    Comment_M cmt = new Comment_M(-1, videos_m.getVid_id(),
-                           FirebaseAuth.getInstance().getCurrentUser().toString(),
+                           FirebaseAuth.getInstance().getCurrentUser().getUid(),
                            dateFormat.format(date),
                            binding.txtCmtVideoFrag.getText().toString());
+                   binding.txtCmtVideoFrag.setText("");
                    insert(cmt);
                }
             }
@@ -96,13 +108,15 @@ public class CmtVideoFragment extends Fragment {
 
                     @Override
                     public void onEdit(int position, String cmt) {
+                        InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.hideSoftInputFromWindow(binding.btnSendCmtVideoFrag.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         array_cmt.get(position).setCmt_text(cmt);
-                        update(array_cmt.get(position), position);
+                        update(array_cmt.get(position));
                     }
 
                     @Override
                     public void onDel(int position) {
-                        del(array_cmt.get(position).getCmt_id(), position);
+                        del(array_cmt.get(position).getCmt_id());
                     }
                 });
         binding.rclCmtVideoFrag.setAdapter(adapter);
@@ -111,30 +125,144 @@ public class CmtVideoFragment extends Fragment {
     }
 
     private void loadCmt(){
-        for(int i = 0; i < 5; ++i){
-            Comment_M cmt = new Comment_M(i, videos_m.getVid_id(),
-//                           FirebaseAuth.getInstance().getCurrentUser().toString(),
-                    "OmLDtiOcq1WFe2oaxn3a3DiYxpc2",
-                    "2020-07-13 20:00:00",
-                    "TEST" + i);
-            insert(cmt);
-        }
+        LoadCmtListener listener_load = new LoadCmtListener() {
+            @Override
+            public void onPre() {
+                binding.prgCmtVideoFrag.setVisibility(View.VISIBLE);
+                binding.imgTempCmtVideoFrag.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onEnd(Boolean is_done, ArrayList<Comment_M> list_cmt) {
+                binding.prgCmtVideoFrag.setVisibility(View.GONE);
+                binding.imgTempCmtVideoFrag.setVisibility(View.GONE);
+                if(getContext() != null) {
+                    if (Methods.getInstance().isNetworkConnected(getContext())) {
+                        if (is_done) {
+                            array_cmt.clear();
+                            array_cmt.addAll(list_cmt);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        };
+        Bundle bundle = new Bundle();
+        bundle.putInt("vid_id", videos_m.getVid_id());
+        RequestBody requestBody = Methods.getInstance().GetCmtRequestBody("GET_CMT_DATA", bundle);
+        LoadCmtAsync async = new LoadCmtAsync(requestBody, listener_load);
+        async.execute();
     }
 
     private void insert(Comment_M cmt){
-        array_cmt.add(cmt);
-        adapter.notifyItemInserted(array_cmt.size());
+        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
+            @Override
+            public void onStart() {
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(binding.btnSendCmtVideoFrag.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                binding.prgCmtVideoFrag.setVisibility(View.VISIBLE);
+                binding.imgTempCmtVideoFrag.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onEnd(boolean status) {
+                if(getContext() != null){
+                    if(Methods.getInstance().isNetworkConnected(getContext())){
+                        loadCmt();
+                        if(status){
+                        }else{
+                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
+        };
+
+        Bundle bundle = new Bundle();
+        bundle.putString("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        bundle.putInt("vid_id", cmt.getVid_id());
+        bundle.putString("cmt_time", cmt.getCmt_time());
+        bundle.putString("cmt_text", cmt.getCmt_text());
+
+        RequestBody requestBody = Methods.getInstance().GetCmtRequestBody("INSERT_CMT",bundle);
+        ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
+        async.execute();
+
     }
 
-    private void update(Comment_M cmt, int position){
-        adapter.notifyItemChanged(position);
+    private void update(Comment_M cmt){
+        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
+            @Override
+            public void onStart() {
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(binding.btnSendCmtVideoFrag.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                binding.prgCmtVideoFrag.setVisibility(View.VISIBLE);
+                binding.imgTempCmtVideoFrag.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onEnd(boolean status) {
+                if(getContext() != null){
+                    if(Methods.getInstance().isNetworkConnected(getContext())){
+                        loadCmt();
+                        if(status){
+                        }else{
+                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
+        };
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("cmt_id", cmt.getCmt_id());
+        bundle.putString("cmt_text", cmt.getCmt_text());
+        RequestBody requestBody = Methods.getInstance().GetCmtRequestBody("UPDATE_CMT",bundle);
+        ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
+        async.execute();
     }
 
-    private void del(int cmt_id, int position){
-        for(int i = 0; i < array_cmt.size(); ++i){
-            if(array_cmt.get(i).getCmt_id() == cmt_id)
-                array_cmt.remove(i);
-        }
-        adapter.notifyItemRemoved(position);
+    private void del(int cmt_id){
+        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
+            @Override
+            public void onStart() {
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(binding.btnSendCmtVideoFrag.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                binding.prgCmtVideoFrag.setVisibility(View.VISIBLE);
+                binding.imgTempCmtVideoFrag.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onEnd(boolean status) {
+                if(getContext() != null){
+                    if(Methods.getInstance().isNetworkConnected(getContext())){
+                        loadCmt();
+                        if(status){
+                        }else{
+                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
+        };
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("cmt_id", cmt_id);
+        RequestBody requestBody = Methods.getInstance().GetCmtRequestBody("DEL_CMT",bundle);
+        ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
+        async.execute();
     }
 }
