@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -160,11 +161,11 @@ public class HomeFragment extends Fragment {
 
         list_video_trending = new ArrayList<>();
 
-        LinearLayout.LayoutParams layoutParams_video_item = new LinearLayout.LayoutParams(getActivity().getResources().
-                getDisplayMetrics().widthPixels*1/3, (getActivity().getResources().getDisplayMetrics().widthPixels)*1/3);
-        layoutParams_video_item.setMargins(20, 30,20,30);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int) (getActivity().getResources().
+                        getDisplayMetrics().widthPixels*(0.4)), (int) (Math.round(getActivity().getResources().getDisplayMetrics().widthPixels)/2*0.9));
+        layoutParams.setMargins(20,20,20,20);
 
-        featuredVideoAdapter = new FeaturedVideoAdapter(Methods.getInstance(), layoutParams_video_item, list_video_trending, new OnVideoFeatureClickListener() {
+        featuredVideoAdapter = new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, list_video_trending, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
                 Bundle bundle = new Bundle();
@@ -182,12 +183,13 @@ public class HomeFragment extends Fragment {
 
         ConstraintLayout.LayoutParams layoutParams_TV_item = new ConstraintLayout.LayoutParams(getActivity().getResources().
                 getDisplayMetrics().widthPixels*1/3, (getActivity().getResources().getDisplayMetrics().widthPixels)*1/3*3/4);
-        layoutParams_TV_item.setMargins(20, 10,20,10);
+        layoutParams_TV_item.setMargins(30, 10,30,10);
 
         tvFragmentAdapter = new TVFragmentAdapter(list_TV_trending, layoutParams_TV_item, new OnHomeItemClickListeners() {
             @Override
             public void onClick_homeItem(int position) {
                 Bundle bundle = new Bundle();
+                bundle.putInt("id", list_TV_trending.get(position).getVid_id());
                 bundle.putString("url", list_TV_trending.get(position).getVid_url());
                 bundle.putString("url_img", list_TV_trending.get(position).getVid_thumbnail());
                 bundle.putString("des", list_TV_trending.get(position).getVid_description());

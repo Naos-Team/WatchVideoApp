@@ -1,6 +1,7 @@
 package com.naosteam.watchvideoapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 
@@ -30,12 +31,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
 import com.naosteam.watchvideoapp.databinding.ActivityUpdateProfileBinding;
+import com.naosteam.watchvideoapp.fragments.ProfileFragment;
 import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
 import com.naosteam.watchvideoapp.models.Users_M;
 import com.naosteam.watchvideoapp.utils.Constant;
@@ -55,6 +60,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private static String gg_email;
     private SharedPreferences sharedPreferences;
     private FirebaseAuth mAuth;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private Uri url, url_gg;
+    private Users_M user;
+    private static Boolean isFirstPhoto;
 
 
     @Override
@@ -65,6 +75,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
         setContentView(view);
 
         mAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
+
         sharedPreferences = getSharedPreferences("DataLogin", Context.MODE_PRIVATE);
         gg_email = sharedPreferences.getString("gg_email", "");
 
@@ -104,10 +117,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
                                         binding.edtEmail1.setText(user.getUser_email());
                                         binding.edtPhone1.setText(user.getUser_phone());
                                         binding.edtAge1.setText(String.valueOf(user.getUser_age()));
-                                        if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null){
-                                            Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
-                                            Picasso.get().load(uri).into(binding.imvUser);
-                                        }
+                                        Picasso.get().load(user.getPhoto_url()).into(binding.imvUser);
+                                        isFirstPhoto = true;
                                     }
                                 }
                             });
@@ -121,6 +132,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     binding.edtEmail1.setEnabled(false);
                     binding.edtPhone1.setHint("Your phone");
                     binding.edtAge1.setHint("0");
+                    if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null){
+                        url_gg = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+                        Picasso.get().load(url_gg).into(binding.imvUser);
+                    }
+                    isFirstPhoto = true;
                 }
             }
 
@@ -146,6 +162,16 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        binding.imvAddAva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gallery = new Intent();
+                gallery.setAction(Intent.ACTION_GET_CONTENT);
+                gallery.setType("image/*");
+                startActivityForResult(gallery, 2);
+            }
+        });
     }
 
     private void Update_PF() {
@@ -154,21 +180,64 @@ public class UpdateProfileActivity extends AppCompatActivity {
         String name = binding.edtName1.getText().toString().trim();
         String phone = binding.edtPhone1.getText().toString().trim();
         int age = Integer.parseInt(binding.edtAge1.getText().toString());
-        String url;
-        if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null) {
-            url = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
-        }
-        else{
-            url = "empty";
-        }
 
-        Users_M user = new Users_M(FirebaseAuth.getInstance().getCurrentUser().getUid(), name, email, phone, age, url);
         HashMap User = new HashMap();
         User.put("user_name", name);
         User.put("user_email", email);
         User.put("user_phone", phone);
         User.put("user_age", age);
-        User.put("photo_url", url);
+
+        StorageReference fileRef = storageReference.child("Image").child(mAuth.getCurrentUser().getUid());
+
+        if (isFirstPhoto){
+            if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null) {
+                url_gg = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+                User.put("photo_url", url_gg.toString());
+                user = new Users_M(FirebaseAuth.getInstance().getCurrentUser().getUid(), name, email, phone, age, url_gg.toString());
+                Update_Add_Data( User,  user);
+            }
+            else{
+                User.put("photo_url", "empty");
+                user = new Users_M(FirebaseAuth.getInstance().getCurrentUser().getUid(), name, email, phone, age, "empty");
+                Update_Add_Data( User,  user);
+            }
+        }
+        else{
+            if(url!=null){
+                fileRef.putFile(url).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                User.put("photo_url", uri.toString());
+                                user = new Users_M(FirebaseAuth.getInstance().getCurrentUser().getUid(), name, email, phone, age, uri.toString());
+                                Update_Add_Data( User,  user);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+            }
+            else{
+                User.put("photo_url", "empty");
+                user = new Users_M(FirebaseAuth.getInstance().getCurrentUser().getUid(), name, email, phone, age, "empty");
+                Update_Add_Data( User,  user);
+            }
+        }
+
+    }
+
+    private void Update_Add_Data(HashMap User, Users_M user){
         databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -218,81 +287,40 @@ public class UpdateProfileActivity extends AppCompatActivity {
             }
         });
     }
-        private void CallAsync(FirebaseUser user){
-            ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
-                @Override
-                public void onStart() {
 
+    private void CallAsync(FirebaseUser user){
+        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
+            @Override
+            public void onStart() {}
+
+            @Override
+            public void onEnd(boolean status) {
+                if(status){
+                }else{
+                    Toast.makeText(UpdateProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
+            }
 
-                @Override
-                public void onEnd(boolean status) {
-                    if(status){
-                    }else{
-                        Toast.makeText(UpdateProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                    }
-                }
+        };
 
-            };
+        Bundle bundle = new Bundle();
+        bundle.putString("uid", user.getUid());
 
-            Bundle bundle = new Bundle();
-            bundle.putString("uid", user.getUid());
+        RequestBody requestBody = Methods.getInstance().getLoginRequestBody("METHOD_SIGNUP",bundle);
+        ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
+        async.execute();
+    }
 
-            RequestBody requestBody = Methods.getInstance().getLoginRequestBody("METHOD_SIGNUP",bundle);
-            ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
-            async.execute();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
+            isFirstPhoto = false;
+            url = data.getData();
+            binding.imvUser.setImageURI(url);
+
         }
-
-
-//        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
-//            @Override
-//            public void onStart() {
-//
-//            }
-//
-//            @Override
-//            public void onEnd(boolean status) {
-//
-//                if(status){
-//                    HashMap User = new HashMap();
-//                    User.put("user_name", name);
-//                    User.put("user_email", email);
-//                    User.put("user_phone", phone);
-//                    User.put("user_age", age);
-//                    databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(User).
-//                            addOnCompleteListener(new OnCompleteListener() {
-//                                @Override
-//                                public void onComplete(@NonNull Task task) {
-//                                    if(task.isSuccessful()){
-//                                        binding.imvStart1.setVisibility(View.VISIBLE);
-//                                        binding.progressStart1.setVisibility(View.VISIBLE);
-//                                        Toast.makeText(getContext(), "Successfully. Your info has been updated.", Toast.LENGTH_LONG).show();
-//                                        navController.navigate(R.id.update_open_profile);
-//                                    }
-//                                    else{
-//                                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                            });
-//                }else{
-//                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//        };
-//
-//        Bundle bundle = new Bundle();
-//        bundle.putString("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-//        bundle.putString("name", name);
-//        bundle.putString("email",email);
-//        bundle.putInt("age", age);
-//        bundle.putString("phone", phone);
-//
-//
-//        RequestBody requestBody = Methods.getInstance().getLoginRequestBody("METHOD_UPDATE_PROFILE",bundle);
-//
-//        ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
-//        async.execute();
-
+    }
 
 }

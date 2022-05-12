@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".fragments.RadioFavoriteFragment">
 
+    <TextView
+        android:id="@+id/tv_no_result"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/primaryColor"
+        android:autoSizeMaxTextSize="25sp"
+        android:autoSizeMinTextSize="20sp"
+        android:autoSizeStepGranularity="1sp"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:text="No Result Here"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_radio_fav"
         android:layout_width="0dp"
@@ -14,5 +32,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_percent="0.08"
+        android:indeterminateTint="@color/neonGreen"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
