@@ -18,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.StyledPlayerControlView;
@@ -47,13 +48,14 @@ public class TvDetailFragment extends Fragment {
         View rootView = binding.getRoot();
         bundle = getArguments();
         id = bundle.getInt("id");
+        setUp();
         Methods.getInstance().checkVideoFav(getContext(), id, new CheckFavListener() {
             @Override
             public void onComplete(boolean isSuccess, boolean isFav) {
                 if(isSuccess){
                     mIsFav = isFav;
                 }
-                setUp();
+                setUpFav();
             }
         });
 
@@ -62,16 +64,9 @@ public class TvDetailFragment extends Fragment {
 
     private void setUp(){
         MainActivity.hide_Navi();
-        getActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        (getActivity()).setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         navController = NavHostFragment.findNavController(this);
-
-        binding.imgLikeTvdetailFrag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.controlViewTVDetailFrag.show();
-            }
-        });
 
         binding.layoutMainDetailFrag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +84,7 @@ public class TvDetailFragment extends Fragment {
             }
         });
 
+
         Picasso.get().load(bundle.getString("url_img")).into(binding.imgTvDetailFrag);
         binding.txtTvDetailFrag.setText(bundle.getString("des"));
 
@@ -104,12 +100,12 @@ public class TvDetailFragment extends Fragment {
             public void onClick(View v) {
                 if(bundle.getBoolean("isHome")){
                     navController.navigate(R.id.TVDetail_to_HomeFrag);
-                } if(bundle.getBoolean("isFavorite")) {
+                } else if(bundle.getBoolean("isFavorite")) {
                     navController.navigate(R.id.tv_detail_to_favorite);
                 }
                 else{
-
-                }navController.navigate(R.id.fromDetailtoTVFrag);
+                    navController.navigate(R.id.fromDetailtoTVFrag);
+                }
             }
         });
 
@@ -130,6 +126,24 @@ public class TvDetailFragment extends Fragment {
         });
 
         player = new ExoPlayer.Builder(getContext()).build();
+        player.addListener(new Player.Listener() {
+            @Override
+            public void onPlaybackStateChanged(int playbackState) {
+                Player.Listener.super.onPlaybackStateChanged(playbackState);
+                switch (playbackState) {
+                    case Player.STATE_BUFFERING:
+                        binding.prgTvDetailFrag.setVisibility(View.VISIBLE);
+                        binding.imgTempTVDetailFrag.setVisibility(View.VISIBLE);
+                        break;
+                    case Player.STATE_READY:
+                        binding.prgTvDetailFrag.setVisibility(View.GONE);
+                        binding.imgTempTVDetailFrag.setVisibility(View.GONE);
+                        break;
+                    case Player.STATE_ENDED:
+                        break;
+                }
+            }
+        });
         binding.videoTvDetailFrag.setUseController(false);
         binding.videoTvDetailFrag.setPlayer(player);
 
@@ -155,17 +169,6 @@ public class TvDetailFragment extends Fragment {
         player.prepare();
         player.play();
 
-        if(mIsFav){
-            Picasso.get()
-                    .load(R.drawable.ic_heart4_check)
-                    .into(binding.imgLikeTvdetailFrag);
-        }else{
-            Picasso.get()
-                    .load(R.drawable.ic_heart4_uncheckpng)
-                    .into(binding.imgLikeTvdetailFrag);
-        }
-
-
         binding.imgLikeTvdetailFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,14 +189,29 @@ public class TvDetailFragment extends Fragment {
                         }
                     }
                 });
+                binding.controlViewTVDetailFrag.show();
             }
         });
+    }
+
+    private void setUpFav(){
+        if(mIsFav){
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_check)
+                    .into(binding.imgLikeTvdetailFrag);
+        }else{
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_uncheckpng)
+                    .into(binding.imgLikeTvdetailFrag);
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        player.stop();
+        if(player!=null){
+            player.stop();
+        }
         MainActivity.show_Navi();
         getActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }

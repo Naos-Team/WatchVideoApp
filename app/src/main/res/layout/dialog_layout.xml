@@ -40,14 +40,13 @@
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:gravity="center_horizontal"
-            android:padding="2dp"
+            android:padding="5dp"
             android:text="If you log in with Google at the first time using app, this will be your only  one account.\n If you want to use email+password and then Google, click Sign Up."
             app:layout_constraintBottom_toTopOf="@+id/btn_next_su"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.38"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ic_dialog_alert"
-            app:layout_constraintWidth_percent="1" />
+            app:layout_constraintTop_toBottomOf="@id/ic_dialog_alert" />
 
 
         <androidx.appcompat.widget.AppCompatButton

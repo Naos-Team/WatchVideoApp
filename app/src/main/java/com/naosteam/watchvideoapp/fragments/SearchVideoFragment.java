@@ -153,7 +153,13 @@ public class SearchVideoFragment extends Fragment {
         LinearLayout.LayoutParams layoutParams00 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Math.round(height*0.15));
         binding.llTop.setLayoutParams(layoutParams00);
 
+        binding.btnBackFloat.hide();
+
         binding.btnBack.setOnClickListener(v->{
+            navController.navigate(R.id.searchVideoBackToVideo);
+        });
+
+        binding.btnBackFloat.setOnClickListener(v->{
             navController.navigate(R.id.searchVideoBackToVideo);
         });
 
@@ -176,6 +182,13 @@ public class SearchVideoFragment extends Fragment {
         binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                if(0 <= scrollY && scrollY < v.getMeasuredHeight()/3){
+                    binding.btnBackFloat.hide();
+                }else{
+                    binding.btnBackFloat.show();
+                }
+
                 if(v.getChildAt(v.getChildCount() - 1) != null) {
                     if(loading){
                         if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&

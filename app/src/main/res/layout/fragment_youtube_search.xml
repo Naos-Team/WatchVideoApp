@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.SearchVideoFragment"
-    android:background="@color/primaryColor">
+    android:background="@color/primaryColor"
+    android:fillViewport="true">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_back_float"
@@ -15,15 +16,16 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         app:borderWidth="0dp"
-        android:backgroundTint="@color/neonGreen"
+        android:backgroundTint="@color/youtubeColor"
         android:tint="@color/white"
         android:src="@drawable/ic_arrow_back" />
+
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:id="@+id/scroll_view">
+        android:id="@+id/scroll_view"
+        android:fillViewport="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -52,10 +54,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_centerVertical="true"
-                        android:paddingVertical="10dp"
                         android:adjustViewBounds="true"
+                        android:paddingVertical="10dp"
                         android:src="@drawable/ic_back"
-                        android:tint="@color/neonGreen" />
+                        android:tint="@color/youtubeColor" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -68,7 +70,7 @@
                         android:autoSizeTextType="uniform"
                         android:gravity="center_vertical"
                         android:paddingVertical="5dp"
-                        android:text="Search video"
+                        android:text="Youtube video"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -94,24 +96,24 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:paddingHorizontal="10dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:paddingHorizontal="10dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone" />
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_not_found"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
                     android:layout_centerInParent="true"
-                    android:text="No result found"/>
+                    android:text="No result found"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -122,9 +124,10 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="30dp"
                     android:indeterminate="true"
-                    android:indeterminateTint="@color/neonGreen"
+                    android:indeterminateTint="@color/youtubeColor"
                     android:indeterminateTintMode="src_atop"
                     android:visibility="visible" />
+
 
             </RelativeLayout>
 
@@ -137,7 +140,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:indeterminate="true"
-                android:indeterminateTint="@color/neonGreen"
+                android:indeterminateTint="@color/dailymotionColor"
                 android:indeterminateTintMode="src_atop"
                 android:visibility="gone" />
 

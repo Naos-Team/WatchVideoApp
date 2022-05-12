@@ -57,7 +57,7 @@ public class RadioDetailsFragment extends Fragment {
         rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
 
-        Methods.getInstance().checkVideoFav(getContext(), radio.getVid_id(), new CheckFavListener() {
+        Methods.getInstance().checkVideoFav(getContext(), Constant.Radio_Listening.getVid_id(), new CheckFavListener() {
             @Override
             public void onComplete(boolean isSuccess, boolean isFav) {
                 if(isSuccess){

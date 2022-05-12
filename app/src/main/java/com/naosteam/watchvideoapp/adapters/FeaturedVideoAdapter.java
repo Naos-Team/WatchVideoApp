@@ -39,6 +39,11 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
         this.layoutParams = layoutParams;
     }
 
+    public void setList_Video(ArrayList<Videos_M> arrayList_video){
+        this.arrayList_video = arrayList_video;
+    }
+
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,7 +55,7 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
                 view = inflater.inflate(R.layout.item_dailymotion_video, parent, false);
                 break;
             case Constant.YOUTUBE_VIDEO:
-                view = inflater.inflate(R.layout.item_video_fragment, parent, false);
+                view = inflater.inflate(R.layout.item_youtube_video, parent, false);
                 break;
             default:
                 view = inflater.inflate(R.layout.item_video_fragment, parent, false);
@@ -75,7 +80,6 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
         }else{
             holder.tv_time.setText(methods.getPastTimeString(video.getVid_time()));
         }
-
 
 
         int views = video.getVid_view();

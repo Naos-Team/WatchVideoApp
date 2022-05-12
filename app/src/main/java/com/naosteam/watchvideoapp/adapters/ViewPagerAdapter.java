@@ -11,10 +11,18 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.naosteam.watchvideoapp.fragments.RadioFavoriteFragment;
 import com.naosteam.watchvideoapp.fragments.TVFavoriteFragment;
 import com.naosteam.watchvideoapp.fragments.VideoFavoriteFragment;
+import com.naosteam.watchvideoapp.listeners.FavoriteToDetailListener;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
-    public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+
+    private VideoFavoriteFragment videoFavoriteFragment;
+    private TVFavoriteFragment tvFavoriteFragment;
+    private RadioFavoriteFragment radioFavoriteFragment;
+    private FavoriteToDetailListener listener;
+
+    public ViewPagerAdapter(FavoriteToDetailListener listener, @NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
+        this.listener = listener;
     }
 
     @NonNull
@@ -22,11 +30,14 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch(position){
             case 0:
-                return new VideoFavoriteFragment();
+                videoFavoriteFragment = new VideoFavoriteFragment(listener);
+                return videoFavoriteFragment;
             case 1:
-                return new TVFavoriteFragment();
+                tvFavoriteFragment = new TVFavoriteFragment(listener);
+                return tvFavoriteFragment;
             case 2:
-                return new RadioFavoriteFragment();
+                radioFavoriteFragment = new RadioFavoriteFragment(listener);
+                return radioFavoriteFragment;
         }
         return null;
     }
@@ -52,5 +63,26 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 break;
         }
         return title;
+    }
+
+    public void onVideoPage(String text){
+        if (videoFavoriteFragment!=null){
+            videoFavoriteFragment.searchVideo(text);
+        }
+
+
+    }
+    public void onTVPage(String text){
+        if (tvFavoriteFragment!=null){
+            tvFavoriteFragment.searchTV(text);
+        }
+
+    }
+    public void onRadioPage(String text){
+        if (radioFavoriteFragment!=null){
+            radioFavoriteFragment.searchRadio(text);
+        }
+
+
     }
 }

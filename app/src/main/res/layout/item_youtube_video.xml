@@ -7,7 +7,7 @@
     android:weightSum="10"
     android:orientation="vertical">
     <com.makeramen.roundedimageview.RoundedImageView
-        app:riv_border_color="@color/darkGreen"
+        app:riv_border_color="@color/youtubeColor"
         app:riv_border_width="0.5sp"
         android:id="@+id/iv_thumb"
         app:riv_corner_radius="5dp"

@@ -2,7 +2,6 @@ package com.naosteam.watchvideoapp.fragments;
 
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -16,18 +15,15 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
-import com.naosteam.watchvideoapp.adapters.RadioItemAdapter;
-import com.naosteam.watchvideoapp.adapters.ViewPagerAdapter;
 import com.naosteam.watchvideoapp.asynctasks.LoadFavoriteListAsync;
-import com.naosteam.watchvideoapp.databinding.FragmentFavoriteBinding;
 import com.naosteam.watchvideoapp.databinding.FragmentVideoFavoriteBinding;
 import com.naosteam.watchvideoapp.listeners.LoadSearchVideoAsyncListener;
-import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
+import com.naosteam.watchvideoapp.listeners.FavoriteToDetailListener;
 import com.naosteam.watchvideoapp.models.Videos_M;
-import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 
 import java.util.ArrayList;
@@ -37,9 +33,10 @@ import okhttp3.RequestBody;
 public class VideoFavoriteFragment extends Fragment {
     private View rootView;
     private FragmentVideoFavoriteBinding binding;
-    private ArrayList<Videos_M> arrayList_fav;
+    private ArrayList<Videos_M> arrayList_fav, mArrayList;
     private FeaturedVideoAdapter videoAdapter;
     private NavController navController;
+    private FavoriteToDetailListener listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,9 +52,17 @@ public class VideoFavoriteFragment extends Fragment {
         return rootView;
     }
 
+    public VideoFavoriteFragment() {
+    }
+
+    public VideoFavoriteFragment(FavoriteToDetailListener listener) {
+        this.listener = listener;
+    }
+
     private void LoadData(){
         Bundle bundle = new Bundle();
         bundle.putInt("vid_type",1);
+        bundle.putString("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
         RequestBody requestBody = Methods.getInstance().getVideoRequestBody("GET_FAV_DATA", bundle);
         LoadSearchVideoAsyncListener listener = new LoadSearchVideoAsyncListener() {
             @Override
@@ -69,8 +74,18 @@ public class VideoFavoriteFragment extends Fragment {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
-                            arrayList_fav.addAll(arrayList);
-                            updateUI();
+                            binding.progress.setVisibility(View.GONE);
+                            if(arrayList==null){
+                                binding.tvNoResult.setVisibility(View.VISIBLE);
+                                binding.recyclerFavVideo.setVisibility(View.GONE);
+                            }
+                            else{
+
+                                arrayList_fav.addAll(arrayList);
+                                mArrayList = arrayList_fav;
+                                updateUI();
+                            }
+
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
                         }
@@ -82,6 +97,35 @@ public class VideoFavoriteFragment extends Fragment {
         };
         LoadFavoriteListAsync async = new LoadFavoriteListAsync(requestBody, listener, Methods.getInstance());
         async.execute();
+
+    }
+
+    public void searchVideo(String text){
+        if (arrayList_fav!=null){
+            if(text.length()!=0){
+                ArrayList<Videos_M> list_search = new ArrayList<>();
+                for(Videos_M i : arrayList_fav){
+                    if(i.getVid_title().toLowerCase().contains(text.toLowerCase()))
+                        list_search.add(i);
+                }
+                if(list_search.isEmpty()) {
+                    if (text.length() > 0){}
+                    //Toast.makeText(getActivity(), "No TV Found", Toast.LENGTH_SHORT).show();
+                } else {
+                    videoAdapter.setList_Video(list_search);
+                    videoAdapter.notifyDataSetChanged();
+                }
+            }
+            else{
+                videoAdapter.setList_Video(mArrayList);
+                videoAdapter.notifyDataSetChanged();
+                //LoadData();
+
+            }
+        }
+        else{
+
+        }
 
     }
 
@@ -98,8 +142,8 @@ public class VideoFavoriteFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("video", arrayList_fav.get(position));
                 bundle.putBoolean("is_favorite", true);
+                listener.onDirect(1, bundle);
 
-                navController.navigate(R.id.favorite_to_video_detail, bundle);
             }
         });
 

@@ -75,10 +75,7 @@ public class ProfileFragment extends Fragment {
                             binding.edtEmail.setText(user.getUser_email());
                             binding.edtPhone.setText(user.getUser_phone());
                             binding.edtAge.setText(String.valueOf(user.getUser_age()));
-                            if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null){
-                                Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
-                                Picasso.get().load(uri).into(binding.imvUser);
-                            }
+                            Picasso.get().load(user.getPhoto_url()).into(binding.imvUser);
                         }
                     }
                 });
