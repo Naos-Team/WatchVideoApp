@@ -84,6 +84,13 @@ public class MoreFragment extends Fragment {
             }
         });
 
+        binding.constraintlayout21.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    navController.navigate(R.id.profile_to_more);
+            }
+        });
+
         binding.constraintlayout20.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
