@@ -4,44 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FavoriteFragment"
-    android:background="@color/primaryColor">
+    android:background="@color/primaryColor"
+    tools:context=".fragments.FavoriteFragment">
 
     <TextView
         android:id="@+id/imv_back"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
         android:autoSizeMaxTextSize="20sp"
         android:autoSizeMinTextSize="10sp"
         android:autoSizeStepGranularity="2sp"
         android:autoSizeTextType="uniform"
+        android:gravity="center_vertical"
         android:padding="2dp"
         android:src="@drawable/nhi_back"
         android:text="Back"
-        android:gravity="center_vertical"
-        android:textColor="@color/neonGreen"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/tablayout"
+        app:layout_constraintEnd_toStartOf="@+id/searchView2"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SearchView
+        android:id="@+id/searchView2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="end"
+        app:layout_constraintHeight_percent="0.08"
         app:layout_constraintBottom_toTopOf="@+id/tablayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imv_back"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:tabSelectedTextColor="@color/neonGreen"
-        app:tabTextColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/viewpager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
         android:autoSizeMaxTextSize="30sp"
         android:autoSizeMinTextSize="20sp"
         android:autoSizeStepGranularity="2sp"
         android:autoSizeTextType="uniform"
+        android:background="@color/primaryColor"
+        app:layout_constraintBottom_toTopOf="@+id/viewpager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imv_back"
+        app:tabSelectedTextColor="@color/neonGreen"
+        app:tabTextColor="@color/white"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.viewpager.widget.ViewPager

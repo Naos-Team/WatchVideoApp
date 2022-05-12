@@ -65,11 +65,11 @@ public class RadioFavoriteFragment extends Fragment {
                 }
 
                 @Override
-                public void onEnd(boolean status, ArrayList<Videos_M> arrayList_fav) {
+                public void onEnd(boolean status, ArrayList<Videos_M> arrayListfav) {
                     if(getContext() != null){
                         if(Methods.getInstance().isNetworkConnected(getContext())){
                             if(status){
-                                arrayList_fav.addAll(arrayList_fav);
+                                arrayList_fav.addAll(arrayListfav);
                                 updateUI();
                             }else{
                                 Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
@@ -103,7 +103,7 @@ public class RadioFavoriteFragment extends Fragment {
             }
         });
 
-
+        binding.recyclerRadioFav.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL ,false));
         binding.recyclerRadioFav.setAdapter(radioItemAdapter);
 
     }

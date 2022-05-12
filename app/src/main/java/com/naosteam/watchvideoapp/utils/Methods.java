@@ -268,9 +268,10 @@ public class Methods {
         String user_name = obj.getString("user_name");
         String user_email = obj.getString("user_email");
         String user_phone = obj.getString("user_phone");
+        String photo_url = obj.getString("photo_url");
         int user_age = obj.getInt("user_age");
         boolean user_status = obj.getInt("user_status")==1;
-        return new Users_M(uid, user_name, user_email, user_phone, user_age);
+        return new Users_M(uid, user_name, user_email, user_phone, user_age, photo_url);
     }
 
     public RequestBody getHomeRequestBody(String method_name, Bundle bundle) {

@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +35,7 @@ import okhttp3.RequestBody;
 public class TVFavoriteFragment extends Fragment {
     private View rootView;
     private FragmentTVFavoriteBinding binding;
-    private ArrayList<Videos_M> arrayList_fav;
+    private ArrayList<Videos_M> arrayListfav;
     private TVFragmentAdapter tvFragmentAdapter;
     private NavController navController;
     @Override
@@ -43,7 +44,7 @@ public class TVFavoriteFragment extends Fragment {
         binding = FragmentTVFavoriteBinding.inflate(inflater, container, false);
         rootView = binding.getRoot();
 
-        arrayList_fav = new ArrayList<Videos_M>();
+        arrayListfav = new ArrayList<Videos_M>();
         navController = NavHostFragment.findNavController(this);
 
         LoadData();
@@ -65,7 +66,7 @@ public class TVFavoriteFragment extends Fragment {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
-                            arrayList_fav.addAll(arrayList_fav);
+                            arrayListfav.addAll(arrayList_fav);
                             updateUI();
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
@@ -85,22 +86,21 @@ public class TVFavoriteFragment extends Fragment {
         binding.recyclerFavTv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
 
         int width = getContext().getResources().getDisplayMetrics().widthPixels;
-        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams((int) Math.round(width), (int) Math.round(width * 0.17));
-        layoutParams.setMargins(0, 20, 0, 20);
+        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams((int) Math.round(width*0.4), (int) Math.round(width * 0.3));
+        layoutParams.setMargins(0, 10, 0, 10);
 
-        tvFragmentAdapter = new TVFragmentAdapter(arrayList_fav, layoutParams, new OnHomeItemClickListeners() {
+        tvFragmentAdapter = new TVFragmentAdapter(arrayListfav, layoutParams, new OnHomeItemClickListeners() {
             @Override
             public void onClick_homeItem(int position) {
                 Bundle bundle = new Bundle();
-                bundle.putString("url", arrayList_fav.get(position).getVid_url());
-                bundle.putString("url_img", arrayList_fav.get(position).getVid_thumbnail());
-                bundle.putString("des", arrayList_fav.get(position).getVid_description());
+                bundle.putString("url", arrayListfav.get(position).getVid_url());
+                bundle.putString("url_img", arrayListfav.get(position).getVid_thumbnail());
+                bundle.putString("des", arrayListfav.get(position).getVid_description());
                 bundle.putBoolean("isFavorite", true);
                 navController.navigate(R.id.favorite_to_tv_detail, bundle);
             }
         });
-
-
+        binding.recyclerFavTv.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recyclerFavTv.setAdapter(tvFragmentAdapter);
 
     }

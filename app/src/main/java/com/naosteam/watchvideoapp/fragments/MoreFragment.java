@@ -204,7 +204,8 @@ public class MoreFragment extends Fragment {
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(getContext(), "You haven't logged in. Let's join us!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
             }
         });
