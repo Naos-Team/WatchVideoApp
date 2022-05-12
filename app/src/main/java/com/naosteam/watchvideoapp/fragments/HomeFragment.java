@@ -164,7 +164,7 @@ public class HomeFragment extends Fragment {
                 getDisplayMetrics().widthPixels*1/3, (getActivity().getResources().getDisplayMetrics().widthPixels)*1/3);
         layoutParams_video_item.setMargins(20, 30,20,30);
 
-        featuredVideoAdapter = new FeaturedVideoAdapter(layoutParams_video_item, list_video_trending, new OnVideoFeatureClickListener() {
+        featuredVideoAdapter = new FeaturedVideoAdapter(Methods.getInstance(), layoutParams_video_item, list_video_trending, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
                 Bundle bundle = new Bundle();

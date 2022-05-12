@@ -91,6 +91,17 @@ public class VideoFragment extends Fragment {
                 Toast.makeText(getContext(), "Please fill the text input!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        binding.btnSearchDmotion.setOnClickListener(v->{
+            if(!binding.edtSearch.getText().toString().isEmpty()){
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "dailymotion");
+                bundle.putString("search_text", binding.edtSearch.getText().toString());
+                navController.navigate(R.id.VideoToDailymotionSearch, bundle);
+            }else{
+                Toast.makeText(getContext(), "Please fill the text input!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void LoadVideoData(){
@@ -153,7 +164,7 @@ public class VideoFragment extends Fragment {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int)Math.round(width*0.5), (int)Math.round(width*0.45));
         layoutParams.setMargins(35,0,0,0);
 
-        binding.rvLatestVideo.setAdapter(new FeaturedVideoAdapter(layoutParams, mLatests, new OnVideoFeatureClickListener() {
+        binding.rvLatestVideo.setAdapter(new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, mLatests, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
                 Videos_M video = mLatests.get(position);
@@ -161,7 +172,7 @@ public class VideoFragment extends Fragment {
             }
         }));
 
-        binding.rvTopRating.setAdapter(new FeaturedVideoAdapter(layoutParams, mTopRates, new OnVideoFeatureClickListener() {
+        binding.rvTopRating.setAdapter(new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, mTopRates, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
                 Videos_M video = mTopRates.get(position);
@@ -169,7 +180,7 @@ public class VideoFragment extends Fragment {
             }
         }));
 
-        binding.rvMostView.setAdapter(new FeaturedVideoAdapter(layoutParams, mMostViews, new OnVideoFeatureClickListener() {
+        binding.rvMostView.setAdapter(new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, mMostViews, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
                 Videos_M video = mMostViews.get(position);
