@@ -1,6 +1,5 @@
 package com.naosteam.watchvideoapp.fragments;
 
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,10 +57,10 @@ public class CmtVideoFragment extends Fragment {
         binding.btnSendCmtVideoFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//               if(FirebaseAuth.getInstance().getCurrentUser() == null){
-//                   Toast.makeText(getActivity(), "Please", Toast.LENGTH_SHORT).show();
-//               } else {
-                   DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+               if(FirebaseAuth.getInstance().getCurrentUser() == null){
+                   Toast.makeText(getActivity(), "Please", Toast.LENGTH_SHORT).show();
+               } else {
+                   DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
                    Date date =new Date();
                    try {
                        date = dateFormat.parse(dateFormat.format(new Date().getTime()));
@@ -69,12 +68,11 @@ public class CmtVideoFragment extends Fragment {
                        e.printStackTrace();
                    }
                    Comment_M cmt = new Comment_M(-1, videos_m.getVid_id(),
-//                           FirebaseAuth.getInstance().getCurrentUser().toString(),
-                           "213123",
-                           date.toString(),
+                           FirebaseAuth.getInstance().getCurrentUser().toString(),
+                           dateFormat.format(date),
                            binding.txtCmtVideoFrag.getText().toString());
                    insert(cmt);
-//               }
+               }
             }
         });
 
@@ -92,7 +90,8 @@ public class CmtVideoFragment extends Fragment {
                 new OnCmtItemListener() {
                     @Override
                     public void onPreEdit(int visibility){
-                        binding.layoutSendCmtVideoFrag.setVisibility(visibility);
+                        binding.txtCmtVideoFrag.setVisibility(visibility);
+                        binding.btnSendCmtVideoFrag.setVisibility(visibility);
                     }
 
                     @Override
@@ -115,7 +114,7 @@ public class CmtVideoFragment extends Fragment {
         for(int i = 0; i < 5; ++i){
             Comment_M cmt = new Comment_M(i, videos_m.getVid_id(),
 //                           FirebaseAuth.getInstance().getCurrentUser().toString(),
-                    "123" + i,
+                    "OmLDtiOcq1WFe2oaxn3a3DiYxpc2",
                     "TEE",
                     "TEST" + i);
             insert(cmt);
@@ -128,7 +127,6 @@ public class CmtVideoFragment extends Fragment {
     }
 
     private void update(Comment_M cmt, int position){
-        binding.layoutSendCmtVideoFrag.setVisibility(View.VISIBLE);
         adapter.notifyItemChanged(position);
     }
 

@@ -6,15 +6,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +15,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.VideoPlayerActivity;
@@ -32,14 +30,12 @@ import com.naosteam.watchvideoapp.listeners.CheckFavListener;
 import com.naosteam.watchvideoapp.listeners.CheckRatingListener;
 import com.naosteam.watchvideoapp.listeners.SetFavListener;
 import com.naosteam.watchvideoapp.listeners.SetRatingListener;
-import com.naosteam.watchvideoapp.models.Rating_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
 
 public class VideoDetailFragment extends Fragment {
 

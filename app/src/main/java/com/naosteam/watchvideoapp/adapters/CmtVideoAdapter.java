@@ -1,18 +1,23 @@
 package com.naosteam.watchvideoapp.adapters;
 
 import android.content.Context;
-import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.MainActivity;
 import com.naosteam.watchvideoapp.listeners.OnCmtItemListener;
@@ -54,6 +59,7 @@ public class CmtVideoAdapter extends RecyclerView.Adapter<CmtVideoAdapter.CmtVid
 
     class CmtVideoHolder extends RecyclerView.ViewHolder{
         ImageView img_usder_cmt_item, btn_del_cmt_item, btn_edit_cmt_item;
+        TextView txtTime_cmt_item, txtName_cmt_item;
         EditText txtCmt_item;
         ConstraintLayout layout_option_cmt_item;
 
@@ -62,6 +68,8 @@ public class CmtVideoAdapter extends RecyclerView.Adapter<CmtVideoAdapter.CmtVid
             img_usder_cmt_item = (ImageView) itemView.findViewById(R.id.img_usder_cmt_item);
             btn_del_cmt_item = (ImageView) itemView.findViewById(R.id.btn_del_cmt_item);
             btn_edit_cmt_item = (ImageView) itemView.findViewById(R.id.btn_edit_cmt_item);
+            txtName_cmt_item = (TextView) itemView.findViewById(R.id.txtName_cmt_item);
+            txtTime_cmt_item = (TextView) itemView.findViewById(R.id.txtTime_cmt_item);
             txtCmt_item = (EditText) itemView.findViewById(R.id.txtCmt_item);
             layout_option_cmt_item = (ConstraintLayout) itemView.findViewById(R.id.layout_option_cmt_item);
         }
@@ -69,10 +77,7 @@ public class CmtVideoAdapter extends RecyclerView.Adapter<CmtVideoAdapter.CmtVid
         public void bindView(int position){
 
             txtCmt_item.setEnabled(false);
-//            if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null){
-//                Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
-//                Picasso.get().load(uri).into(img_usder_cmt_item);
-//            }
+            txtTime_cmt_item.setText(list_cmt.get(position).getCmt_time());
             txtCmt_item.setText(list_cmt.get(position).getCmt_text());
             btn_del_cmt_item.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,15 +89,54 @@ public class CmtVideoAdapter extends RecyclerView.Adapter<CmtVideoAdapter.CmtVid
                         listener.onPreEdit(View.VISIBLE);
                         txtCmt_item.setEnabled(false);
                         btn_del_cmt_item.setImageResource(R.drawable.ic_del);
-                        btn_edit_cmt_item.setImageResource(R.drawable.ic_edit);
+                        btn_edit_cmt_item.setImageResource(R.drawable.ic_edit1);
                     }
                 }
             });
 
-//            if(list_cmt.get(position).getUid().equals(FirebaseAuth.getInstance().getCurrentUser())){
-            if(list_cmt.get(position).getUid().equals("213123")){
+            if(list_cmt.get(position).getUid().equals(FirebaseAuth.getInstance().getCurrentUser().toString())){
+                FirebaseDatabase.getInstance().getReference().child("Users").
+                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String user_name = (snapshot.child("user_name").getValue().toString().equals("empty"))
+                                ? snapshot.child("user_name").getValue().toString() : "User";
+                        txtName_cmt_item.setText(user_name);
+                        Log.e("tuyen", snapshot.child("photo_url").getValue().toString());
+                        if(!snapshot.child("photo_url").getValue().toString().equals("empty")) {
+                            Picasso.get().load(snapshot.child("photo_url").getValue().toString()).into(img_usder_cmt_item);
+                        } else {
+                            img_usder_cmt_item.setImageResource(R.drawable.ic_nouser_setting);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 layout_option_cmt_item.setVisibility(View.VISIBLE);
             } else {
+                FirebaseDatabase.getInstance().getReference().child("Users").
+                        child(list_cmt.get(position).getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String user_name = (snapshot.child("user_name").getValue().toString().equals("empty"))
+                                ? snapshot.child("user_name").getValue().toString() : "User";
+                        txtName_cmt_item.setText(user_name);
+                        Log.e("tuyen", snapshot.child("photo_url").getValue().toString());
+                        if(!snapshot.child("photo_url").getValue().toString().equals("empty")) {
+                            Picasso.get().load(snapshot.child("photo_url").getValue().toString()).into(img_usder_cmt_item);
+                        } else {
+                            img_usder_cmt_item.setImageResource(R.drawable.ic_nouser_setting);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 layout_option_cmt_item.setVisibility(View.GONE);
             }
 
@@ -103,9 +147,9 @@ public class CmtVideoAdapter extends RecyclerView.Adapter<CmtVideoAdapter.CmtVid
                         for_del = true;
                         String cmt = txtCmt_item.getText().toString();
                         listener.onEdit(position, cmt);
-                        txtCmt_item.setEnabled(false);
+                        listener.onPreEdit(View.VISIBLE);
                         btn_del_cmt_item.setImageResource(R.drawable.ic_del);
-                        btn_edit_cmt_item.setImageResource(R.drawable.ic_edit);
+                        btn_edit_cmt_item.setImageResource(R.drawable.ic_edit1);
                     } else {
                         for_del = false;
                         txtCmt_item.setEnabled(true);
