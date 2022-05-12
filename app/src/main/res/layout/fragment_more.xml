@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MoreFragment">
+    tools:context=".fragments.MoreFragment"
+    android:background="@color/primaryColor">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -404,23 +405,23 @@
         app:layout_constraintHeight_percent="0.1">
 
         <ImageView
-            android:id="@+id/imv_setting"
+            android:id="@+id/imv_clear"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_setting"
+            app:layout_constraintEnd_toStartOf="@+id/tv_clear"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_setting"
+            android:src="@drawable/ic_clean"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintHeight_percent="0.4"/>
 
         <TextView
-            android:id="@+id/tv_setting"
+            android:id="@+id/tv_clear"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="20dp"
@@ -429,10 +430,10 @@
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:gravity="center_vertical"
-            android:text="Setting"
+            android:text="Clear Cache Data"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/open_profile5"
-            app:layout_constraintStart_toEndOf="@+id/imv_setting"
+            app:layout_constraintStart_toEndOf="@+id/imv_clear"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -442,7 +443,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/tv_setting"
+            app:layout_constraintStart_toEndOf="@+id/tv_clear"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_setting_open"
             android:layout_marginRight="10dp"

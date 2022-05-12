@@ -82,6 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
         btn_signup = findViewById(R.id.btn_signup);
         edt_age = findViewById(R.id.edt_signup_age);
 
+
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(SignUpActivity.this, R.id.edt_signup_name, RegexTemplate.NOT_EMPTY, R.string.invalid_signup_name);
         awesomeValidation.addValidation(SignUpActivity.this, R.id.edt_signup_phone, RegexTemplate.TELEPHONE, R.string.invalid_signup_phone);
@@ -138,7 +139,14 @@ public class SignUpActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                 if (task.isSuccessful()) {
-                                                    @SuppressLint("RestrictedApi") Users_M user = new Users_M(FirebaseAuth.getInstance().getCurrentUser().getUid(), name, email, phone, age);
+                                                    String url = "";
+                                                    if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null){
+                                                        url = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
+                                                    }
+                                                    else{
+                                                        url = "empty";
+                                                    }
+                                                    @SuppressLint("RestrictedApi") Users_M user = new Users_M(FirebaseAuth.getInstance().getCurrentUser().getUid(), name, email, phone, age, url);
                                                     FirebaseDatabase.getInstance().getReference("Users")
                                                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                             .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

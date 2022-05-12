@@ -154,13 +154,21 @@ public class UpdateProfileActivity extends AppCompatActivity {
         String name = binding.edtName1.getText().toString().trim();
         String phone = binding.edtPhone1.getText().toString().trim();
         int age = Integer.parseInt(binding.edtAge1.getText().toString());
+        String url;
+        if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null) {
+            url = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
+        }
+        else{
+            url = "empty";
+        }
 
-        Users_M user = new Users_M(FirebaseAuth.getInstance().getUid(), name, email, phone, age);
+        Users_M user = new Users_M(FirebaseAuth.getInstance().getCurrentUser().getUid(), name, email, phone, age, url);
         HashMap User = new HashMap();
         User.put("user_name", name);
         User.put("user_email", email);
         User.put("user_phone", phone);
         User.put("user_age", age);
+        User.put("photo_url", url);
         databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

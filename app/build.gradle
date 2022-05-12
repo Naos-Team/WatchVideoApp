@@ -32,6 +32,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        benchmark {
+            signingConfig signingConfigs.debug
+            debuggable false
+        }
     }
 
     buildFeatures {
@@ -83,4 +87,5 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-core:2.17.1'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.17.1'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.17.1'
+    implementation 'com.dailymotion.dailymotion-sdk-android:sdk:0.2.11'
 }
