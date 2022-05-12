@@ -34,7 +34,21 @@ public class DailymotionPlayerActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent returnIntent = new Intent();
         setResult(RESULT_OK, returnIntent);
+        binding.playerDailymotion.release();
+
         finish();
+    }
+
+    @Override
+    public void onPause() {
+        binding.playerDailymotion.pause();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        binding.playerDailymotion.play();
+        super.onResume();
     }
 
 

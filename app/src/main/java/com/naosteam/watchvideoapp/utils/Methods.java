@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.type.DateTime;
 import com.google.type.DateTimeOrBuilder;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -253,7 +255,7 @@ public class Methods {
         return new Videos_M(vid_id, cat_id, vid_title, vid_thumbnail, vid_description, vid_url, vid_view, vid_duration, vid_avg_rate, vid_type, vid_is_premium, vid_time);
     }
 
-    public Videos_M getDailymotionVideo(JSONObject obj) throws Exception {
+    public Videos_M getJsonDailymotionVideo(JSONObject obj) throws Exception {
         String vid_title = obj.getString("title");
         String vid_url = obj.getString("id");
         String vid_thumbnail = obj.getString("thumbnail_url");
@@ -261,6 +263,23 @@ public class Methods {
         int duration = obj.getInt("duration");
 
         return new Videos_M(-1, -1, vid_title, vid_thumbnail, "", vid_url, vid_view, duration, -1, Constant.DAILYMOTION_VIDEO, false, new Date());
+    }
+    public Videos_M getJsonYoutubeVideo(JSONObject obj) throws Exception {
+
+        JSONObject snippet = new JSONObject(obj.getString("snippet"));
+
+        String vid_title = snippet.getString("title");
+        String date_string = snippet.getString("publishedAt");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date vid_time = sdf.parse(date_string);
+
+        JSONObject thumbnails = new JSONObject(snippet.getString("thumbnails"));
+        JSONObject high_thumb = new JSONObject(thumbnails.getString("medium"));
+        String vid_thumbnail = high_thumb.getString("url");
+        String vid_url = new JSONObject(obj.getString("id")).getString("videoId");
+
+        return new Videos_M(-1, -1, vid_title, vid_thumbnail, "", vid_url, 0, 0, -1, Constant.YOUTUBE_VIDEO, false, vid_time);
     }
 
     public Category_M getRowCategory(JSONObject obj) throws Exception{

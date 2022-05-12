@@ -50,7 +50,7 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
                 view = inflater.inflate(R.layout.item_dailymotion_video, parent, false);
                 break;
             case Constant.YOUTUBE_VIDEO:
-                view = inflater.inflate(R.layout.item_video_fragment, parent, false);
+                view = inflater.inflate(R.layout.item_youtube_video, parent, false);
                 break;
             default:
                 view = inflater.inflate(R.layout.item_video_fragment, parent, false);
@@ -75,7 +75,6 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
         }else{
             holder.tv_time.setText(methods.getPastTimeString(video.getVid_time()));
         }
-
 
 
         int views = video.getVid_view();

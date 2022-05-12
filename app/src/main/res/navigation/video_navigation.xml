@@ -19,6 +19,9 @@
         <action
             android:id="@+id/VideoToDailymotionSearch"
             app:destination="@id/dailymotionSearchFragment" />
+        <action
+            android:id="@+id/VideoToYoutubeSearch"
+            app:destination="@id/youtubeSearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/videoDetailFragment"
@@ -56,6 +59,15 @@
         android:label="DailymotionSearchFragment" >
         <action
             android:id="@+id/DailymotionSearchBackToVideo"
+            app:destination="@id/videoFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/youtubeSearchFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.YoutubeSearchFragment"
+        android:label="fragment_youtube_search"
+        tools:layout="@layout/fragment_youtube_search" >
+        <action
+            android:id="@+id/YoutubeSearchBackToVideo"
             app:destination="@id/videoFragment2" />
     </fragment>
 </navigation>

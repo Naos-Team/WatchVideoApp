@@ -25,23 +25,26 @@ import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.DailymotionPlayerActivity;
 import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
 import com.naosteam.watchvideoapp.asynctasks.LoadDailymotionVideoAsync;
-import com.naosteam.watchvideoapp.databinding.FragmentDailymotionSearchBinding;
+import com.naosteam.watchvideoapp.asynctasks.LoadYoutubeVideoAsync;
+import com.naosteam.watchvideoapp.databinding.FragmentYoutubeSearchBinding;
 import com.naosteam.watchvideoapp.listeners.LoadSearchVideoAsyncListener;
+import com.naosteam.watchvideoapp.listeners.LoadYoutubeSearchAsyncListener;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Methods;
 
 import java.util.ArrayList;
 
-public class DailymotionSearchFragment extends Fragment {
+public class YoutubeSearchFragment extends Fragment {
 
     private View rootView;
     private NavController navController;
-    private FragmentDailymotionSearchBinding binding;
+    private FragmentYoutubeSearchBinding binding;
     private ArrayList<Videos_M> mVideos;
     private String search_text = "";
+    private String type = "";
     private int cat_id = 0;
-    private int page = 0;
+    private String page = "";
     private int step = 20;
     private boolean loading = true;
     private int width = 0;
@@ -51,7 +54,7 @@ public class DailymotionSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentDailymotionSearchBinding.inflate(inflater, container, false);
+        binding = FragmentYoutubeSearchBinding.inflate(inflater, container, false);
         rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
 
@@ -75,10 +78,10 @@ public class DailymotionSearchFragment extends Fragment {
         Bundle bundle = new Bundle();
 
         bundle.putString("search_text", search_text);
-        bundle.putInt("page", page);
+        bundle.putString("page", page);
         bundle.putInt("step", step);
 
-        LoadDailymotionVideoAsync async = new LoadDailymotionVideoAsync(bundle, Methods.getInstance(), new LoadSearchVideoAsyncListener() {
+        LoadYoutubeVideoAsync async = new LoadYoutubeVideoAsync(bundle, new LoadYoutubeSearchAsyncListener() {
             @Override
             public void onStart() {
                 if(isLazy){
@@ -90,7 +93,7 @@ public class DailymotionSearchFragment extends Fragment {
             }
 
             @Override
-            public void onEnd(boolean status, ArrayList<Videos_M> arrayList) {
+            public void onEnd(boolean status, String nextPageToken, ArrayList<Videos_M> arrayList) {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
@@ -116,7 +119,7 @@ public class DailymotionSearchFragment extends Fragment {
                                         }
                                     }
 
-                                    page++;
+                                    page = nextPageToken;
                                     mVideos.addAll(arrayList);
                                     adapter.notifyItemRangeInserted(mVideos.size() + 1, arrayList.size());
                                     loading = true;
@@ -131,6 +134,7 @@ public class DailymotionSearchFragment extends Fragment {
                     }
                 }
             }
+
         });
 
         async.execute();
@@ -142,11 +146,11 @@ public class DailymotionSearchFragment extends Fragment {
         binding.llTop.setLayoutParams(layoutParams00);
 
         binding.btnBack.setOnClickListener(v->{
-            navController.navigate(R.id.DailymotionSearchBackToVideo);
+            navController.navigate(R.id.YoutubeSearchBackToVideo);
         });
 
         binding.btnBackFloat.setOnClickListener(v->{
-            navController.navigate(R.id.DailymotionSearchBackToVideo);
+            navController.navigate(R.id.YoutubeSearchBackToVideo);
         });
 
         binding.btnBackFloat.hide();
@@ -210,5 +214,4 @@ public class DailymotionSearchFragment extends Fragment {
         }
 
     }
-
 }
