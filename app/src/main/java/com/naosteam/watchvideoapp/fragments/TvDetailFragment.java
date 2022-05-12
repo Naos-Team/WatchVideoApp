@@ -89,10 +89,6 @@ public class TvDetailFragment extends Fragment {
             }
         });
 
-
-
-
-
         Picasso.get().load(bundle.getString("url_img")).into(binding.imgTvDetailFrag);
         binding.txtTvDetailFrag.setText(bundle.getString("des"));
 
