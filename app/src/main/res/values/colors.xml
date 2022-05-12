@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primaryColor">#0B0B0A</color>
+    <color name="dailymotionColor">#3F51B5</color>
     <color name="neonGreen">#69B612</color>
     <color name="darkGreen">#4A5C2F</color>
     <color name="grayApp">#A39F99</color>

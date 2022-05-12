@@ -8,9 +8,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,9 @@ import android.widget.Toast;
 
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
+import com.naosteam.watchvideoapp.asynctasks.LoadExtendVideoSourceAsync;
 import com.naosteam.watchvideoapp.asynctasks.LoadSearchVideoAsync;
-import com.naosteam.watchvideoapp.databinding.FragmentSearchVideoBinding;
+import com.naosteam.watchvideoapp.databinding.FragmentDailymotionSearchBinding;
 import com.naosteam.watchvideoapp.listeners.LoadSearchVideoAsyncListener;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Videos_M;
@@ -31,12 +31,11 @@ import java.util.ArrayList;
 
 import okhttp3.RequestBody;
 
-
-public class SearchVideoFragment extends Fragment {
+public class DailymotionSearchFragment extends Fragment {
 
     private View rootView;
     private NavController navController;
-    private FragmentSearchVideoBinding binding;
+    private FragmentDailymotionSearchBinding binding;
     private ArrayList<Videos_M> mVideos;
     private String search_text = "";
     private String type = "";
@@ -51,19 +50,15 @@ public class SearchVideoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentSearchVideoBinding.inflate(inflater, container, false);
+        binding = FragmentDailymotionSearchBinding.inflate(inflater, container, false);
         rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
 
         type = getArguments().getString("type");
 
-        if(type.equals("search")){
+        if(type.equals("dailymotion")){
             search_text = getArguments().getString("search_text");
             binding.tvResult.setText("Results match with \""+ search_text +"\"");
-        }else if(type.equals("category")){
-            cat_id = getArguments().getInt("cat_id");
-            String cat_name = getArguments().getString("cat_name");
-            binding.tvResult.setText("Results for \""+ cat_name +"\" category");
         }
 
         mVideos = new ArrayList<>();
@@ -81,23 +76,15 @@ public class SearchVideoFragment extends Fragment {
     private void LoadSearchVideo(boolean isLazy) {
 
         Bundle bundle = new Bundle();
-        RequestBody requestBody = null;
 
-        if(type.equals("search")){
+        if(type.equals("dailymotion")){
             bundle.putString("search_text", search_text);
             bundle.putInt("page", page);
             bundle.putInt("step", step);
-
-            requestBody = Methods.getInstance().getVideoRequestBody("LOAD_SEARCH_VIDEO", bundle);
-        }else if(type.equals("category")) {
-            bundle.putInt("cat_id", cat_id);
-            bundle.putInt("page", page);
-            bundle.putInt("step", step);
-
-            requestBody = Methods.getInstance().getVideoRequestBody("LOAD_SEARCH_CATEGORY", bundle);
+            bundle.putString("type", type);
         }
 
-        LoadSearchVideoAsync async = new LoadSearchVideoAsync(Methods.getInstance(), requestBody, new LoadSearchVideoAsyncListener() {
+        LoadExtendVideoSourceAsync async = new LoadExtendVideoSourceAsync(bundle, Methods.getInstance(), new LoadSearchVideoAsyncListener() {
             @Override
             public void onStart() {
                 if(isLazy){
@@ -113,27 +100,34 @@ public class SearchVideoFragment extends Fragment {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
-                            if(isLazy){
-                                binding.progressBarLazy.setVisibility(View.GONE);
 
-                                if(arrayList.isEmpty()){
-                                    Toast.makeText(getContext(), "No more videos to get!", Toast.LENGTH_SHORT).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(isLazy){
+
+                                        binding.progressBarLazy.setVisibility(View.GONE);
+
+                                        if(arrayList.isEmpty()){
+                                            Toast.makeText(getContext(), "No more videos to get!", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    }else{
+                                        binding.rv.setVisibility(View.VISIBLE);
+                                        binding.progressBar.setVisibility(View.GONE);
+
+                                        if(arrayList.isEmpty()){
+                                            binding.tvNotFound.setVisibility(View.VISIBLE);
+                                            binding.rv.setVisibility(View.GONE);
+                                        }
+                                    }
+
+                                    page++;
+                                    mVideos.addAll(arrayList);
+                                    adapter.notifyItemRangeInserted(mVideos.size() + 1, arrayList.size());
+                                    loading = true;
                                 }
-
-                            }else{
-                                binding.rv.setVisibility(View.VISIBLE);
-                                binding.progressBar.setVisibility(View.GONE);
-
-                                if(arrayList.isEmpty()){
-                                    binding.tvNotFound.setVisibility(View.VISIBLE);
-                                    binding.rv.setVisibility(View.GONE);
-                                }
-                            }
-
-                            page++;
-                            mVideos.addAll(arrayList);
-                            adapter.notifyItemRangeInserted(mVideos.size() + 1, arrayList.size());
-                            loading = true;
+                            }, 300);
 
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
@@ -154,7 +148,7 @@ public class SearchVideoFragment extends Fragment {
         binding.llTop.setLayoutParams(layoutParams00);
 
         binding.btnBack.setOnClickListener(v->{
-            navController.navigate(R.id.searchVideoBackToVideo);
+            navController.navigate(R.id.DailymotionSearchBackToVideo);
         });
 
         GridLayoutManager llm = new GridLayoutManager(getContext(), 2);
@@ -190,4 +184,5 @@ public class SearchVideoFragment extends Fragment {
         });
 
     }
+
 }

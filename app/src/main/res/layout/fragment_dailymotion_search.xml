@@ -37,10 +37,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:paddingVertical="10dp"
                     android:adjustViewBounds="true"
+                    android:paddingVertical="10dp"
                     android:src="@drawable/ic_back"
-                    android:tint="@color/neonGreen" />
+                    android:tint="@color/dailymotionColor" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
                 android:indeterminate="true"
-                android:indeterminateTint="@color/neonGreen"
+                android:indeterminateTint="@color/dailymotionColor"
                 android:indeterminateTintMode="src_atop"
                 android:visibility="visible" />
         </RelativeLayout>

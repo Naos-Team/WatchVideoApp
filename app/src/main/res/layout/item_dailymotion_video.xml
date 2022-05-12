@@ -7,7 +7,7 @@
     android:weightSum="10"
     android:orientation="vertical">
     <com.makeramen.roundedimageview.RoundedImageView
-        app:riv_border_color="@color/darkGreen"
+        app:riv_border_color="#3F51B5"
         app:riv_border_width="1sp"
         android:id="@+id/iv_thumb"
         app:riv_corner_radius="5dp"
@@ -54,7 +54,7 @@
             android:orientation="horizontal"
             android:layout_height="0dp">
             <TextView
-                android:id="@+id/tv_time"
+                android:id="@+id/tv_duration"
                 android:layout_weight="1"
                 android:paddingVertical="2dp"
                 android:layout_width="0dp"
@@ -64,7 +64,7 @@
                 android:autoSizeMaxTextSize="100sp"
                 android:autoSizeStepGranularity="2sp"
                 android:autoSizeTextType="uniform"
-                android:text="12 week ago"/>
+                android:text="00:00"/>
             <TextView
                 android:id="@+id/tv_view"
                 android:layout_weight="1"

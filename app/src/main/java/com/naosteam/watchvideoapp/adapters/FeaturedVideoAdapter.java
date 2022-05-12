@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.Constant;
+import com.naosteam.watchvideoapp.utils.Methods;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,11 +29,13 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
     private ArrayList<Videos_M> arrayList_video;
     private OnVideoFeatureClickListener listener;
     private ViewGroup.LayoutParams layoutParams;
+    private Methods methods;
     private Context context;
 
-    public FeaturedVideoAdapter(ViewGroup.LayoutParams layoutParams, ArrayList<Videos_M> arrayList_video, OnVideoFeatureClickListener listener) {
+    public FeaturedVideoAdapter(Methods methods, ViewGroup.LayoutParams layoutParams, ArrayList<Videos_M> arrayList_video, OnVideoFeatureClickListener listener) {
         this.arrayList_video = arrayList_video;
         this.listener = listener;
+        this.methods = methods;
         this.layoutParams = layoutParams;
     }
 
@@ -39,8 +43,20 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
+        View view;
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_video_fragment, parent, false);
+        switch (viewType){
+            case Constant.DAILYMOTION_VIDEO:
+                view = inflater.inflate(R.layout.item_dailymotion_video, parent, false);
+                break;
+            case Constant.YOUTUBE_VIDEO:
+                view = inflater.inflate(R.layout.item_video_fragment, parent, false);
+                break;
+            default:
+                view = inflater.inflate(R.layout.item_video_fragment, parent, false);
+                break;
+        }
+
         return new MyViewHolder(view);
     }
 
@@ -53,38 +69,14 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
                 .load(video.getVid_thumbnail())
                 .into(holder.iv_thumbnail);
 
-        Date currentDate = new Date();
-        Date postDate = video.getVid_time();
 
-        long diffInTime = currentDate.getTime() - postDate.getTime();
-        long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInTime);
-        long diffInHour = TimeUnit.MILLISECONDS.toHours(diffInTime);
-        long diffInYear = TimeUnit.MILLISECONDS.toDays(diffInTime) / 365l;
-        long diffInMonth = TimeUnit.MILLISECONDS.toDays(diffInTime) / 30l;
-        long diffInDay = TimeUnit.MILLISECONDS.toDays(diffInTime);
-
-
-        if (diffInYear < 1) {
-            if (diffInMonth < 1) {
-                if (diffInDay < 1) {
-                    if (diffInHour < 1) {
-                        if (diffInMinutes < 1) {
-                            holder.tv_time.setText("Just now");
-                        } else {
-                            holder.tv_time.setText(diffInMinutes + " minutes ago");
-                        }
-                    } else {
-                        holder.tv_time.setText(diffInHour + " hours ago");
-                    }
-                } else {
-                    holder.tv_time.setText(diffInDay + " days ago");
-                }
-            } else {
-                holder.tv_time.setText(diffInMonth + " months ago");
-            }
-        } else {
-            holder.tv_time.setText(diffInYear + " years ago");
+        if(video.getVid_type() == Constant.DAILYMOTION_VIDEO){
+            holder.tv_duration.setText(methods.getDurationString(video.getDuration()));
+        }else{
+            holder.tv_time.setText(methods.getPastTimeString(video.getVid_time()));
         }
+
+
 
         int views = video.getVid_view();
 
@@ -113,6 +105,11 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return arrayList_video.get(position).getVid_type();
+    }
+
+    @Override
     public int getItemCount() {
         return arrayList_video.size();
     }
@@ -124,6 +121,7 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
         TextView tv_name;
         TextView tv_time;
         TextView tv_view;
+        TextView tv_duration;
 
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -133,6 +131,7 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
             tv_name = itemView.findViewById(R.id.tv_name);
             tv_time = itemView.findViewById(R.id.tv_time);
             tv_view = itemView.findViewById(R.id.tv_view);
+            tv_duration = itemView.findViewById(R.id.tv_duration);
         }
     }
 }
