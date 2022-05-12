@@ -9,5 +9,6 @@ public interface LoadRadioAsyncListener {
     void onStart();
     void onEnd(boolean status,
                ArrayList<Videos_M> arrayList_trending,
-               ArrayList<Category_M> arrayList_category);
+               ArrayList<Category_M> arrayList_category
+               );
 }

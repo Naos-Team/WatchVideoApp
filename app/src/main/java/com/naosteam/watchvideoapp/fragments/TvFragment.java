@@ -101,6 +101,7 @@ public class TvFragment extends Fragment {
                 bundle.putString("url", list_cate_video.get(position).getVid_url());
                 bundle.putString("url_img", list_cate_video.get(position).getVid_thumbnail());
                 bundle.putString("des", list_cate_video.get(position).getVid_description());
+                bundle.putInt("id", list_cate_video.get(position).getVid_id());
                 bundle.putBoolean("isHome", false);
                 navController.navigate(R.id.fromTVToDetail, bundle);
             }

@@ -268,9 +268,10 @@ public class Methods {
         String user_name = obj.getString("user_name");
         String user_email = obj.getString("user_email");
         String user_phone = obj.getString("user_phone");
+        String photo_url = obj.getString("photo_url");
         int user_age = obj.getInt("user_age");
         boolean user_status = obj.getInt("user_status")==1;
-        return new Users_M(uid, user_name, user_email, user_phone, user_age);
+        return new Users_M(uid, user_name, user_email, user_phone, user_age, photo_url);
     }
 
     public RequestBody getHomeRequestBody(String method_name, Bundle bundle) {
@@ -323,6 +324,10 @@ public class Methods {
                 postObj.addProperty("vid_id", bundle.getInt("vid_id"));
                 postObj.addProperty("is_fav", bundle.getInt("is_fav"));
 
+                break;
+
+            case "GET_FAV_DATA":
+                postObj.addProperty("vid_type", bundle.getInt("vid_type"));
                 break;
 
             case "SET_RATING":

@@ -9,6 +9,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Player;
@@ -17,10 +21,19 @@ import com.naosteam.watchvideoapp.activities.MainActivity;
 import com.naosteam.watchvideoapp.databinding.FragmentRadioDetailsBinding;
 import com.naosteam.watchvideoapp.listeners.ControlRadioListener;
 import com.naosteam.watchvideoapp.listeners.OnUpdateViewRadioPlayListener;
+import com.naosteam.watchvideoapp.listeners.CheckFavListener;
+import com.naosteam.watchvideoapp.listeners.LoadRadioAsyncListener;
+import com.naosteam.watchvideoapp.listeners.SetFavListener;
+import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Constant;
+import com.naosteam.watchvideoapp.utils.Methods;
 import com.naosteam.watchvideoapp.utils.PlayerRadio;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+import okhttp3.RequestBody;
 
 public class RadioDetailsFragment extends Fragment {
 
@@ -29,6 +42,8 @@ public class RadioDetailsFragment extends Fragment {
     private NavController navController;
     private FragmentRadioDetailsBinding binding;
     private Videos_M radio;
+    private ExoPlayer player;
+    private Boolean mIsFav = false;
     private PlayerRadio playerRadio;
     private ControlRadioListener controlRadioListener;
 
@@ -41,6 +56,17 @@ public class RadioDetailsFragment extends Fragment {
         binding = FragmentRadioDetailsBinding.inflate(inflater, container, false);
         rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
+
+        Methods.getInstance().checkVideoFav(getContext(), radio.getVid_id(), new CheckFavListener() {
+            @Override
+            public void onComplete(boolean isSuccess, boolean isFav) {
+                if(isSuccess){
+                    mIsFav = isFav;
+                }
+                LoadData();
+            }
+        });
+
         playerRadio = PlayerRadio.getInstance(new OnUpdateViewRadioPlayListener() {
             @Override
             public void onBuffering() {
@@ -86,9 +112,36 @@ public class RadioDetailsFragment extends Fragment {
         int img_playbtn = (playerRadio.checkPlay()) ? R.drawable.ic_pause_radio : R.drawable.ic_play_radio;
         binding.imvPlayRadio.setImageResource(img_playbtn);
 
+        if(mIsFav){
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_check)
+                    .into(binding.radioDetailFav);
+        }else{
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_uncheckpng)
+                    .into(binding.radioDetailFav);
+        }
+
         binding.radioDetailFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Methods.getInstance().setFavState(getContext(), radio.getVid_id(), !mIsFav, new SetFavListener() {
+                    @Override
+                    public void onComplete(boolean isSuccess) {
+                        if(isSuccess){
+                            mIsFav = !mIsFav;
+                            if(mIsFav){
+                                Picasso.get()
+                                        .load(R.drawable.ic_heart4_check)
+                                        .into(binding.radioDetailFav);
+                            }else{
+                                Picasso.get()
+                                        .load(R.drawable.ic_heart4_uncheckpng)
+                                        .into(binding.radioDetailFav);
+                            }
+                        }
+                    }
+                });
             }
         });
 
@@ -135,6 +188,9 @@ public class RadioDetailsFragment extends Fragment {
                 navController.navigate(R.id.radioDetail_to_homeFrag);
                 MainActivity.choice_Navi(R.id.baseRadioFragment);
             }
+            else if (getArguments().getString("from").equals("from_favorite")){
+                navController.navigate(R.id.radio_detail_to_favorite);
+            }
         });
     }
 
@@ -143,4 +199,5 @@ public class RadioDetailsFragment extends Fragment {
         Picasso.get().load(radio.getVid_thumbnail()).into(binding.imvRadio);
         binding.tvRadioName.setText(radio.getVid_title());
     }
+
 }

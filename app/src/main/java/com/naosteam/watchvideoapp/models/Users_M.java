@@ -6,13 +6,15 @@ public class Users_M {
     private String user_email;
     private String user_phone;
     private int user_age;
+    private String photo_url;
 
-    public Users_M(String uid, String user_name, String user_email, String user_phone, int user_age) {
+    public Users_M(String uid, String user_name, String user_email, String user_phone, int user_age, String photo_url) {
         this.uid = uid;
         this.user_name = user_name;
         this.user_email = user_email;
         this.user_phone = user_phone;
         this.user_age = user_age;
+        this.photo_url = photo_url;
     }
     public String getUid() {
         return uid;
@@ -54,6 +56,14 @@ public class Users_M {
         this.user_age = user_age;
     }
 
+    public String getPhoto_url() {
+        return photo_url;
+    }
+
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
+    }
+
 
     @Override
     public String toString() {
@@ -65,4 +75,6 @@ public class Users_M {
                 ", user_age=" + user_age +
                 '}';
     }
+
+
 }

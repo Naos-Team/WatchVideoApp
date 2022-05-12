@@ -32,6 +32,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -82,14 +84,14 @@ public class LoginActivity extends AppCompatActivity {
         FindView();
         ViewClick();
 
-        if (mAuth.getCurrentUser()!=null){
-            if (gg_email!=null){
-                CheckUser(mAuth.getCurrentUser());
-            }
-            else{
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            }
-        }
+//        if (mAuth.getCurrentUser()!=null){
+//            if (gg_email!=null){
+//                CheckUser(mAuth.getCurrentUser());
+//            }
+//            else{
+//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//            }
+//        }
     }
 
     private void FindView(){

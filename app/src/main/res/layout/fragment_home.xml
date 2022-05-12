@@ -67,12 +67,14 @@
                 android:id="@+id/txtTrendingVid_home_frag"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:layout_marginTop="10dp"
                 android:autoSizeMaxTextSize="30sp"
                 android:autoSizeMinTextSize="20sp"
                 android:autoSizeStepGranularity="2sp"
                 android:autoSizeTextType="uniform"
                 android:gravity="center|start"
                 android:paddingLeft="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="Video Trending"
                 android:textColor="@color/neonGreen" />
 
@@ -81,11 +83,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp" />
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout2"
                 android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
                 android:layout_height="1dp">
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -107,13 +111,16 @@
                 android:id="@+id/rcv_TrendTV_Home_frag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout3"
                 android:layout_width="match_parent"
-                android:layout_height="1dp">
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp">
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
