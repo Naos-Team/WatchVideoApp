@@ -1,15 +1,23 @@
 package com.naosteam.watchvideoapp.fragments;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +25,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.activities.DailymotionPlayerActivity;
+import com.naosteam.watchvideoapp.activities.MainActivity;
+import com.naosteam.watchvideoapp.activities.VideoPlayerActivity;
 import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
 import com.naosteam.watchvideoapp.asynctasks.LoadExtendVideoSourceAsync;
 import com.naosteam.watchvideoapp.asynctasks.LoadSearchVideoAsync;
@@ -25,6 +37,7 @@ import com.naosteam.watchvideoapp.databinding.FragmentDailymotionSearchBinding;
 import com.naosteam.watchvideoapp.listeners.LoadSearchVideoAsyncListener;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 
 import java.util.ArrayList;
@@ -151,6 +164,12 @@ public class DailymotionSearchFragment extends Fragment {
             navController.navigate(R.id.DailymotionSearchBackToVideo);
         });
 
+        binding.btnBackFloat.setOnClickListener(v->{
+            navController.navigate(R.id.DailymotionSearchBackToVideo);
+        });
+
+        binding.btnBackFloat.hide();
+
         GridLayoutManager llm = new GridLayoutManager(getContext(), 2);
 
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) Math.round(width/2*0.8));
@@ -159,7 +178,12 @@ public class DailymotionSearchFragment extends Fragment {
         adapter = new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, mVideos, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
+                String vid_id = mVideos.get(position).getVid_url();
 
+                Intent intent = new Intent(getContext(), DailymotionPlayerActivity.class);
+                intent.putExtra("vid_id", vid_id);
+
+                startActivityForResult(intent, 225);
             }
         });
 
@@ -170,6 +194,13 @@ public class DailymotionSearchFragment extends Fragment {
         binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                if(0 <= scrollY && scrollY < v.getMeasuredHeight()/3){
+                    binding.btnBackFloat.hide();
+                }else{
+                    binding.btnBackFloat.show();
+                }
+
                 if(v.getChildAt(v.getChildCount() - 1) != null) {
                     if(loading){
                         if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
@@ -182,6 +213,20 @@ public class DailymotionSearchFragment extends Fragment {
                 }
             }
         });
+
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 225 && resultCode == -1){
+            int orientation = this.getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        }
 
     }
 
