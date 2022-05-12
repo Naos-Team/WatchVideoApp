@@ -26,7 +26,7 @@
             android:id="@+id/DetailVideoToVideo"
             app:destination="@id/videoFragment2" />
         <action
-            android:id="@+id/action_videoDetailFragment_to_cmtVideoFragment"
+            android:id="@+id/detail_to_cmtFrag"
             app:destination="@id/cmtVideoFragment" />
     </fragment>
     <fragment
@@ -44,7 +44,7 @@
         android:label="fragment_cmt_video"
         tools:layout="@layout/fragment_cmt_video" >
         <action
-            android:id="@+id/action_cmtVideoFragment_to_videoDetailFragment"
+            android:id="@+id/cmt_to_detail_Frag"
             app:destination="@id/videoDetailFragment" />
     </fragment>
 </navigation>

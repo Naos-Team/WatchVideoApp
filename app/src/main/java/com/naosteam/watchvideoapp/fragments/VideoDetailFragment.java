@@ -74,6 +74,15 @@ public class VideoDetailFragment extends Fragment {
     }
 
     private void SetupView() {
+        binding.csComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("is_home", getArguments().getBoolean("is_home"));
+                bundle.putSerializable("video", mVideo);
+                navController.navigate(R.id.detail_to_cmtFrag, bundle);
+            }
+        });
 
         binding.btnBack.setOnClickListener(v->{
             if(getArguments().getBoolean("is_home")){
