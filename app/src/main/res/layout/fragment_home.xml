@@ -68,12 +68,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
-                android:autoSizeMaxTextSize="30sp"
+                android:autoSizeMaxTextSize="27sp"
                 android:autoSizeMinTextSize="20sp"
                 android:autoSizeStepGranularity="2sp"
                 android:autoSizeTextType="uniform"
                 android:gravity="center|start"
                 android:paddingLeft="10dp"
+                android:textStyle="bold"
                 android:layout_marginBottom="10dp"
                 android:text="Video Trending"
                 android:textColor="@color/neonGreen" />
@@ -84,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="12dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout2"
@@ -98,12 +99,13 @@
                 android:id="@+id/txtTrendingTV_home_frag"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:autoSizeMaxTextSize="30sp"
+                android:autoSizeMaxTextSize="27sp"
                 android:autoSizeMinTextSize="20sp"
                 android:autoSizeStepGranularity="2sp"
                 android:autoSizeTextType="uniform"
                 android:gravity="center|start"
                 android:paddingLeft="10dp"
+                android:textStyle="bold"
                 android:text="TV Trending"
                 android:textColor="@color/neonGreen" />
 
@@ -111,7 +113,7 @@
                 android:id="@+id/rcv_TrendTV_Home_frag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp" />
@@ -128,17 +130,19 @@
                 android:id="@+id/txtTrendingRad_home_frag"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:autoSizeMaxTextSize="30sp"
+                android:autoSizeMaxTextSize="27sp"
                 android:autoSizeMinTextSize="20sp"
                 android:autoSizeStepGranularity="2sp"
                 android:autoSizeTextType="uniform"
                 android:gravity="center|start"
                 android:paddingLeft="10dp"
                 android:text="Radio Trending"
+                android:textStyle="bold"
                 android:textColor="@color/neonGreen" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_TrendRad_Home_frag"
+                android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="200dp" />

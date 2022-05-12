@@ -181,10 +181,7 @@ public class MoreFragment extends Fragment {
 
                             binding.tvNameUser.setText(user.getUser_name());
                             binding.tvEmailUser.setText(user.getUser_email());
-                            if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null){
-                                Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
-                                Picasso.get().load(uri).into(binding.imvUser);
-                            }
+                            Picasso.get().load(user.getPhoto_url()).into(binding.imvUser);
                         }
                     }
                 });

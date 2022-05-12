@@ -35,6 +35,11 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
         this.layoutParams = layoutParams;
     }
 
+    public void setList_Video(ArrayList<Videos_M> arrayList_video){
+        this.arrayList_video = arrayList_video;
+    }
+
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
