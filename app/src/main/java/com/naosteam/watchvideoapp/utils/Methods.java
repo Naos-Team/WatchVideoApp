@@ -271,7 +271,7 @@ public class Methods {
         return new Comment_M(cmt_id, vid_id, uid, cmt_time, cmt_text);
     }
 
-    public Videos_M getDailymotionVideo(JSONObject obj) throws Exception {
+//    public Videos_M getDailymotionVideo(JSONObject obj) throws Exception {
     public Videos_M getJsonDailymotionVideo(JSONObject obj) throws Exception {
         String vid_title = obj.getString("title");
         String vid_url = obj.getString("id");
