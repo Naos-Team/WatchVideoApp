@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/img_usder_cmt_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toStartOf="@+id/txtCmt_item"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.15"
+        app:riv_corner_radius="50dp"
+        app:srcCompat="@drawable/alert_img" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout12"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtCmt_item"
+        app:layout_constraintEnd_toStartOf="@+id/layout_option_cmt_item"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toEndOf="@+id/img_usder_cmt_item"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:id="@+id/txtName_cmt_item"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center|start"
+            android:paddingLeft="5dp"
+            android:text="User"
+            android:textColor="@color/grayApp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txtTime_cmt_item"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtTime_cmt_item"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center|start"
+            android:paddingLeft="5dp"
+            android:text="time"
+            android:textColor="@color/grayApp"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txtName_cmt_item"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/txtCmt_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="center|start"
+        android:paddingLeft="5dp"
+        android:text="cmt"
+        android:textColor="@drawable/comment_text_custom"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/layout_option_cmt_item"
+        app:layout_constraintStart_toEndOf="@+id/img_usder_cmt_item"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout12"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_option_cmt_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txtCmt_item"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.12">
+
+        <ImageView
+            android:id="@+id/btn_del_cmt_item"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_edit_cmt_item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_del"
+            app:tint="@color/neonGreen" />
+
+        <ImageView
+            android:id="@+id/btn_edit_cmt_item"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_del_cmt_item"
+            app:srcCompat="@drawable/ic_edit1"
+            app:tint="@color/neonGreen" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,130 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.SearchVideoFragment"
     android:background="@color/primaryColor"
-    android:id="@+id/scroll_view"
     android:fillViewport="true">
 
-    <LinearLayout
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_back_float"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        app:borderWidth="0dp"
+        android:backgroundTint="@color/dailymotionColor"
+        android:tint="@color/white"
+        android:src="@drawable/ic_arrow_back" />
+
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:id="@+id/scroll_view"
+        android:fillViewport="true">
         <LinearLayout
-            android:id="@+id/ll_top"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:weightSum="10"
+            android:layout_height="match_parent"
             android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2">
 
-            </RelativeLayout>
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/ll_top"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_weight="4">
+                android:layout_height="150dp"
+                android:weightSum="10"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2">
 
-                <ImageView
-                    android:id="@+id/btn_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_weight="4">
+
+                    <ImageView
+                        android:id="@+id/btn_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:adjustViewBounds="true"
+                        android:paddingVertical="10dp"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/dailymotionColor" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/btn_back"
+                        android:autoSizeMaxTextSize="100sp"
+                        android:autoSizeMinTextSize="2sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:autoSizeTextType="uniform"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="5dp"
+                        android:text="Dailymotion video"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3.5"
                     android:paddingVertical="10dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_back"
-                    android:tint="@color/neonGreen" />
+                    android:layout_marginHorizontal="20dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/btn_back"
-                    android:autoSizeMaxTextSize="100sp"
-                    android:autoSizeMinTextSize="2sp"
-                    android:autoSizeStepGranularity="2sp"
-                    android:autoSizeTextType="uniform"
-                    android:gravity="center_vertical"
-                    android:paddingVertical="5dp"
-                    android:text="Dailymotion video"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_result"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:autoSizeMaxTextSize="100sp"
+                        android:autoSizeMinTextSize="2sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:autoSizeTextType="uniform"
+                        android:text="" />
+                </RelativeLayout>
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3.5"
-                android:paddingVertical="10dp"
-                android:layout_marginHorizontal="20dp">
+                android:layout_weight="1"
+                android:paddingHorizontal="10dp">
 
-                <TextView
-                    android:id="@+id/tv_result"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:autoSizeMaxTextSize="100sp"
-                    android:autoSizeMinTextSize="2sp"
-                    android:autoSizeStepGranularity="2sp"
-                    android:autoSizeTextType="uniform"
-                    android:text="" />
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_not_found"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="No result found"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginVertical="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/dailymotionColor"
+                    android:indeterminateTintMode="src_atop"
+                    android:visibility="visible" />
+
+
             </RelativeLayout>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingHorizontal="10dp"
-            android:layout_weight="1">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/tv_not_found"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_centerInParent="true"
-                android:text="No result found"/>
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/progressBar_lazy"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                android:layout_marginVertical="30dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
+                android:layout_margin="15dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:indeterminate="true"
-                android:indeterminateTint="@color/neonGreen"
+                android:indeterminateTint="@color/dailymotionColor"
                 android:indeterminateTintMode="src_atop"
-                android:visibility="visible" />
-        </RelativeLayout>
+                android:visibility="gone" />
 
-        <ProgressBar
-            android:id="@+id/progressBar_lazy"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="15dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/neonGreen"
-            android:indeterminateTintMode="src_atop"
-            android:visibility="gone" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

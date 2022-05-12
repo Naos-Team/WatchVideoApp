@@ -9,10 +9,11 @@
     tools:context=".fragments.VideoDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="gone"
         android:id="@+id/cs_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/playVideo"
             android:layout_width="match_parent"
@@ -76,8 +77,6 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                android:textColor="@color/white"
-                android:textStyle="bold"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:autoSizeMaxTextSize="100sp"
@@ -85,6 +84,8 @@
                 android:autoSizeStepGranularity="2sp"
                 android:autoSizeTextType="uniform"
                 android:text="Video name"
+                android:textColor="@color/white"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.12"
@@ -150,6 +151,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout8"
             android:layout_width="0dp"
@@ -313,7 +315,7 @@
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_back"
-        android:tint="@color/neonGreen"
+        app:tint="@color/neonGreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintHorizontal_bias="0.03"

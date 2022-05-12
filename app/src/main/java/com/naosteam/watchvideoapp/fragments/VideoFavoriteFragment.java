@@ -128,7 +128,7 @@ public class VideoFavoriteFragment extends Fragment {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) Math.round(width/2*0.8));
         layoutParams.setMargins(10,20,10,20);
 
-        videoAdapter = new FeaturedVideoAdapter(layoutParams, arrayList_fav, new OnVideoFeatureClickListener() {
+        videoAdapter = new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, arrayList_fav, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
                 Bundle bundle = new Bundle();

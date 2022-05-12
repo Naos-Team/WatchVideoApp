@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
+import com.google.type.DateTime;
+import com.google.type.DateTimeOrBuilder;
 import com.naosteam.watchvideoapp.asynctasks.CheckFavAsync;
 import com.naosteam.watchvideoapp.asynctasks.CheckRatingAsync;
 import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
@@ -30,6 +32,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -250,6 +253,16 @@ public class Methods {
         return new Videos_M(vid_id, cat_id, vid_title, vid_thumbnail, vid_description, vid_url, vid_view, vid_duration, vid_avg_rate, vid_type, vid_is_premium, vid_time);
     }
 
+    public Videos_M getDailymotionVideo(JSONObject obj) throws Exception {
+        String vid_title = obj.getString("title");
+        String vid_url = obj.getString("id");
+        String vid_thumbnail = obj.getString("thumbnail_url");
+        int vid_view = obj.getInt("views_total");
+        int duration = obj.getInt("duration");
+
+        return new Videos_M(-1, -1, vid_title, vid_thumbnail, "", vid_url, vid_view, duration, -1, Constant.DAILYMOTION_VIDEO, false, new Date());
+    }
+
     public Category_M getRowCategory(JSONObject obj) throws Exception{
         int cat_id = obj.getInt("cat_id");
         String cat_name = checkForEncode(obj.getString("cat_name"))
@@ -406,6 +419,56 @@ public class Methods {
         builder.addFormDataPart("data", post_data);
 
         return builder.build();
+
+    }
+
+    public String getPastTimeString(Date postDate) {
+
+        Date currentDate = new Date();
+        long diffInTime = currentDate.getTime() - postDate.getTime();
+        long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInTime);
+        long diffInHour = TimeUnit.MILLISECONDS.toHours(diffInTime);
+        long diffInYear = TimeUnit.MILLISECONDS.toDays(diffInTime) / 365l;
+        long diffInMonth = TimeUnit.MILLISECONDS.toDays(diffInTime) / 30l;
+        long diffInDay = TimeUnit.MILLISECONDS.toDays(diffInTime);
+
+        if (diffInYear < 1) {
+            if (diffInMonth < 1) {
+                if (diffInDay < 1) {
+                    if (diffInHour < 1) {
+                        if (diffInMinutes < 1) {
+                            return "Just now";
+                        } else {
+                            return diffInMinutes + " minutes ago";
+                        }
+                    } else {
+                        return diffInHour + " hours ago";
+                    }
+                } else {
+                    return diffInDay + " days ago";
+                }
+            } else {
+                return diffInMonth + " months ago";
+            }
+        } else {
+            return diffInYear + " years ago";
+        }
+    }
+
+    public String getDurationString(int sec) {
+        int hours = sec / 3600;
+        int minutes = (sec % 3600) / 60;
+        int seconds = sec % 60;
+
+        String timeString = "";
+
+        if(hours >= 1){
+            timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        }else{
+            timeString = String.format("%02d:%02d", minutes, seconds);
+        }
+
+        return timeString;
 
     }
 }

@@ -46,5 +46,17 @@
         <action
             android:id="@+id/Video_Detail_to_Home"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/detail_to_cmtFrag"
+            app:destination="@id/cmtVideoFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/cmtVideoFragment2"
+        android:name="com.naosteam.watchvideoapp.fragments.CmtVideoFragment"
+        android:label="fragment_cmt_video"
+        tools:layout="@layout/fragment_cmt_video" >
+        <action
+            android:id="@+id/cmt_to_detail_Frag"
+            app:destination="@id/videoDetailFragment2" />
     </fragment>
 </navigation>
