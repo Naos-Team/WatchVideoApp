@@ -55,7 +55,7 @@ public class SlideShowHomeFragAdapter extends RecyclerView.Adapter<SlideShowHome
         }
 
         public void bindView(int position){
-            Picasso.get().load(category_mArrayList.get(position).getCat_image()).into(imgSlide_home_frag_item);
+            Picasso.get().load(category_mArrayList.get(position).getCat_image()).error(R.drawable.image_offline).into(imgSlide_home_frag_item);
             layout_item_Slide_item_frag_home.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

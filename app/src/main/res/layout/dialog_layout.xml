@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toTopOf="@id/tv_dialog_alert"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
@@ -41,7 +41,8 @@
             android:autoSizeTextType="uniform"
             android:gravity="center_horizontal"
             android:padding="5dp"
-            android:text="If you log in with Google at the first time using app, this will be your only  one account.\n If you want to use email+password and then Google, click Sign Up."
+            android:textColor="@color/white"
+            android:text="If you log in with Google at the first time using app, this will be your only one account.\n If you want to use email+password and then Google, click Sign Up."
             app:layout_constraintBottom_toTopOf="@+id/btn_next_su"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.38"
@@ -91,8 +92,25 @@
         <CheckBox
             android:id="@+id/check_dialog"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="Don't show this again"
+            android:autoSizeMaxTextSize="15sp"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeStepGranularity="2sp"
+            android:autoSizeTextType="uniform"
+            android:layout_marginTop="5dp"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintBottom_toTopOf="@+id/tv_dismiss"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_next_su"/>
+
+
+        <TextView
+            android:id="@+id/tv_dismiss"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Back to Login"
             android:autoSizeMaxTextSize="15sp"
             android:autoSizeMinTextSize="10sp"
             android:autoSizeStepGranularity="2sp"
@@ -100,7 +118,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_next_su"/>
+            app:layout_constraintTop_toBottomOf="@id/check_dialog"
+            android:gravity="center_horizontal"
+            app:layout_constraintHeight_percent="0.1"
+            android:textColor="@color/white"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

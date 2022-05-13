@@ -64,7 +64,7 @@ public class RadioItemAdapter extends RecyclerView.Adapter<RadioItemAdapter.Radi
         }
 
         public void bindView(int position){
-            Picasso.get().load(list_radio.get(position).getVid_thumbnail()).into(imv_radio_item);
+            Picasso.get().load(list_radio.get(position).getVid_thumbnail()).error(R.drawable.image_offline).into(imv_radio_item);
             tv_radio_item_name.setText(list_radio.get(position).getVid_title());
             tv_radio_item_view.setText(list_radio.get(position).getVid_view()+" views");
             layout_radio_item.setLayoutParams(layoutParams);

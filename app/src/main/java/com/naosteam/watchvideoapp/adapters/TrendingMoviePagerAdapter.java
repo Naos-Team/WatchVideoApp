@@ -46,6 +46,7 @@ public class TrendingMoviePagerAdapter extends PagerAdapter {
 
         Picasso.get()
                 .load(mList.get(position).getVid_thumbnail())
+                .error(R.drawable.image_offline)
                 .into(iv_thumb);
 
 
