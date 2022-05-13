@@ -64,7 +64,7 @@ public class MoreFragment extends Fragment {
 
         LoadUI();
 
-        if(user!=null){
+        if(user!=null && firstt_time==false){
             binding.tvNameUser.setText(user.getUser_name());
             binding.tvEmailUser.setText(user.getUser_email());
             Picasso.get().load(user.getPhoto_url()).into(binding.imvUser);
