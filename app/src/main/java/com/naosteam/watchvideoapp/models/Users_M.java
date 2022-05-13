@@ -1,6 +1,8 @@
 package com.naosteam.watchvideoapp.models;
 
-public class Users_M {
+import java.io.Serializable;
+
+public class Users_M implements Serializable {
     private String uid;
     private String user_name;
     private String user_email;

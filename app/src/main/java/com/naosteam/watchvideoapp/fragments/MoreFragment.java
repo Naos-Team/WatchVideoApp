@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.LoginActivity;
+import com.naosteam.watchvideoapp.activities.UpdateProfileActivity;
 import com.naosteam.watchvideoapp.databinding.FragmentMoreBinding;
 import com.naosteam.watchvideoapp.databinding.FragmentRadioBinding;
 import com.naosteam.watchvideoapp.models.Users_M;
@@ -41,6 +43,17 @@ public class MoreFragment extends Fragment {
     private NavController navController;
     private FragmentMoreBinding binding;
     private DatabaseReference databaseReference;
+    private static Users_M user;
+    private static boolean firstt_time = true;
+
+    public static Users_M getUser() {
+        return user;
+    }
+
+    public static void setUser(Users_M user) {
+        MoreFragment.user = user;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,23 +64,52 @@ public class MoreFragment extends Fragment {
 
         LoadUI();
 
-        LogOut();
+        if(user!=null){
+            binding.tvNameUser.setText(user.getUser_name());
+            binding.tvEmailUser.setText(user.getUser_email());
+            Picasso.get().load(user.getPhoto_url()).into(binding.imvUser);
+        }
 
+        binding.imvStart.setVisibility(View.GONE);
+        binding.progressStart.setVisibility(View.GONE);
         return rootView;
     }
 
     private void LoadUI(){
-        if (FirebaseAuth.getInstance().getCurrentUser()==null){
-            binding.tvNameUser.setText("You haven't logged in");
-            binding.tvEmailUser.setText("Join us");
-            binding.imvStart.setVisibility(View.GONE);
-            binding.progressStart.setVisibility(View.GONE);
-        }
-        else{
-            databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        binding.swiperMoreFrag.setColorSchemeColors(getResources().getColor(R.color.neonGreen));
+        binding.swiperMoreFrag.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (FirebaseAuth.getInstance().getCurrentUser()==null){
+                    binding.tvNameUser.setText("You haven't logged in");
+                    binding.tvEmailUser.setText("Join us");
+                    binding.imvStart.setVisibility(View.GONE);
+                    binding.progressStart.setVisibility(View.GONE);
+                }
+                else{
+                    databaseReference = FirebaseDatabase.getInstance().getReference();
+                    LoadData();
+                }
+                binding.swiperMoreFrag.setRefreshing(false);
+            }
+        });
+
+        if(firstt_time){
             binding.imvStart.setVisibility(View.VISIBLE);
             binding.progressStart.setVisibility(View.VISIBLE);
-            LoadData();
+
+            if (FirebaseAuth.getInstance().getCurrentUser()==null){
+                binding.tvNameUser.setText("You haven't logged in");
+                binding.tvEmailUser.setText("Join us");
+                binding.imvStart.setVisibility(View.GONE);
+                binding.progressStart.setVisibility(View.GONE);
+            }
+            else{
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                LoadData();
+            }
+            firstt_time = false;
         }
 
         binding.constraintlayout19.setOnClickListener(new View.OnClickListener() {
@@ -79,11 +121,18 @@ public class MoreFragment extends Fragment {
                     startActivity(intent);
                 }
                 else{
-                    navController.navigate(R.id.more_open_profile);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user_more", user);
+                    Intent intent = new Intent(getContext(), UpdateProfileActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
                 }
 
             }
         });
+
+        LogOut();
 
 
         binding.constraintlayout17.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +149,7 @@ public class MoreFragment extends Fragment {
         binding.constraintlayout21.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    navController.navigate(R.id.profile_to_more);
+                    navController.navigate(R.id.more_to_privacy);
             }
         });
 
@@ -188,22 +237,24 @@ public class MoreFragment extends Fragment {
     }
 
     private void LoadData() {
+
         databaseReference.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
                 .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (task.isSuccessful()) {
-                            binding.imvStart.setVisibility(View.GONE);
-                            binding.progressStart.setVisibility(View.GONE);
+
                             Gson gson = new Gson();
                             JsonElement jsonElement = gson.toJsonTree(task.getResult().getValue());
                             JsonObject obj = jsonElement.getAsJsonObject();
-                            Users_M user = gson.fromJson(obj.toString(), Users_M.class);
+                            user = gson.fromJson(obj.toString(), Users_M.class);
 
                             binding.tvNameUser.setText(user.getUser_name());
                             binding.tvEmailUser.setText(user.getUser_email());
                             Picasso.get().load(user.getPhoto_url()).into(binding.imvUser);
                         }
+                        binding.imvStart.setVisibility(View.GONE);
+                        binding.progressStart.setVisibility(View.GONE);
                     }
                 });
     }

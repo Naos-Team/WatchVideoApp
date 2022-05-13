@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.utils.Methods;
 
 public class SplashActivity extends AppCompatActivity {
     ProgressBar progressBar;
@@ -41,17 +42,20 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                if (mAuth.getCurrentUser()!=null){
-                    if (gg_email!=null){
-                        CheckUser(mAuth.getCurrentUser());
+                if(Methods.getInstance().isNetworkConnected(SplashActivity.this)){
+                    if (mAuth.getCurrentUser()!=null){
+                        if (gg_email!=null){
+                            CheckUser(mAuth.getCurrentUser());
+                        }
+                        else{
+                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        }
                     }
                     else{
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     }
-                }
-                else{
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                }else{
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }
             }
         }, 3000);

@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
 
         navController = navHostFragment.getNavController();
@@ -69,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        if(getIntent() != null){
+            Intent intent = getIntent();
+            if (intent.getExtras() != null &&
+                    intent.getExtras().getInt("choice", -1) == 0) {
+                bottomNavigationView.setSelectedItemId(R.id.baseMoreFragment);
+            }
+        }
+
     }
 
 
