@@ -62,7 +62,7 @@ public class RadioDetailsFragment extends Fragment {
         rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
 
-        binding.progressRadioDetail.setVisibility(View.VISIBLE);
+//        binding.progressRadioDetail.setVisibility(View.VISIBLE);
         binding.progressRadioDetail.setIndeterminateDrawableTiled(new ThreeBounce());
 
 

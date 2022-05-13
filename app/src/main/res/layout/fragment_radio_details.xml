@@ -23,12 +23,12 @@
         app:layout_constraintWidth_percent="1" />
 
     <ImageView
-        android:visibility="visible"
-        android:scaleType="centerCrop"
         android:id="@+id/imv_bg"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#A6000000"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.7"
