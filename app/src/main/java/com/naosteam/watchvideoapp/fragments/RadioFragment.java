@@ -154,7 +154,12 @@ public class RadioFragment extends Fragment {
             public void onClick(Category_M category) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("category", category);
-                navController.navigate(R.id.radio_screen_to_cat_item, bundle);
+                try{
+                    navController.navigate(R.id.radio_screen_to_cat_item, bundle);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 

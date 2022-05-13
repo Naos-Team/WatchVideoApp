@@ -71,6 +71,15 @@ public class RadioDetailsFragment extends Fragment {
             public void onBuffering() {
                 binding.imvPlayRadio.setClickable(false);
                 binding.imvPlayRadio.setImageResource(R.drawable.ic_play_radio);
+                Methods.getInstance().checkVideoFav(getContext(), Constant.Radio_Listening.getVid_id(), new CheckFavListener() {
+                    @Override
+                    public void onComplete(boolean isSuccess, boolean isFav) {
+                        if(isSuccess){
+                            mIsFav = isFav;
+                        }
+                        updateFav();
+                    }
+                });
 
                 binding.imvBg.setVisibility(View.VISIBLE);
 
