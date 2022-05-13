@@ -105,7 +105,8 @@ public class CmtVideoAdapter extends RecyclerView.Adapter<CmtVideoAdapter.CmtVid
                 }
             });
 
-            if(list_cmt.get(position).getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+            if(FirebaseAuth.getInstance().getCurrentUser() != null &&
+                    list_cmt.get(position).getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                 FirebaseDatabase.getInstance().getReference().child("Users").
                         child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
