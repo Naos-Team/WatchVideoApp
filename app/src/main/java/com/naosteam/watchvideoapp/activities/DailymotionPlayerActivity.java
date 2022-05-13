@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.naosteam.watchvideoapp.databinding.ActivityDailymotionPlayerBinding;
 
@@ -19,6 +21,7 @@ public class DailymotionPlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFullScreen();
         binding = ActivityDailymotionPlayerBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -34,7 +37,26 @@ public class DailymotionPlayerActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent returnIntent = new Intent();
         setResult(RESULT_OK, returnIntent);
+        binding.playerDailymotion.release();
+
         finish();
+    }
+
+    @Override
+    public void onPause() {
+        binding.playerDailymotion.pause();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        binding.playerDailymotion.play();
+        super.onResume();
+    }
+
+    private void setFullScreen(){
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
 

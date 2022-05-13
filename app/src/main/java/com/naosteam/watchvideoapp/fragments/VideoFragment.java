@@ -95,9 +95,18 @@ public class VideoFragment extends Fragment {
         binding.btnSearchDmotion.setOnClickListener(v->{
             if(!binding.edtSearch.getText().toString().isEmpty()){
                 Bundle bundle = new Bundle();
-                bundle.putString("type", "dailymotion");
                 bundle.putString("search_text", binding.edtSearch.getText().toString());
                 navController.navigate(R.id.VideoToDailymotionSearch, bundle);
+            }else{
+                Toast.makeText(getContext(), "Please fill the text input!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.btnSearchYoutube.setOnClickListener(v->{
+            if(!binding.edtSearch.getText().toString().isEmpty()){
+                Bundle bundle = new Bundle();
+                bundle.putString("search_text", binding.edtSearch.getText().toString());
+                navController.navigate(R.id.VideoToYoutubeSearch, bundle);
             }else{
                 Toast.makeText(getContext(), "Please fill the text input!", Toast.LENGTH_SHORT).show();
             }
