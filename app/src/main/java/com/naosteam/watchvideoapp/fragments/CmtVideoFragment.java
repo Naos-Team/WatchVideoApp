@@ -78,9 +78,12 @@ public class CmtVideoFragment extends Fragment {
         binding.btnSendCmtVideoFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(FirebaseAuth.getInstance().getCurrentUser() == null){
+                if(binding.txtCmtVideoFrag.getText().toString().equals("")){
+                    return;
+                }
+                if(FirebaseAuth.getInstance().getCurrentUser() == null){
                    Toast.makeText(getActivity(), "Please login to comment!", Toast.LENGTH_SHORT).show();
-               } else {
+                } else {
                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                    Date date =new Date();
                    try {
@@ -94,7 +97,7 @@ public class CmtVideoFragment extends Fragment {
                            binding.txtCmtVideoFrag.getText().toString());
                    binding.txtCmtVideoFrag.setText("");
                    insert(cmt);
-               }
+                }
             }
         });
 
