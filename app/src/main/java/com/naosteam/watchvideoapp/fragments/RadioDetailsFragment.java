@@ -55,9 +55,6 @@ public class RadioDetailsFragment extends Fragment {
     private PlayerRadio playerRadio;
     private ControlRadioListener controlRadioListener;
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,15 +65,6 @@ public class RadioDetailsFragment extends Fragment {
         binding.progressRadioDetail.setVisibility(View.VISIBLE);
         binding.progressRadioDetail.setIndeterminateDrawableTiled(new ThreeBounce());
 
-        Methods.getInstance().checkVideoFav(getContext(), Constant.Radio_Listening.getVid_id(), new CheckFavListener() {
-            @Override
-            public void onComplete(boolean isSuccess, boolean isFav) {
-                if(isSuccess){
-                    mIsFav = isFav;
-                }
-                LoadData();
-            }
-        });
 
         playerRadio = PlayerRadio.getInstance(new OnUpdateViewRadioPlayListener() {
             @Override
@@ -107,6 +95,16 @@ public class RadioDetailsFragment extends Fragment {
             }
         });
         LoadData();
+
+        Methods.getInstance().checkVideoFav(getContext(), Constant.Radio_Listening.getVid_id(), new CheckFavListener() {
+            @Override
+            public void onComplete(boolean isSuccess, boolean isFav) {
+                if(isSuccess){
+                    mIsFav = isFav;
+                }
+                updateFav();
+            }
+        });
 
         return rootView;
     }
@@ -212,6 +210,18 @@ public class RadioDetailsFragment extends Fragment {
                 navController.navigate(R.id.radio_detail_to_favorite);
             }
         });
+    }
+
+    private void updateFav(){
+        if(mIsFav){
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_check)
+                    .into(binding.radioDetailFav);
+        }else{
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_uncheckpng)
+                    .into(binding.radioDetailFav);
+        }
     }
 
     private void updateView(){
