@@ -62,7 +62,7 @@ public class TvFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
 
         list_cate_video = new ArrayList<>();
-        if(first_time) {
+        if(first_time || list_video.isEmpty() || list_category.isEmpty()) {
             list_cate_video = new ArrayList<>();
             list_video = new ArrayList<>();
             list_category = new ArrayList<>();
@@ -74,6 +74,7 @@ public class TvFragment extends Fragment {
         } else {
             list_cate_video.addAll(list_video);
         }
+
         CountDownTimer countDownTimer = new CountDownTimer(200,1000) {
             @Override
             public void onTick(long millisUntilFinished) {

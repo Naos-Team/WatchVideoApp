@@ -71,7 +71,7 @@ public class VideoFragment extends Fragment {
         LinearLayout.LayoutParams layoutParams00 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Math.round(height*0.3));
         binding.rlPager.setLayoutParams(layoutParams00);
 
-        if(first_time) {
+        if(first_time || mTrendings.isEmpty() || mMostViews.isEmpty() || mLatests.isEmpty() || mTopRates.isEmpty()) {
             mTrendings = new ArrayList<>();
             mMostViews = new ArrayList<>();
             mLatests = new ArrayList<>();
@@ -83,6 +83,9 @@ public class VideoFragment extends Fragment {
         } else {
             updateUI();
         }
+
+
+
 
         SetupView();
 

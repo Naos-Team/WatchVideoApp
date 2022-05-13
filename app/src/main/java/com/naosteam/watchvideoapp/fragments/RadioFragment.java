@@ -80,7 +80,7 @@ public class RadioFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
         categoryAdapter = null;
 
-        if(first_time) {
+        if(first_time || mTrendings.isEmpty() || mCats.isEmpty()) {
             mTrendings = new ArrayList<>();
             mCats = new ArrayList<>();
             LoadData();

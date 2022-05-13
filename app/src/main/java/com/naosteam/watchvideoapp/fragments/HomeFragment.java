@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment implements Serializable {
 
         navController = NavHostFragment.findNavController(this);
 
-        if(first_time) {
+        if(first_time || list_cat_Video.isEmpty() || list_video_trending.isEmpty() || list_radio_trending.isEmpty() || list_TV_trending.isEmpty()) {
             list_cat_Video = new ArrayList<>();
             list_cat_Video.add(
                     new Category_M(1, "Ten", "https://marvelphim.com/wp-content/uploads/2022/01/poster-da%CC%82%CC%80u-cho-series-moon-knight.jpg", 1)
