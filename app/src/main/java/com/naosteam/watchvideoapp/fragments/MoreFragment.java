@@ -75,12 +75,25 @@ public class MoreFragment extends Fragment {
             public void onClick(View v) {
 
                 if (FirebaseAuth.getInstance().getCurrentUser()==null){
-                    Toast.makeText(getContext(), "You haven't logged in. Let's join us!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
                 else{
                     navController.navigate(R.id.more_open_profile);
                 }
 
+            }
+        });
+
+
+        binding.constraintlayout17.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (FirebaseAuth.getInstance().getCurrentUser()==null){
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -96,7 +109,8 @@ public class MoreFragment extends Fragment {
             public void onClick(View v) {
 
                 if (FirebaseAuth.getInstance().getCurrentUser()==null){
-                    Toast.makeText(getContext(), "You haven't logged in. Let's join us!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
                 else{
                     navController.navigate(R.id.more_to_favorite);
