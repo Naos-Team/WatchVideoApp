@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.adapters.RadioCategoryAdapter;
@@ -43,7 +44,8 @@ public class RadioFragment extends Fragment {
     private NavController navController;
     private FragmentRadioBinding binding;
     private static ArrayList<Videos_M> mTrendings;
-    private ArrayList<Category_M> mCats;
+    private static ArrayList<Category_M> mCats;
+    private static boolean first_time = true;
     private RadioCategoryAdapter categoryAdapter;
     private PlayerRadio playerRadio;
     private static int index_selected = -1;
@@ -74,10 +76,14 @@ public class RadioFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
         categoryAdapter = null;
 
-        if(mTrendings == null){
+        if(first_time) {
             mTrendings = new ArrayList<>();
+            mCats = new ArrayList<>();
+            LoadData();
+            first_time = false;
+        } else {
+            updateUI();
         }
-        mCats = new ArrayList<>();
 
         playerRadio = PlayerRadio.getInstance(new OnUpdateViewRadioPlayListener() {
             @Override
@@ -109,8 +115,6 @@ public class RadioFragment extends Fragment {
                 R.drawable.ic_play_radio;
         binding.imvPlayListening.setImageResource(img_play_btn);
 
-        LoadData();
-
         if(Constant.Radio_Listening.getCat_id()==-1){
             binding.tvRadioListeningName.setText("Radio Name");
             Drawable res = getResources().getDrawable(R.drawable.default_radio);
@@ -124,48 +128,19 @@ public class RadioFragment extends Fragment {
         return rootView;
     }
 
-    private void LoadData(){
-        RequestBody requestBody = Methods.getInstance().GetRadioRequestBody("LOAD_RADIO_SCREEN", null);
-        LoadRadioAsyncListener listener = new LoadRadioAsyncListener() {
-            @Override
-            public void onStart() {
-
-                binding.progressCircular1.setVisibility(View.VISIBLE);
-                binding.progressCircular2.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void onEnd(boolean status, ArrayList<Videos_M> arrayList_trending, ArrayList<Category_M> arrayList_category) {
-                if(getContext() != null){
-                    if(Methods.getInstance().isNetworkConnected(getContext())){
-                        if(status){
-                            mTrendings.clear();
-                            mTrendings.addAll(arrayList_trending);
-                            mCats.addAll(arrayList_category);
-
-                            binding.progressCircular1.setVisibility(View.GONE);
-                            binding.progressCircular2.setVisibility(View.GONE);
-
-                            updateUI();
-
-                        }else{
-                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        };
-
-        LoadRadioAsync async = new LoadRadioAsync(requestBody, listener, Methods.getInstance());
-        async.execute();
-    }
-
     private void updateUI() {
+
         binding.rclCatRadioFrag.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false));
         binding.rclRadioTrending.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+
+        binding.swiperRadioFrag.setColorSchemeColors(getResources().getColor(R.color.neonGreen));
+        binding.swiperRadioFrag.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                LoadData();
+                binding.swiperRadioFrag.setRefreshing(false);
+            }
+        });
 
         int width = getContext().getResources().getDisplayMetrics().widthPixels;
         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams((int)Math.round(width*0.45), (int)Math.round(width*0.4));
@@ -276,6 +251,44 @@ public class RadioFragment extends Fragment {
             }
         });
 
+    }
+
+    private void LoadData(){
+        RequestBody requestBody = Methods.getInstance().GetRadioRequestBody("LOAD_RADIO_SCREEN", null);
+        LoadRadioAsyncListener listener = new LoadRadioAsyncListener() {
+            @Override
+            public void onStart() {
+                binding.imgTempRadioFrag1.setVisibility(View.VISIBLE);
+                binding.progressCircular1.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onEnd(boolean status, ArrayList<Videos_M> arrayList_trending, ArrayList<Category_M> arrayList_category) {
+                if(getContext() != null){
+                    if(Methods.getInstance().isNetworkConnected(getContext())){
+                        if(status){
+                            mTrendings.clear();
+                            mTrendings.addAll(arrayList_trending);
+                            mCats.clear();
+                            mCats.addAll(arrayList_category);
+
+                            binding.imgTempRadioFrag1.setVisibility(View.GONE);
+                            binding.progressCircular1.setVisibility(View.GONE);
+                            updateUI();
+
+                        }else{
+                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        };
+
+        LoadRadioAsync async = new LoadRadioAsync(requestBody, listener, Methods.getInstance());
+        async.execute();
     }
 
     private void onSearch(String text){

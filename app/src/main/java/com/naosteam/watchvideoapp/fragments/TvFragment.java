@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.MainActivity;
@@ -40,11 +41,12 @@ import okhttp3.RequestBody;
 public class TvFragment extends Fragment {
     private FragmentTvBinding binding;
     private NavController navController;
-    private ArrayList<Category_M> list_category;
-    private ArrayList<Videos_M> list_video;
+    private static ArrayList<Category_M> list_category;
+    private static ArrayList<Videos_M> list_video;
+    private static boolean first_time = true;
+    private ArrayList<Videos_M> list_cate_video;
     private CateTvFragmentAdapter catetvFragmentAdapter;
     private TVFragmentAdapter tvFragmentAdapter;
-    private ArrayList<Videos_M> list_cate_video;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,19 +54,32 @@ public class TvFragment extends Fragment {
         binding = FragmentTvBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
+
+        list_cate_video = new ArrayList<>();
+        if(first_time) {
+            list_video = new ArrayList<>();
+            list_category = new ArrayList<>();
+            list_category.add(
+                    new Category_M(-1, "All", "https://d1j8r0kxyu9tj8.cloudfront.net/images/1566809284X4pyEDCj7CFMsGu.jpg", 1)
+            );
+            Load_TV_Screen();
+            first_time = false;
+        }
         setUp();
-        Load_TV_Screen();
         return rootView;
     }
 
     private void setUp(){
         navController = NavHostFragment.findNavController(this);
 
-        list_category = new ArrayList<>();
-        list_category.add(
-                new Category_M(-1,"All", "https://d1j8r0kxyu9tj8.cloudfront.net/images/1566809284X4pyEDCj7CFMsGu.jpg", 1)
-        );
-
+        binding.swiperTvFrag.setColorSchemeColors(getResources().getColor(R.color.neonGreen));
+        binding.swiperTvFrag.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Load_TV_Screen();
+                binding.swiperTvFrag.setRefreshing(false);
+            }
+        });
         catetvFragmentAdapter = new CateTvFragmentAdapter(list_category, (MainActivity) getActivity(),
                 new OnHomeItemClickListeners() {
             @Override
@@ -87,9 +102,6 @@ public class TvFragment extends Fragment {
         });
         binding.rclCategoryTvFrag.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         binding.rclCategoryTvFrag.setAdapter(catetvFragmentAdapter);
-
-        list_video = new ArrayList<>();
-        list_cate_video = new ArrayList<>(list_video);
 
         ConstraintLayout.LayoutParams layoutParams_TV_item = new ConstraintLayout.LayoutParams(getActivity().getResources().
                 getDisplayMetrics().widthPixels*1/3 - 40, (getActivity().getResources().getDisplayMetrics().widthPixels)*1/3*3/4 - 40);
@@ -160,9 +172,15 @@ public class TvFragment extends Fragment {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(ablBoolean){
-                            TvFragment.this.list_video.addAll(list_tv_all);
+                            TvFragment.list_video.clear();
+                            TvFragment.list_category.clear();
+                            list_category.add(
+                                    new Category_M(-1, "All", "https://d1j8r0kxyu9tj8.cloudfront.net/images/1566809284X4pyEDCj7CFMsGu.jpg", 1)
+                            );
+                            TvFragment.this.list_cate_video.clear();
+                            TvFragment.list_video.addAll(list_tv_all);
                             TvFragment.this.list_cate_video.addAll(list_tv_all);
-                            TvFragment.this.list_category.addAll(list_categList_tv);
+                            TvFragment.list_category.addAll(list_categList_tv);
                             tvFragmentAdapter.notifyDataSetChanged();
                             catetvFragmentAdapter.notifyDataSetChanged();
                         }else{

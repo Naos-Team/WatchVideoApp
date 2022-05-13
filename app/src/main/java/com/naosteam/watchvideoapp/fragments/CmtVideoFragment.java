@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.naosteam.watchvideoapp.R;
@@ -62,6 +63,15 @@ public class CmtVideoFragment extends Fragment {
 
     private void setUp(){
         array_cmt = new ArrayList<>();
+
+        binding.swiperCmtFrag.setColorSchemeColors(getResources().getColor(R.color.neonGreen));
+        binding.swiperCmtFrag.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadCmt();
+                binding.swiperCmtFrag.setRefreshing(false);
+            }
+        });
 
         binding.txtTitleCmtVideoFrag.setText(videos_m.getVid_title());
 

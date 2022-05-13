@@ -8,148 +8,158 @@
     android:nestedScrollingEnabled="false"
     tools:context=".fragments.HomeFragment">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView_home"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeView_home_frag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="Scroll"
-        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView_home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:contentDescription="Scroll"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/vpg2_home_frag"
-                android:layout_width="match_parent"
-                android:layout_height="400dp">
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/vpg_slide_home_frag"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" >
-
-                </androidx.viewpager2.widget.ViewPager2>
-
-                <me.relex.circleindicator.CircleIndicator3
-                    android:id="@+id/indicator_Home_frag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    app:ci_drawable="@drawable/bg_indicator"
-                    app:layout_constraintBottom_toBottomOf="@id/vpg_slide_home_frag"
-                    app:layout_constraintEnd_toEndOf="@+id/vpg_slide_home_frag"
-                    app:layout_constraintHeight_percent="0.03"
-                    app:layout_constraintHorizontal_bias="0.95"
-                    app:layout_constraintStart_toStartOf="@+id/vpg_slide_home_frag"
-                    app:layout_constraintTop_toTopOf="@id/vpg_slide_home_frag"
-                    app:layout_constraintVertical_bias="0.95" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="match_parent"
-                android:layout_height="1dp">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/txtTrendingVid_home_frag"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:autoSizeMaxTextSize="27sp"
-                android:autoSizeMinTextSize="20sp"
-                android:autoSizeStepGranularity="2sp"
-                android:autoSizeTextType="uniform"
-                android:gravity="center|start"
-                android:paddingLeft="10dp"
-                android:textStyle="bold"
-                android:layout_marginBottom="10dp"
-                android:text="Video Trending"
-                android:textColor="@color/neonGreen" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_TrendVid_Home_frag"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="12dp"/>
+                android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout2"
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="1dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/vpg2_home_frag"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp">
 
-            <TextView
-                android:id="@+id/txtTrendingTV_home_frag"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:autoSizeMaxTextSize="27sp"
-                android:autoSizeMinTextSize="20sp"
-                android:autoSizeStepGranularity="2sp"
-                android:autoSizeTextType="uniform"
-                android:gravity="center|start"
-                android:paddingLeft="10dp"
-                android:textStyle="bold"
-                android:text="TV Trending"
-                android:textColor="@color/neonGreen" />
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/vpg_slide_home_frag"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_TrendTV_Home_frag"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp" />
+                    </androidx.viewpager2.widget.ViewPager2>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp">
+                    <me.relex.circleindicator.CircleIndicator3
+                        android:id="@+id/indicator_Home_frag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        app:ci_drawable="@drawable/bg_indicator"
+                        app:layout_constraintBottom_toBottomOf="@id/vpg_slide_home_frag"
+                        app:layout_constraintEnd_toEndOf="@+id/vpg_slide_home_frag"
+                        app:layout_constraintHeight_percent="0.03"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        app:layout_constraintStart_toStartOf="@+id/vpg_slide_home_frag"
+                        app:layout_constraintTop_toTopOf="@id/vpg_slide_home_frag"
+                        app:layout_constraintVertical_bias="0.95" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/txtTrendingRad_home_frag"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:autoSizeMaxTextSize="27sp"
-                android:autoSizeMinTextSize="20sp"
-                android:autoSizeStepGranularity="2sp"
-                android:autoSizeTextType="uniform"
-                android:gravity="center|start"
-                android:paddingLeft="10dp"
-                android:text="Radio Trending"
-                android:textStyle="bold"
-                android:textColor="@color/neonGreen" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_TrendRad_Home_frag"
-                android:layout_marginTop="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="200dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/txtTrendingVid_home_frag"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:autoSizeMaxTextSize="27sp"
+                    android:autoSizeMinTextSize="20sp"
+                    android:autoSizeStepGranularity="2sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center|start"
+                    android:paddingLeft="10dp"
+                    android:text="Video Trending"
+                    android:textColor="@color/neonGreen"
+                    android:textStyle="bold" />
 
-    </androidx.core.widget.NestedScrollView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_TrendVid_Home_frag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="12dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/txtTrendingTV_home_frag"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:autoSizeMaxTextSize="27sp"
+                    android:autoSizeMinTextSize="20sp"
+                    android:autoSizeStepGranularity="2sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center|start"
+                    android:paddingLeft="10dp"
+                    android:text="TV Trending"
+                    android:textColor="@color/neonGreen"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_TrendTV_Home_frag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="10dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/txtTrendingRad_home_frag"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:autoSizeMaxTextSize="27sp"
+                    android:autoSizeMinTextSize="20sp"
+                    android:autoSizeStepGranularity="2sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center|start"
+                    android:paddingLeft="10dp"
+                    android:text="Radio Trending"
+                    android:textColor="@color/neonGreen"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_TrendRad_Home_frag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:minHeight="200dp" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ImageView
         android:id="@+id/img_temp_Home_Frag"

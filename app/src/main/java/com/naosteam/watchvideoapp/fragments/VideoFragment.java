@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -47,13 +48,13 @@ public class VideoFragment extends Fragment {
 
     private View rootView;
     private NavController navController;
-    private TextView tv_video;
     private FragmentVideoBinding binding;
-    private ArrayList<Videos_M> mTrendings;
-    private ArrayList<Videos_M> mMostViews;
-    private ArrayList<Videos_M> mLatests;
-    private ArrayList<Videos_M> mTopRates;
-    private ArrayList<Category_M> mCategories;
+    private static ArrayList<Videos_M> mTrendings;
+    private static ArrayList<Videos_M> mMostViews;
+    private static ArrayList<Videos_M> mLatests;
+    private static ArrayList<Videos_M> mTopRates;
+    private static ArrayList<Category_M> mCategories;
+    private static boolean first_time = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,21 +67,35 @@ public class VideoFragment extends Fragment {
         LinearLayout.LayoutParams layoutParams00 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Math.round(height*0.3));
         binding.rlPager.setLayoutParams(layoutParams00);
 
-        mTrendings = new ArrayList<>();
-        mMostViews = new ArrayList<>();
-        mLatests = new ArrayList<>();
-        mTopRates = new ArrayList<>();
-        mCategories = new ArrayList<>();
-        mCategories.add(new Category_M(-1, "All", "", 1));
+        if(first_time) {
+            mTrendings = new ArrayList<>();
+            mMostViews = new ArrayList<>();
+            mLatests = new ArrayList<>();
+            mTopRates = new ArrayList<>();
+            mCategories = new ArrayList<>();
+            mCategories.add(new Category_M(-1, "All", "", 1));
+            LoadVideoData();
+            first_time = false;
+        } else {
+            updateUI();
+        }
 
         SetupView();
-
-        LoadVideoData();
 
         return rootView;
     }
 
     private void SetupView() {
+
+        binding.swiperVideoFrag.setColorSchemeColors(getResources().getColor(R.color.neonGreen));
+        binding.swiperVideoFrag.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                LoadVideoData();
+                binding.swiperVideoFrag.setRefreshing(false);
+            }
+        });
+
         binding.ivSearch.setOnClickListener(v->{
             if(!binding.edtSearch.getText().toString().isEmpty()){
                 Bundle bundle = new Bundle();
@@ -129,8 +144,18 @@ public class VideoFragment extends Fragment {
             @Override
             public void onEnd(boolean status, ArrayList<Videos_M> arrayList_trending, ArrayList<Videos_M> arrayList_mostview, ArrayList<Videos_M> arrayList_latest, ArrayList<Videos_M> arrayList_toprate, ArrayList<Category_M> arrayList_category) {
                 if(getContext() != null){
+                    binding.llList.setVisibility(View.VISIBLE);
+                    binding.viewPager.setVisibility(View.VISIBLE);
+                    binding.circleIndicator.setVisibility(View.VISIBLE);
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.progressBarPager.setVisibility(View.GONE);
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
+                            mTrendings.clear();
+                            mMostViews.clear();
+                            mLatests.clear();
+                            mTopRates.clear();
+                            mCategories.clear();
                             mTrendings.addAll(arrayList_trending);
                             mMostViews.addAll(arrayList_mostview);
                             mLatests.addAll(arrayList_latest);

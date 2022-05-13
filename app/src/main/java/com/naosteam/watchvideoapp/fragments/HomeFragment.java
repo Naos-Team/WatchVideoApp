@@ -16,6 +16,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.naosteam.watchvideoapp.R;
@@ -47,11 +48,12 @@ import okhttp3.RequestBody;
 
 public class HomeFragment extends Fragment {
     private NavController navController;
-    private ArrayList<Category_M> list_cat_Video;
-    private ArrayList<Videos_M> list_video_trending, list_TV_trending;
+    private static ArrayList<Category_M> list_cat_Video;
+    private static ArrayList<Videos_M> list_video_trending, list_TV_trending;
     private static ArrayList<Videos_M> list_radio_trending;
     private static int index_selected_radio = -1;
     private FragmentHomeBinding binding;
+    private static boolean first_time = true;
     private SlideShowHomeFragAdapter slideShowHomeFragAdapter;
     private FeaturedVideoAdapter featuredVideoAdapter;
     private TVFragmentAdapter tvFragmentAdapter;
@@ -75,9 +77,27 @@ public class HomeFragment extends Fragment {
         View rootView = binding.getRoot();
 
         navController = NavHostFragment.findNavController(this);
+        if(first_time) {
+            list_cat_Video = new ArrayList<>();
+            list_cat_Video.add(
+                    new Category_M(1, "Ten", "https://marvelphim.com/wp-content/uploads/2022/01/poster-da%CC%82%CC%80u-cho-series-moon-knight.jpg", 1)
+            );
+            list_cat_Video.add(
+                    new Category_M(1, "Ten", "https://image.lag.vn/upload/news/22/04/07/278027632_3227456860903478_2335780498416729987_n_OPMF.jpg", 1)
+            );
+            list_cat_Video.add(
+                    new Category_M(1, "Ten", "https://upload.wikimedia.org/wikipedia/vi/4/46/Deadpool_poster.jpg", 1)
+            );
+            list_cat_Video.add(
+                    new Category_M(1, "Ten", "https://cdn.vietnambiz.vn/171464876016439296/2020/6/4/eventtechnology-15912456396331111417122.jpg", 1)
+            );
+            list_video_trending = new ArrayList<>();
+            list_TV_trending = new ArrayList<>();
+            list_radio_trending = new ArrayList<>();
+            Load_Video_Trending();
+            first_time = false;
+        }
         setUp();
-        Load_Video_Trending();
-
         return  rootView;
     }
 
@@ -86,6 +106,16 @@ public class HomeFragment extends Fragment {
         if(runnable != null){
             runnable = null;
         }
+
+        binding.swipeViewHomeFrag.setColorSchemeColors(getResources().getColor(R.color.neonGreen));
+        binding.swipeViewHomeFrag.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Load_Video_Trending();
+                binding.swipeViewHomeFrag.setRefreshing(false);
+            }
+        });
+
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -136,19 +166,6 @@ public class HomeFragment extends Fragment {
                 MainActivity.choice_Navi(R.id.baseRadioFragment);
             }
         });
-        list_cat_Video = new ArrayList<>();
-        list_cat_Video.add(
-                new Category_M(1,"Ten", "https://marvelphim.com/wp-content/uploads/2022/01/poster-da%CC%82%CC%80u-cho-series-moon-knight.jpg", 1)
-        );
-        list_cat_Video.add(
-                new Category_M(1,"Ten", "https://image.lag.vn/upload/news/22/04/07/278027632_3227456860903478_2335780498416729987_n_OPMF.jpg", 1)
-        );
-        list_cat_Video.add(
-                new Category_M(1,"Ten", "https://upload.wikimedia.org/wikipedia/vi/4/46/Deadpool_poster.jpg", 1)
-        );
-        list_cat_Video.add(
-                new Category_M(1,"Ten", "https://cdn.vietnambiz.vn/171464876016439296/2020/6/4/eventtechnology-15912456396331111417122.jpg", 1)
-        );
         slideShowHomeFragAdapter = new SlideShowHomeFragAdapter(list_cat_Video, new OnHomeItemClickListeners() {
             @Override
             public void onClick_homeItem(int position) {
@@ -157,9 +174,6 @@ public class HomeFragment extends Fragment {
         });
         binding.vpgSlideHomeFrag.setAdapter(slideShowHomeFragAdapter);
         binding.indicatorHomeFrag.setViewPager(binding.vpgSlideHomeFrag);
-
-
-        list_video_trending = new ArrayList<>();
 
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int) (getActivity().getResources().
                         getDisplayMetrics().widthPixels*(0.4)), (int) (Math.round(getActivity().getResources().getDisplayMetrics().widthPixels)/2*0.9));
@@ -178,8 +192,6 @@ public class HomeFragment extends Fragment {
 
         binding.rcvTrendVidHomeFrag.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         binding.rcvTrendVidHomeFrag.setAdapter(featuredVideoAdapter);
-
-        list_TV_trending = new ArrayList<>();
 
         ConstraintLayout.LayoutParams layoutParams_TV_item = new ConstraintLayout.LayoutParams(getActivity().getResources().
                 getDisplayMetrics().widthPixels*1/3, (getActivity().getResources().getDisplayMetrics().widthPixels)*1/3*3/4);
@@ -201,9 +213,6 @@ public class HomeFragment extends Fragment {
         binding.rcvTrendTVHomeFrag.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         binding.rcvTrendTVHomeFrag.setAdapter(tvFragmentAdapter);
 
-        if(list_radio_trending == null) {
-            list_radio_trending = new ArrayList<>();
-        }
         ConstraintLayout.LayoutParams layoutParams_radio = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 getActivity().getResources().getDisplayMetrics().heightPixels*1/10);
         layoutParams_radio.setMargins(5, 10, 5, 10);
@@ -260,7 +269,8 @@ public class HomeFragment extends Fragment {
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         Load_TV_Trending();
                         if(status){
-                           list_video_trending.addAll(arrayList_trending);
+                            list_video_trending.clear();
+                            list_video_trending.addAll(arrayList_trending);
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
                         }
@@ -288,7 +298,8 @@ public class HomeFragment extends Fragment {
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         Load_Radio_Trending();
                         if(ablBoolean){
-                            HomeFragment.this.list_TV_trending.addAll(list_tv_trending);
+                            HomeFragment.list_TV_trending.clear();
+                            HomeFragment.list_TV_trending.addAll(list_tv_trending);
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
                         }

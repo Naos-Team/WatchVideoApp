@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,235 +9,262 @@
     tools:context=".fragments.VideoFragment"
     android:fillViewport="true">
 
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiper_video_frag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-         <RelativeLayout
-            android:id="@+id/rl_pager"
-            android:layout_width="match_parent"
-            android:layout_height="250dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-             <ProgressBar
-                 android:id="@+id/progressBar_pager"
-                 android:layout_width="40dp"
-                 android:layout_height="40dp"
-                 android:layout_centerInParent="true"
-                 android:layout_marginVertical="30dp"
-                 android:layout_marginBottom="30dp"
-                 android:indeterminate="true"
-                 android:indeterminateTint="@color/neonGreen"
-                 android:indeterminateTintMode="src_atop"
-                 android:visibility="visible" />
-
-            <androidx.viewpager.widget.ViewPager
-                android:visibility="gone"
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <me.relex.circleindicator.CircleIndicator
-                android:visibility="visible"
-                android:id="@+id/circle_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                app:ci_drawable="@drawable/shape_ci_movie_check"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:background="@color/primaryColor"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginVertical="10dp"
-                android:layout_marginHorizontal="15dp"
-                android:background="@drawable/shape_search_video"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/edt_search"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="15dp"
-                    android:textCursorDrawable="@null"
-                    android:background="@android:color/transparent"
-                    android:hint="Search..."/>
-                <ImageView
-                    android:id="@+id/iv_search"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_search_video"
-                    android:tint="#C3BABA"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginVertical="5dp" />
-
-            </LinearLayout>
+            android:background="@color/primaryColor"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginHorizontal="15dp"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:id="@+id/btn_search_dmotion"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/shape_search_video">
-                    <ImageView
-                        android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp">
+
+                    <ProgressBar
+                        android:id="@+id/progressBar_pager"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginVertical="30dp"
+                        android:layout_marginBottom="30dp"
+                        android:indeterminate="true"
+                        android:indeterminateTint="@color/neonGreen"
+                        android:indeterminateTintMode="src_atop"
+                        android:visibility="gone" />
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="8dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_dailymotion"/>
-                    <TextView
+                        android:visibility="visible" />
+
+                    <me.relex.circleindicator.CircleIndicator
+                        android:id="@+id/circle_indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dailymotion"
-                        android:textStyle="bold"
-                        android:textSize="15dp"/>
-                </LinearLayout>
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:visibility="visible"
+                        app:ci_drawable="@drawable/shape_ci_movie_check" />
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/btn_search_youtube"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:background="@drawable/shape_search_video">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_margin="7dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_youtube"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Youtube"
-                        android:textStyle="bold"
-                        android:textSize="15dp"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="30dp"
-                    android:indeterminate="true"
-                    android:indeterminateTint="@color/neonGreen"
-                    android:indeterminateTintMode="src_atop"
-                    android:visibility="visible" />
-
-                <LinearLayout
-                    android:visibility="gone"
-                    android:id="@+id/ll_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/primaryColor"
                     android:orientation="vertical">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_category"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:orientation="vertical">
+                        android:layout_height="50dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="@drawable/shape_search_video"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/edt_search"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="Latest video"
-                            android:textColor="@color/neonGreen"
-                            android:textSize="22dp"
-                            android:textStyle="bold" />
+                            android:layout_marginLeft="15dp"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:hint="Search..."
+                            android:textCursorDrawable="@null"
+                            android:textSize="20dp" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_latest_video"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp" />
+                        <ImageView
+                            android:id="@+id/iv_search"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="5dp"
+                            android:src="@drawable/ic_search_video"
+                            android:tint="#C3BABA" />
+
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:orientation="vertical">
+                        android:layout_height="45dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="Most View"
-                            android:textColor="@color/neonGreen"
-                            android:textSize="22dp"
-                            android:textStyle="bold" />
+                        <LinearLayout
+                            android:id="@+id/btn_search_dmotion"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_search_video"
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:orientation="horizontal">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_most_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp" />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_margin="8dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_dailymotion" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Dailymotion"
+                                android:textSize="15dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btn_search_youtube"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_search_video"
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_margin="7dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_youtube" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Youtube"
+                                android:textSize="15dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="20dp"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="Top Rating"
-                            android:textColor="@color/neonGreen"
-                            android:textSize="22dp"
-                            android:textStyle="bold" />
+                        <ProgressBar
+                            android:id="@+id/progressBar"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true"
+                            android:layout_marginBottom="30dp"
+                            android:indeterminate="true"
+                            android:indeterminateTint="@color/neonGreen"
+                            android:indeterminateTintMode="src_atop"
+                            android:visibility="gone" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_top_rating"
+                        <LinearLayout
+                            android:id="@+id/ll_list"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_category"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="Latest video"
+                                    android:textColor="@color/neonGreen"
+                                    android:textSize="22dp"
+                                    android:textStyle="bold" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rv_latest_video"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="Most View"
+                                    android:textColor="@color/neonGreen"
+                                    android:textSize="22dp"
+                                    android:textStyle="bold" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rv_most_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="Top Rating"
+                                    android:textColor="@color/neonGreen"
+                                    android:textSize="22dp"
+                                    android:textStyle="bold" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rv_top_rating"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </RelativeLayout>
 
                 </LinearLayout>
-            </RelativeLayout>
 
-        </LinearLayout>
-        
-    </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
