@@ -160,6 +160,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Button btn_gg, btn_su;
                 CheckBox check_dialog;
+                TextView tv_dismiss;
                 ViewGroup viewGroup = findViewById(android.R.id.content);
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                 View view1 = LayoutInflater.from(LoginActivity.this).inflate(R.layout.dialog_layout, viewGroup,false);
@@ -169,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                 btn_gg = view1.findViewById(R.id.btn_submit);
                 btn_su = view1.findViewById(R.id.btn_next_su);
                 check_dialog = view1.findViewById(R.id.check_dialog);
+                tv_dismiss = view1.findViewById(R.id.tv_dismiss);
 
                 final AlertDialog alertDialog = builder.create();
 
@@ -177,28 +179,43 @@ public class LoginActivity extends AppCompatActivity {
                 btn_gg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        alertDialog.dismiss();
                         if(check_dialog.isChecked()){
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putBoolean("check_not_show_alert", true);
                             editor.apply();
+
+
                         }
+
+
                         SignInWithGoogle();
-                        alertDialog.dismiss();
                     }
                 });
 
                 btn_su.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        alertDialog.dismiss();
                         if(check_dialog.isChecked()){
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putBoolean("check_not_show_alert", true);
                             editor.apply();
+
+
                         }
                         startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+                    }
+                });
+
+                tv_dismiss.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         alertDialog.dismiss();
                     }
                 });
+
+
 
                 if (sharedPreferences.getBoolean("check_not_show_alert", false)){
                     SignInWithGoogle();

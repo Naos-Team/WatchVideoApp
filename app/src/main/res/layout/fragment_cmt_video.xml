@@ -40,8 +40,9 @@
                 <ImageView
                     android:id="@+id/btn_back_video_frag"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="60dp"
                     android:adjustViewBounds="true"
+                    android:minHeight="40dp"
                     android:padding="15dp"
                     android:src="@drawable/ic_back"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +80,11 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_send_cmt_video_frag"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/bg_radio_listening_item"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +95,7 @@
                     android:id="@+id/txt_cmt_Video_frag"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:background="@null"
                     android:ems="10"
                     android:hint="Your Comment"
                     android:inputType="textPersonName"
@@ -101,8 +107,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/btn_send_cmt_video_frag"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:backgroundTint="@color/neonGreen" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/btn_send_cmt_video_frag"

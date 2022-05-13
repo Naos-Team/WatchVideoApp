@@ -250,7 +250,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                                         binding.imvStart1.setVisibility(View.VISIBLE);
                                         binding.progressStart1.setVisibility(View.VISIBLE);
                                         Toast.makeText(UpdateProfileActivity.this, "Successfully. Your info has been updated.", Toast.LENGTH_LONG).show();
-                                        onBackPressed();
+                                        onDestroy();
                                     } else {
                                         Toast.makeText(UpdateProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                     }

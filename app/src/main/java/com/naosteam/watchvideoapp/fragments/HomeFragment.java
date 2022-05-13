@@ -50,12 +50,13 @@ import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.naosteam.watchvideoapp.utils.SharedPref;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import okhttp3.RequestBody;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements Serializable {
     private NavController navController;
     private static ArrayList<Category_M> list_cat_Video;
     private static ArrayList<Videos_M> list_video_trending, list_TV_trending;
@@ -212,8 +213,8 @@ public class HomeFragment extends Fragment {
         binding.indicatorHomeFrag.setViewPager(binding.vpgSlideHomeFrag);
 
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int) (getActivity().getResources().
-                        getDisplayMetrics().widthPixels*(0.4)), (int) (Math.round(getActivity().getResources().getDisplayMetrics().widthPixels)/2*0.9));
-        layoutParams.setMargins(20,20,20,20);
+                        getDisplayMetrics().widthPixels*(0.42)), (int) (Math.round(getActivity().getResources().getDisplayMetrics().widthPixels)/2*0.9));
+        layoutParams.setMargins(30,20,30,20);
 
         featuredVideoAdapter = new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, list_video_trending, new OnVideoFeatureClickListener() {
             @Override
@@ -222,7 +223,11 @@ public class HomeFragment extends Fragment {
                 bundle.putSerializable("video", list_video_trending.get(position));
                 bundle.putBoolean("is_home", true);
 
-                navController.navigate(R.id.Home_to_Video_Detail, bundle);
+                try{
+                    navController.navigate(R.id.Home_to_Video_Detail, bundle);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -242,7 +247,12 @@ public class HomeFragment extends Fragment {
                 bundle.putString("url_img", list_TV_trending.get(position).getVid_thumbnail());
                 bundle.putString("des", list_TV_trending.get(position).getVid_description());
                 bundle.putBoolean("isHome", true);
-                navController.navigate(R.id.homeFrag_to_TVDetailFrag, bundle);
+                try{
+                    navController.navigate(R.id.homeFrag_to_TVDetailFrag, bundle);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -281,7 +291,12 @@ public class HomeFragment extends Fragment {
                     }
                 });
                 bundle.putString("from", "from_home_screen");
-                navController.navigate(R.id.home_to_radioDetails, bundle);
+                try{
+                    navController.navigate(R.id.home_to_radioDetails, bundle);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 

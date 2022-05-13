@@ -14,6 +14,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.style.ChasingDots;
+import com.github.ybq.android.spinkit.style.CubeGrid;
+import com.github.ybq.android.spinkit.style.FadingCircle;
+import com.github.ybq.android.spinkit.style.Pulse;
+import com.github.ybq.android.spinkit.style.RotatingCircle;
+import com.github.ybq.android.spinkit.style.ThreeBounce;
+import com.github.ybq.android.spinkit.style.WanderingCubes;
+import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Player;
 import com.naosteam.watchvideoapp.R;
@@ -47,9 +55,6 @@ public class RadioDetailsFragment extends Fragment {
     private PlayerRadio playerRadio;
     private ControlRadioListener controlRadioListener;
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,25 +62,36 @@ public class RadioDetailsFragment extends Fragment {
         rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
 
-        Methods.getInstance().checkVideoFav(getContext(), Constant.Radio_Listening.getVid_id(), new CheckFavListener() {
-            @Override
-            public void onComplete(boolean isSuccess, boolean isFav) {
-                if(isSuccess){
-                    mIsFav = isFav;
-                }
-                LoadData();
-            }
-        });
+        binding.progressRadioDetail.setVisibility(View.VISIBLE);
+        binding.progressRadioDetail.setIndeterminateDrawableTiled(new ThreeBounce());
+
 
         playerRadio = PlayerRadio.getInstance(new OnUpdateViewRadioPlayListener() {
             @Override
             public void onBuffering() {
                 binding.imvPlayRadio.setClickable(false);
                 binding.imvPlayRadio.setImageResource(R.drawable.ic_play_radio);
+                Methods.getInstance().checkVideoFav(getContext(), Constant.Radio_Listening.getVid_id(), new CheckFavListener() {
+                    @Override
+                    public void onComplete(boolean isSuccess, boolean isFav) {
+                        if(isSuccess){
+                            mIsFav = isFav;
+                        }
+                        updateFav();
+                    }
+                });
+
+                binding.imvBg.setVisibility(View.VISIBLE);
+
+                binding.progressRadioDetail.setVisibility(View.VISIBLE);
+
             }
 
             @Override
             public void onReady() {
+                binding.imvBg.setVisibility(View.GONE);
+
+                binding.progressRadioDetail.setVisibility(View.GONE);
                 binding.imvPlayRadio.setClickable(true);
                 binding.imvPlayRadio.setImageResource(R.drawable.ic_pause_radio);
             }
@@ -88,6 +104,16 @@ public class RadioDetailsFragment extends Fragment {
             }
         });
         LoadData();
+
+        Methods.getInstance().checkVideoFav(getContext(), Constant.Radio_Listening.getVid_id(), new CheckFavListener() {
+            @Override
+            public void onComplete(boolean isSuccess, boolean isFav) {
+                if(isSuccess){
+                    mIsFav = isFav;
+                }
+                updateFav();
+            }
+        });
 
         return rootView;
     }
@@ -129,6 +155,7 @@ public class RadioDetailsFragment extends Fragment {
                     @Override
                     public void onComplete(boolean isSuccess) {
                         if(isSuccess){
+
                             mIsFav = !mIsFav;
                             if(mIsFav){
                                 Picasso.get()
@@ -194,7 +221,20 @@ public class RadioDetailsFragment extends Fragment {
         });
     }
 
+    private void updateFav(){
+        if(mIsFav){
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_check)
+                    .into(binding.radioDetailFav);
+        }else{
+            Picasso.get()
+                    .load(R.drawable.ic_heart4_uncheckpng)
+                    .into(binding.radioDetailFav);
+        }
+    }
+
     private void updateView(){
+
         radio = Constant.Radio_Listening;
         Picasso.get().load(radio.getVid_thumbnail()).into(binding.imvRadio);
         binding.tvRadioName.setText(radio.getVid_title());

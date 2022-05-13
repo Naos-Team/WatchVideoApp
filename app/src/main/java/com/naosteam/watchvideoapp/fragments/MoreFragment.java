@@ -100,7 +100,7 @@ public class MoreFragment extends Fragment {
         binding.constraintlayout21.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    navController.navigate(R.id.profile_to_more);
+                    navController.navigate(R.id.more_to_privacy);
             }
         });
 
