@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Player;
 import com.naosteam.watchvideoapp.R;
@@ -56,6 +57,9 @@ public class RadioDetailsFragment extends Fragment {
         binding = FragmentRadioDetailsBinding.inflate(inflater, container, false);
         rootView = binding.getRoot();
         navController = NavHostFragment.findNavController(this);
+
+        binding.progressRadioDetail.setVisibility(View.VISIBLE);
+        binding.progressRadioDetail.setIndeterminateDrawableTiled(new WanderingCubes());
 
         Methods.getInstance().checkVideoFav(getContext(), Constant.Radio_Listening.getVid_id(), new CheckFavListener() {
             @Override
@@ -195,6 +199,7 @@ public class RadioDetailsFragment extends Fragment {
     }
 
     private void updateView(){
+        binding.progressRadioDetail.setVisibility(View.GONE);
         radio = Constant.Radio_Listening;
         Picasso.get().load(radio.getVid_thumbnail()).into(binding.imvRadio);
         binding.tvRadioName.setText(radio.getVid_title());
