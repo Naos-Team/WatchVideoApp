@@ -41,12 +41,13 @@ import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import okhttp3.RequestBody;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements Serializable {
     private NavController navController;
     private static ArrayList<Category_M> list_cat_Video;
     private static ArrayList<Videos_M> list_video_trending, list_TV_trending;
