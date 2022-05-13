@@ -64,6 +64,8 @@ public class TvFragment extends Fragment {
             );
             Load_TV_Screen();
             first_time = false;
+        } else {
+            list_cate_video.addAll(list_video);
         }
         setUp();
         return rootView;
