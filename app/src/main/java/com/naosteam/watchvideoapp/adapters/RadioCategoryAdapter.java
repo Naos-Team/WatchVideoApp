@@ -63,7 +63,7 @@ public class RadioCategoryAdapter extends RecyclerView.Adapter<RadioCategoryAdap
 
         public void bindView(int position){
             list_cat.get(position).getCat_image();
-            Picasso.get().load(list_cat.get(position).getCat_image()).into(imv_radio_cat);
+            Picasso.get().load(list_cat.get(position).getCat_image()).error(R.drawable.image_offline).into(imv_radio_cat);
             tv_radio_cat_name.setText(list_cat.get(position).getCat_name());
             layout_radio_cat_item.setLayoutParams(layoutParams);
             layout_radio_cat_item.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,7 @@
 package com.naosteam.watchvideoapp.fragments;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,11 @@ import com.naosteam.watchvideoapp.listeners.LoadVideoAsyncListener;
 import com.naosteam.watchvideoapp.listeners.OnHomeItemClickListeners;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
+import com.naosteam.watchvideoapp.utils.SharedPref;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -47,6 +52,7 @@ public class TvFragment extends Fragment {
     private ArrayList<Videos_M> list_cate_video;
     private CateTvFragmentAdapter catetvFragmentAdapter;
     private TVFragmentAdapter tvFragmentAdapter;
+    private static boolean check_internet = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +63,7 @@ public class TvFragment extends Fragment {
 
         list_cate_video = new ArrayList<>();
         if(first_time) {
+            list_cate_video = new ArrayList<>();
             list_video = new ArrayList<>();
             list_category = new ArrayList<>();
             list_category.add(
@@ -64,7 +71,30 @@ public class TvFragment extends Fragment {
             );
             Load_TV_Screen();
             first_time = false;
+        } else {
+            list_cate_video.addAll(list_video);
         }
+        CountDownTimer countDownTimer = new CountDownTimer(200,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                if(getContext() != null){
+                    if(check_internet !=
+                            Methods.getInstance().isNetworkConnected(getContext()) &&
+                            !check_internet ){
+                        Load_TV_Screen();
+                    }
+                    check_internet = Methods.getInstance().isNetworkConnected(getContext());
+                }
+
+            }
+
+            @Override
+            public void onFinish() {
+                this.start();
+            }
+        };
+        countDownTimer.start();
         setUp();
         return rootView;
     }
@@ -161,6 +191,9 @@ public class TvFragment extends Fragment {
             public void onPre() {
                 binding.prgTVFrag.setVisibility(View.VISIBLE);
                 binding.imgTempTVFragment.setVisibility(View.VISIBLE);
+                list_category.clear();
+                list_cate_video.clear();
+                list_video.clear();
             }
 
             @Override
@@ -174,21 +207,48 @@ public class TvFragment extends Fragment {
                         if(ablBoolean){
                             TvFragment.list_video.clear();
                             TvFragment.list_category.clear();
-                            list_category.add(
-                                    new Category_M(-1, "All", "https://d1j8r0kxyu9tj8.cloudfront.net/images/1566809284X4pyEDCj7CFMsGu.jpg", 1)
-                            );
-                            TvFragment.this.list_cate_video.clear();
-                            TvFragment.list_video.addAll(list_tv_all);
-                            TvFragment.this.list_cate_video.addAll(list_tv_all);
-                            TvFragment.list_category.addAll(list_categList_tv);
-                            tvFragmentAdapter.notifyDataSetChanged();
-                            catetvFragmentAdapter.notifyDataSetChanged();
+
+                            if(list_tv_all.isEmpty()){
+                                list_video.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.TV));
+                                list_cate_video.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.TV));
+                            }else{
+                                list_video.addAll(list_tv_all);
+                                list_cate_video.addAll(list_tv_all);
+                                SharedPref.getInstance(getContext()).setTempVideoList(Constant.TV, list_video);
+                            }
+
+                            if(list_categList_tv.isEmpty()){
+                                list_category.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.TV));
+                            }else{
+                                list_category.addAll(list_categList_tv);
+                            }
+
+
+//
+//                            TvFragment.this.list_cate_video.clear();
+//                            TvFragment.list_video.addAll(list_tv_all);
+//                            TvFragment.this.list_cate_video.addAll(list_tv_all);
+//                            TvFragment.list_category.addAll(list_categList_tv);
+
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                            list_video.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.TV));
+                            list_cate_video.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.TV));
+                            list_category.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.TV));
                         }
                     }else{
                         Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                        list_video.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.TV));
+                        list_cate_video.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.TV));
+                        list_category.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.TV));
                     }
+
+                    list_category.add(0,
+                            new Category_M(-1, "All", "https://d1j8r0kxyu9tj8.cloudfront.net/images/1566809284X4pyEDCj7CFMsGu.jpg", 1)
+                    );
+
+                    tvFragmentAdapter.notifyDataSetChanged();
+                    catetvFragmentAdapter.notifyDataSetChanged();
                 }
             }
         };

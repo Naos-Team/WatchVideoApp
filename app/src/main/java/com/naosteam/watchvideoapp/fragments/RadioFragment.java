@@ -1,7 +1,9 @@
 package com.naosteam.watchvideoapp.fragments;
 
+import android.content.BroadcastReceiver;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.naosteam.watchvideoapp.utils.PlayerRadio;
+import com.naosteam.watchvideoapp.utils.SharedPref;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,6 +52,7 @@ public class RadioFragment extends Fragment {
     private RadioCategoryAdapter categoryAdapter;
     private PlayerRadio playerRadio;
     private static int index_selected = -1;
+    private static boolean check_internet = false;
 
     public void nextRadio(){
         if(index_selected == mTrendings.size() - 1){
@@ -84,6 +88,28 @@ public class RadioFragment extends Fragment {
         } else {
             updateUI();
         }
+
+        CountDownTimer countDownTimer = new CountDownTimer(200,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                if(getContext() != null){
+                    if(check_internet !=
+                            Methods.getInstance().isNetworkConnected(getContext()) &&
+                            !check_internet ){
+                        LoadData();
+                    }
+                    check_internet = Methods.getInstance().isNetworkConnected(getContext());
+                }
+
+            }
+
+            @Override
+            public void onFinish() {
+                this.start();
+            }
+        };
+        countDownTimer.start();
 
         playerRadio = PlayerRadio.getInstance(new OnUpdateViewRadioPlayListener() {
             @Override
@@ -261,6 +287,8 @@ public class RadioFragment extends Fragment {
                 binding.imgTempRadioFrag1.setVisibility(View.VISIBLE);
                 binding.progressCircular1.setVisibility(View.VISIBLE);
 
+                mTrendings.clear();
+                mCats.clear();
             }
 
             @Override
@@ -273,9 +301,18 @@ public class RadioFragment extends Fragment {
                             mCats.clear();
                             mCats.addAll(arrayList_category);
 
-                            binding.imgTempRadioFrag1.setVisibility(View.GONE);
-                            binding.progressCircular1.setVisibility(View.GONE);
-                            updateUI();
+                            if(arrayList_trending.isEmpty()){
+                                mTrendings.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.RADIO));
+                            }else{
+                                mTrendings.addAll(arrayList_trending);
+                                SharedPref.getInstance(getContext()).setTempVideoList(Constant.RADIO, mTrendings);
+                            }
+
+                            if(arrayList_category.isEmpty()){
+                                mCats.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.RADIO));
+                            }else{
+                                mCats.addAll(arrayList_category);
+                            }
 
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
@@ -283,6 +320,12 @@ public class RadioFragment extends Fragment {
                     }else{
                         Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
                     }
+
+                    mCats.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.RADIO));
+                    mTrendings.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.RADIO));
+                    binding.imgTempRadioFrag1.setVisibility(View.GONE);
+                    binding.progressCircular1.setVisibility(View.GONE);
+                    updateUI();
                 }
             }
         };

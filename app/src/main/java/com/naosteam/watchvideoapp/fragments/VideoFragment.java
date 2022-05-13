@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -34,7 +35,9 @@ import com.naosteam.watchvideoapp.listeners.OnCategoryHorizontalListener;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
+import com.naosteam.watchvideoapp.utils.SharedPref;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -55,6 +58,7 @@ public class VideoFragment extends Fragment {
     private static ArrayList<Videos_M> mTopRates;
     private static ArrayList<Category_M> mCategories;
     private static boolean first_time = true;
+    private static boolean check_internet = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,6 +85,26 @@ public class VideoFragment extends Fragment {
         }
 
         SetupView();
+
+        CountDownTimer countDownTimer = new CountDownTimer(200,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if(getContext() != null){
+                    if(check_internet !=
+                            Methods.getInstance().isNetworkConnected(getContext()) &&
+                            !check_internet ){
+                        LoadVideoData();
+                    }
+                    check_internet = Methods.getInstance().isNetworkConnected(getContext());
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                this.start();
+            }
+        };
+        countDownTimer.start();
 
         return rootView;
     }
@@ -139,6 +163,12 @@ public class VideoFragment extends Fragment {
                 binding.circleIndicator.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.VISIBLE);
                 binding.progressBarPager.setVisibility(View.VISIBLE);
+
+                mTrendings.clear();
+                mMostViews.clear();
+                mLatests.clear();
+                mTopRates.clear();
+                mCategories.clear();
             }
 
             @Override
@@ -151,30 +181,63 @@ public class VideoFragment extends Fragment {
                     binding.progressBarPager.setVisibility(View.GONE);
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
-                            mTrendings.clear();
-                            mMostViews.clear();
-                            mLatests.clear();
-                            mTopRates.clear();
-                            mCategories.clear();
-                            mTrendings.addAll(arrayList_trending);
-                            mMostViews.addAll(arrayList_mostview);
-                            mLatests.addAll(arrayList_latest);
-                            mTopRates.addAll(arrayList_toprate);
-                            mCategories.addAll(arrayList_category);
 
-                            updateUI();
+                            if(arrayList_trending.isEmpty()){
+                                mTrendings.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                            }else{
+                                mTrendings.addAll(arrayList_trending);
+                            }
 
-                            binding.viewPager.setVisibility(View.VISIBLE);
-                            binding.circleIndicator.setVisibility(View.VISIBLE);
-                            binding.llList.setVisibility(View.VISIBLE);
-                            binding.progressBar.setVisibility(View.GONE);
-                            binding.progressBarPager.setVisibility(View.GONE);
+                            if(arrayList_mostview.isEmpty()){
+                                mMostViews.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                            }else{
+                                mMostViews.addAll(arrayList_mostview);
+                            }
+
+                            if(arrayList_latest.isEmpty()){
+                                mLatests.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                            }else{
+                                mLatests.addAll(arrayList_latest);
+                            }
+
+                            if(arrayList_toprate.isEmpty()){
+                                mTopRates.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                            }else{
+                                mTopRates.addAll(arrayList_toprate);
+                            }
+
+                            if(arrayList_category.isEmpty()){
+                                mCategories.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.VIDEO));
+                            }else{
+                                mCategories.addAll(arrayList_category);
+                            }
+
+                            SharedPref.getInstance(getContext()).setTempVideoList(Constant.VIDEO, mMostViews);
+
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                            mTrendings.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                            mLatests.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                            mTopRates.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                            mMostViews.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                            mCategories.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.VIDEO));
                         }
                     }else{
                         Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                        mTrendings.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                        mLatests.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                        mTopRates.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                        mMostViews.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                        mCategories.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.VIDEO));
                     }
+
+                    updateUI();
+
+                    binding.viewPager.setVisibility(View.VISIBLE);
+                    binding.circleIndicator.setVisibility(View.VISIBLE);
+                    binding.llList.setVisibility(View.VISIBLE);
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.progressBarPager.setVisibility(View.GONE);
                 }
             }
         };

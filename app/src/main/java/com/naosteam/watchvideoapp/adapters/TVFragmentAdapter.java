@@ -63,7 +63,7 @@ public class TVFragmentAdapter extends RecyclerView.Adapter<TVFragmentAdapter.TV
         }
 
         public void bindView(int position){
-            Picasso.get().load(list_TV.get(position).getVid_thumbnail()).into(img_TV_item_frag);
+            Picasso.get().load(list_TV.get(position).getVid_thumbnail()).error(R.drawable.image_offline).into(img_TV_item_frag);
             layout_TV_item_frag.setLayoutParams(layoutParams);
             layout_TV_item_frag.setOnClickListener(new View.OnClickListener() {
                 @Override

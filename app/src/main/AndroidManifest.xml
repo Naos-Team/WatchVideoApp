@@ -52,6 +52,8 @@
             android:name=".activities.MainActivity"
             android:exported="true">
         </activity>
+
+        <receiver android:name=".fragments.RadioFragment" />
     </application>
 
 </manifest>

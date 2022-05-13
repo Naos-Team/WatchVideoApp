@@ -1,7 +1,11 @@
 package com.naosteam.watchvideoapp.fragments;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -19,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.activities.VideoPlayerActivity;
 import com.naosteam.watchvideoapp.adapters.FeaturedVideoAdapter;
 import com.naosteam.watchvideoapp.asynctasks.LoadSearchVideoAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentSearchVideoBinding;
@@ -171,7 +176,12 @@ public class SearchVideoFragment extends Fragment {
         adapter = new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, mVideos, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
-
+                Videos_M videos_m = mVideos.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("video", videos_m);
+                Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 225);
             }
         });
 
@@ -201,6 +211,19 @@ public class SearchVideoFragment extends Fragment {
                 }
             }
         });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 225 && resultCode == -1){
+            int orientation = this.getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        }
 
     }
 }

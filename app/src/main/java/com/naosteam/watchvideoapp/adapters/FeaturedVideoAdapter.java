@@ -73,6 +73,7 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
 
         Picasso.get()
                 .load(video.getVid_thumbnail())
+                .error(R.drawable.image_offline)
                 .into(holder.iv_thumbnail);
 
 
@@ -85,7 +86,7 @@ public class FeaturedVideoAdapter extends RecyclerView.Adapter<FeaturedVideoAdap
 
         int views = video.getVid_view();
 
-        DecimalFormat df = new DecimalFormat("0.00");
+        DecimalFormat df = new DecimalFormat("0.0");
 
         if(views > 1000){
             if(views > 1000000){

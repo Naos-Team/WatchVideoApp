@@ -1,6 +1,12 @@
 package com.naosteam.watchvideoapp.fragments;
 
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -10,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -40,6 +48,7 @@ import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
+import com.naosteam.watchvideoapp.utils.SharedPref;
 
 import java.util.ArrayList;
 
@@ -58,6 +67,9 @@ public class HomeFragment extends Fragment {
     private FeaturedVideoAdapter featuredVideoAdapter;
     private TVFragmentAdapter tvFragmentAdapter;
     private RadioItemAdapter radioItemAdapter;
+    private ConnectivityManager connectivityManager;
+    private static boolean check_internet = false;
+    private boolean isDisconnect = false;
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -77,6 +89,7 @@ public class HomeFragment extends Fragment {
         View rootView = binding.getRoot();
 
         navController = NavHostFragment.findNavController(this);
+
         if(first_time) {
             list_cat_Video = new ArrayList<>();
             list_cat_Video.add(
@@ -97,7 +110,30 @@ public class HomeFragment extends Fragment {
             Load_Video_Trending();
             first_time = false;
         }
+
+        CountDownTimer countDownTimer = new CountDownTimer(200,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                if(getContext() != null){
+                    if(check_internet !=
+                            Methods.getInstance().isNetworkConnected(getContext()) &&
+                            !check_internet ){
+                        Load_Video_Trending();
+                    }
+                    check_internet = Methods.getInstance().isNetworkConnected(getContext());
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                this.start();
+            }
+        };
+        countDownTimer.start();
+
         setUp();
+
         return  rootView;
     }
 
@@ -261,22 +297,35 @@ public class HomeFragment extends Fragment {
             public void onStart() {
                 binding.prgHomeFrag.setVisibility(View.VISIBLE);
                 binding.imgTempHomeFrag.setVisibility(View.VISIBLE);
+                list_video_trending.clear();
             }
 
             @Override
             public void onEnd(boolean status, ArrayList<Videos_M> arrayList_trending, ArrayList<Videos_M> arrayList_mostview, ArrayList<Videos_M> arrayList_latest, ArrayList<Videos_M> arrayList_toprate, ArrayList<Category_M> arrayList_category) {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
-                        Load_TV_Trending();
+
                         if(status){
                             list_video_trending.clear();
                             list_video_trending.addAll(arrayList_trending);
+
+                            if(arrayList_trending.isEmpty()){
+                                list_video_trending.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
+                            }else{
+                                list_radio_trending.addAll(arrayList_trending);
+                                SharedPref.getInstance(getContext()).setTempVideoList(Constant.VIDEO, list_video_trending);
+                            }
+
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                            list_video_trending.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
                         }
                     }else{
                         Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                        list_video_trending.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));
                     }
+
+                    Load_TV_Trending();
                 }
             }
         };
@@ -289,6 +338,7 @@ public class HomeFragment extends Fragment {
         LoadTVAsyncListener listener = new LoadTVAsyncListener() {
             @Override
             public void onPre() {
+                list_TV_trending.clear();
             }
 
             @Override
@@ -296,16 +346,26 @@ public class HomeFragment extends Fragment {
                               ArrayList<Videos_M> list_tv_trending, ArrayList<Category_M> list_categList_tv) {
                 if(getContext() != null){
                     if(Methods.getInstance().isNetworkConnected(getContext())){
-                        Load_Radio_Trending();
+
                         if(ablBoolean){
                             HomeFragment.list_TV_trending.clear();
                             HomeFragment.list_TV_trending.addAll(list_tv_trending);
+
+                            if(list_TV_trending.isEmpty()){
+                                list_TV_trending.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.TV));
+                            }else{
+                                list_TV_trending.addAll(list_tv_trending);
+                                SharedPref.getInstance(getContext()).setTempVideoList(Constant.TV, list_TV_trending);
+                            }
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                            list_TV_trending.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.TV));
                         }
                     }else{
                         Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                        list_TV_trending.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.TV));
                     }
+                    Load_Radio_Trending();
                 }
             }
         };
@@ -318,8 +378,7 @@ public class HomeFragment extends Fragment {
         LoadRadioAsyncListener listener = new LoadRadioAsyncListener() {
             @Override
             public void onStart() {
-
-
+                list_radio_trending.clear();
             }
 
             @Override
@@ -336,20 +395,51 @@ public class HomeFragment extends Fragment {
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
                             list_radio_trending.clear();
+
+                            if(arrayList_trending.isEmpty()){
+                                arrayList_trending.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.RADIO));
+
+                                for(int i = 0; i < 5; ++i){
+                                    list_radio_trending.add(arrayList_trending.get(i));
+                                    if(i > arrayList_trending.size()){
+                                        break;
+                                    }
+                                }
+
+                            }else{
+                                for(int i = 0; i < 5; ++i){
+                                    list_radio_trending.add(arrayList_trending.get(i));
+                                    if(i > arrayList_trending.size()){
+                                        break;
+                                    }
+                                }
+
+                                SharedPref.getInstance(getContext()).setTempVideoList(Constant.RADIO, list_radio_trending);
+                            }
+
+                        }else{
+                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
+                            arrayList_trending.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.RADIO));
+
                             for(int i = 0; i < 5; ++i){
                                 list_radio_trending.add(arrayList_trending.get(i));
                                 if(i > arrayList_trending.size()){
                                     break;
                                 }
                             }
-                            radioItemAdapter.notifyDataSetChanged();
-
-                        }else{
-                            Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
                         }
                     }else{
                         Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+                        arrayList_trending.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.RADIO));
+
+                        for(int i = 0; i < 5; ++i){
+                            list_radio_trending.add(arrayList_trending.get(i));
+                            if(i > arrayList_trending.size()){
+                                break;
+                            }
+                        }
                     }
+                    radioItemAdapter.notifyDataSetChanged();
                 }
             }
         };
