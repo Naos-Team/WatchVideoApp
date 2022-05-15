@@ -32,8 +32,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +42,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.models.Users_M;
 import com.naosteam.watchvideoapp.utils.Constant;
 
 public class LoginActivity extends AppCompatActivity {
@@ -297,7 +299,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, UpdateProfileGoogleActivity.class);
                     startActivity(intent);
                 }
             }

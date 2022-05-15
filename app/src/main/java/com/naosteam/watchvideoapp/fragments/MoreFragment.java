@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,9 +28,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.LoginActivity;
-import com.naosteam.watchvideoapp.activities.UpdateProfileActivity;
+import com.naosteam.watchvideoapp.activities.UpdateProfileGoogleActivity;
 import com.naosteam.watchvideoapp.databinding.FragmentMoreBinding;
-import com.naosteam.watchvideoapp.databinding.FragmentRadioBinding;
 import com.naosteam.watchvideoapp.models.Users_M;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.squareup.picasso.Picasso;
@@ -45,14 +43,6 @@ public class MoreFragment extends Fragment {
     private DatabaseReference databaseReference;
     private static Users_M user;
     private static boolean firstt_time = true;
-
-    public static Users_M getUser() {
-        return user;
-    }
-
-    public static void setUser(Users_M user) {
-        MoreFragment.user = user;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,9 +113,7 @@ public class MoreFragment extends Fragment {
                 else{
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("user_more", user);
-                    Intent intent = new Intent(getContext(), UpdateProfileActivity.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                    navController.navigate(R.id.more_to_update, bundle);
 
                 }
 

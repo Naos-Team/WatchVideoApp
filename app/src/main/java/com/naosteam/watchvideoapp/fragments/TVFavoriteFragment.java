@@ -132,8 +132,8 @@ public class TVFavoriteFragment extends Fragment {
         binding.recyclerFavTv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
 
         int width = getContext().getResources().getDisplayMetrics().widthPixels;
-        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams((int) Math.round(width*0.4), (int) Math.round(width * 0.3));
-        layoutParams.setMargins(0, 10, 0, 10);
+        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams((int) Math.round(width*0.45), (int) Math.round(width * 0.4));
+        layoutParams.setMargins(20, 10, 20, 10);
 
         tvFragmentAdapter = new TVFragmentAdapter(arrayListfav, layoutParams, new OnHomeItemClickListeners() {
             @Override

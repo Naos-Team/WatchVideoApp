@@ -14,11 +14,11 @@
             android:id="@+id/more_to_favorite"
             app:destination="@id/favoriteFragment" />
         <action
-            android:id="@+id/more_open_profile"
-            app:destination="@id/profileFragment" />
-        <action
             android:id="@+id/more_to_privacy"
             app:destination="@id/privacyFragment" />
+        <action
+            android:id="@+id/more_to_update"
+            app:destination="@id/updateProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -37,15 +37,6 @@
         <action
             android:id="@+id/favorite_to_radio_detail"
             app:destination="@id/radioDetailsFragment4" />
-    </fragment>
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/profile_to_more"
-            app:destination="@id/moreFragment2" />
     </fragment>
     <fragment
         android:id="@+id/privacyFragment"
@@ -82,5 +73,14 @@
         <action
             android:id="@+id/radio_detail_to_favorite"
             app:destination="@id/favoriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateProfileFragment"
+        android:name="com.naosteam.watchvideoapp.fragments.UpdateProfileFragment"
+        android:label="fragment_update_profile"
+        tools:layout="@layout/fragment_update_profile" >
+        <action
+            android:id="@+id/update_to_more"
+            app:destination="@id/moreFragment2" />
     </fragment>
 </navigation>

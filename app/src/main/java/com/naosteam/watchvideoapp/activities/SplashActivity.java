@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
 
-import com.github.ybq.android.spinkit.style.ThreeBounce;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -71,7 +70,7 @@ public class SplashActivity extends AppCompatActivity {
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(SplashActivity.this, UpdateProfileActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, UpdateProfileGoogleActivity.class);
                     startActivity(intent);
                 }
             }
