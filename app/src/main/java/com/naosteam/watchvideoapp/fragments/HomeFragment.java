@@ -269,10 +269,10 @@ public class HomeFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 index_selected_radio = position;
                 Constant.Radio_Listening = list_radio_trending.get(index_selected_radio);
-                bundle.putSerializable("listener", new ControlRadioListener() {
+                RadioDetailsFragment.setControlRadioListener(new ControlRadioListener() {
                     @Override
                     public void onNext() {
-                        if(index_selected_radio == list_radio_trending.size() - 1){
+                        if (index_selected_radio == list_radio_trending.size() - 1) {
                             index_selected_radio = 0;
                         } else {
                             index_selected_radio = index_selected_radio + 1;
@@ -282,7 +282,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onPrevious() {
-                        if(index_selected_radio == 0 || index_selected_radio == -1){
+                        if (index_selected_radio == 0 || index_selected_radio == -1) {
                             index_selected_radio = list_radio_trending.size() - 1;
                         } else {
                             index_selected_radio = index_selected_radio - 1;

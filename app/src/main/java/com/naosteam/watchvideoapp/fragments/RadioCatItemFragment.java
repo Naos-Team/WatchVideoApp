@@ -205,17 +205,18 @@ public class RadioCatItemFragment extends Fragment {
                 {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("category", cat);
-                    bundle.putSerializable("listener", new ControlRadioListener() {
-                        @Override
-                        public void onNext() {
-                            nextRadio();
-                        }
+                    RadioDetailsFragment.setControlRadioListener(new ControlRadioListener() {
+                                @Override
+                                public void onNext() {
+                                    nextRadio();
+                                }
 
-                        @Override
-                        public void onPrevious() {
-                            previousRadio();
-                        }
-                    });
+                                @Override
+                                public void onPrevious() {
+                                    previousRadio();
+                                }
+                            }
+                    );
                     bundle.putString("from","from_cat_item");
                     navController.navigate(R.id.radio_cat_item_to_radio_detail, bundle);
                 }
