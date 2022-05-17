@@ -263,13 +263,13 @@ public class MoreFragment extends Fragment {
                 View view1 = LayoutInflater.from(getContext()).inflate(R.layout.logout_alert_layout, null,false);
                 builder.setView(view1);
                 builder.setCancelable(false);
+                final AlertDialog alertDialog = builder.create();
+
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 btn_yes = view1.findViewById(R.id.btn_yes);
                 btn_no = view1.findViewById(R.id.btn_no);
 
-                final AlertDialog alertDialog = builder.create();
-
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 btn_yes.setOnClickListener(new View.OnClickListener() {
                     @Override
