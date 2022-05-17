@@ -2,10 +2,14 @@ package com.naosteam.watchvideoapp.fragments;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -15,6 +19,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,7 +35,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.LoginActivity;
-import com.naosteam.watchvideoapp.activities.UpdateProfileGoogleActivity;
+import com.naosteam.watchvideoapp.activities.SignUpActivity;
 import com.naosteam.watchvideoapp.databinding.FragmentMoreBinding;
 import com.naosteam.watchvideoapp.models.Users_M;
 import com.naosteam.watchvideoapp.utils.Constant;
@@ -251,14 +258,42 @@ public class MoreFragment extends Fragment {
         binding.constraintlayout25.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (FirebaseAuth.getInstance().getCurrentUser()!=null){
-                    FirebaseAuth.getInstance().signOut();
-                    if (Constant.ggclient!=null){
-                        Constant.ggclient.signOut();
-                    }
+                Button btn_yes, btn_no;
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                View view1 = LayoutInflater.from(getContext()).inflate(R.layout.logout_alert_layout, null,false);
+                builder.setView(view1);
+                builder.setCancelable(false);
 
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
+                btn_yes = view1.findViewById(R.id.btn_yes);
+                btn_no = view1.findViewById(R.id.btn_no);
+
+                final AlertDialog alertDialog = builder.create();
+
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                btn_yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                        FirebaseAuth.getInstance().signOut();
+                        if (Constant.ggclient!=null){
+                            Constant.ggclient.signOut();
+                        }
+                        Constant.Radio_Listening = null;
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                btn_no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+                    alertDialog.show();
                 }
                 else{
                     Intent intent = new Intent(getContext(), LoginActivity.class);
