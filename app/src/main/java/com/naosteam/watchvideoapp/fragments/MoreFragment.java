@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -35,6 +36,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.LoginActivity;
+import com.naosteam.watchvideoapp.activities.MainActivity;
 import com.naosteam.watchvideoapp.activities.SignUpActivity;
 import com.naosteam.watchvideoapp.databinding.FragmentMoreBinding;
 import com.naosteam.watchvideoapp.models.Users_M;
@@ -258,30 +260,29 @@ public class MoreFragment extends Fragment {
         binding.constraintlayout25.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button btn_yes, btn_no;
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                View view1 = LayoutInflater.from(getContext()).inflate(R.layout.logout_alert_layout, null,false);
+                View view1 =LayoutInflater.from(getContext()).inflate(R.layout.logout_alert_layout,null, false);
                 builder.setView(view1);
                 builder.setCancelable(false);
-                final AlertDialog alertDialog = builder.create();
 
+                final AlertDialog alertDialog = builder.create();
                 alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                btn_yes = view1.findViewById(R.id.btn_yes);
-                btn_no = view1.findViewById(R.id.btn_no);
-
+                Button btn_yes = view1.findViewById(R.id.btn_yes);
+                Button btn_no = view1.findViewById(R.id.btn_no);
 
                 btn_yes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        alertDialog.dismiss();
-                        FirebaseAuth.getInstance().signOut();
-                        if (Constant.ggclient!=null){
-                            Constant.ggclient.signOut();
+                        if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+                            FirebaseAuth.getInstance().signOut();
+                            if (Constant.ggclient!=null){
+                                Constant.ggclient.signOut();
+                            }
+                            Constant.Radio_Listening = null;
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
                         }
-                        Constant.Radio_Listening = null;
-                        Intent intent = new Intent(getContext(), LoginActivity.class);
-                        startActivity(intent);
                     }
                 });
 
@@ -292,13 +293,15 @@ public class MoreFragment extends Fragment {
                     }
                 });
 
-                if (FirebaseAuth.getInstance().getCurrentUser()!=null){
-                    alertDialog.show();
-                }
-                else{
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
-                }
+                alertDialog.show();
+
+//                if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+//                    alertDialog.show();
+//                }
+//                else{
+//                    Intent intent = new Intent(getContext(), LoginActivity.class);
+//                    startActivity(intent);
+//                }
             }
         });
 
