@@ -208,7 +208,7 @@ public class RadioFragment extends Fragment {
                 if(Constant.Radio_Listening.getCat_id()!=-1)
                 {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("listener", new ControlRadioListener() {
+                    RadioDetailsFragment.setControlRadioListener(new ControlRadioListener() {
                         @Override
                         public void onNext() {
                             nextRadio();

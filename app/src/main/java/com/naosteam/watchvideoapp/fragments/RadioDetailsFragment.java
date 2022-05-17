@@ -53,7 +53,11 @@ public class RadioDetailsFragment extends Fragment {
     private ExoPlayer player;
     private Boolean mIsFav = false;
     private PlayerRadio playerRadio;
-    private ControlRadioListener controlRadioListener;
+    private static ControlRadioListener controlRadioListener;
+
+    public static void setControlRadioListener(ControlRadioListener controlRadioListener) {
+        RadioDetailsFragment.controlRadioListener = controlRadioListener;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,8 +128,8 @@ public class RadioDetailsFragment extends Fragment {
 //        RadioFragment.setListener(listener);
         updateView();
 
-        controlRadioListener = (ControlRadioListener)
-                getArguments().getSerializable("listener");
+//        controlRadioListener = (ControlRadioListener)
+//                getArguments().getSerializable("listener");
 
         if(getArguments().getString("from").equals("from_home_screen")){
             playerRadio.startRadio();
@@ -239,5 +243,4 @@ public class RadioDetailsFragment extends Fragment {
         Picasso.get().load(radio.getVid_thumbnail()).into(binding.imvRadio);
         binding.tvRadioName.setText(radio.getVid_title());
     }
-
 }
