@@ -2,6 +2,8 @@ package com.naosteam.watchvideoapp.fragments;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,8 +12,12 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -22,14 +28,19 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.StyledPlayerControlView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.activities.MainActivity;
+import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
 import com.naosteam.watchvideoapp.databinding.FragmentTvDeltailBinding;
 import com.naosteam.watchvideoapp.listeners.CheckFavListener;
+import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
 import com.naosteam.watchvideoapp.listeners.OnHomeItemClickListeners;
 import com.naosteam.watchvideoapp.listeners.SetFavListener;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.squareup.picasso.Picasso;
+
+import okhttp3.RequestBody;
 
 public class TvDetailFragment extends Fragment {
 
@@ -192,6 +203,74 @@ public class TvDetailFragment extends Fragment {
                 binding.controlViewTVDetailFrag.show();
             }
         });
+
+        binding.imgreport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showReportDialog();
+            }
+        });
+    }
+
+    private void showReportDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view1 = LayoutInflater.from(getContext()).inflate(R.layout.dialog_report_layout, null,false);
+        builder.setView(view1);
+        builder.setCancelable(false);
+
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ConstraintLayout cs_main = view1.findViewById(R.id.cs_main);
+        Button btn_submit = view1.findViewById(R.id.btn_submit);
+        Button btn_cancel = view1.findViewById(R.id.btn_cancel);
+        EditText edt_report_content = view1.findViewById(R.id.edt_report_content);
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        try{
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String content = edt_report_content.getText().toString();
+                    ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
+                        @Override
+                        public void onStart() {}
+
+                        @Override
+                        public void onEnd(boolean status) {
+                            if(status){
+                            }else{
+                                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    };
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    bundle.putString("report_content",content);
+                    bundle.putInt("vid_id", id);
+
+                    RequestBody requestBody = Methods.getInstance().getReportRequestBody("INSERT_REPORT",bundle);
+                    ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
+                    async.execute();
+                    alertDialog.dismiss();
+                }
+            });
+
+        }
+        catch (Exception e){
+            Toast.makeText(getContext(), "Please input your report!", Toast.LENGTH_SHORT).show();
+        }
+
+        alertDialog.show();
+
     }
 
     private void setUpFav(){

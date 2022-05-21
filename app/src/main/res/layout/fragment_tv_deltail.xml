@@ -80,13 +80,26 @@
             android:layout_height="0dp"
             android:padding="10dp"
             android:src="@drawable/ic_fav_app"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imgreport"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/scrollViewTvDetailFrag"
             app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imgreport"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_report"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/scrollViewTvDetailFrag"
+            app:layout_constraintTop_toBottomOf="@+id/imgLikeTvdetailFrag" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

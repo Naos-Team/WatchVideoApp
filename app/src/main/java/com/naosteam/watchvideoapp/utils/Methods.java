@@ -418,6 +418,27 @@ public class Methods {
 
     }
 
+    public RequestBody getReportRequestBody(String method_name, Bundle bundle) {
+        JsonObject postObj = new JsonObject();
+        postObj.addProperty("method_name", method_name);
+
+        switch (method_name){
+            case "INSERT_REPORT":
+                postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
+                postObj.addProperty("vid_id", bundle.getInt("vid_id"));
+                postObj.addProperty("report_content", base64Encode(bundle.getString("report_content")));
+                break;
+        }
+
+        String post_data = postObj.toString();
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        builder.addFormDataPart("data", post_data);
+
+        return builder.build();
+
+    }
+
     public RequestBody GetRadioRequestBody(String method_name, Bundle bundle) {
         JsonObject postObj = new JsonObject();
         postObj.addProperty("method_name", method_name);

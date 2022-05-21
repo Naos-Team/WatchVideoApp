@@ -8,15 +8,15 @@
 
     <ImageView
 
-        android:scaleType="centerCrop"
         android:id="@+id/imv_radio"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.7"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -92,33 +92,45 @@
             app:layout_constraintVertical_weight="2">
 
             <ImageView
+                android:id="@+id/radio_detail_report"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="50dp"
+                android:src="@drawable/ic_report"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.55"
+                app:layout_constraintStart_toEndOf="@+id/tv_radio_name"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
                 android:id="@+id/radio_detail_fav"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_radio_name"
-                app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/ic_nofav"
-                android:layout_marginRight="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintHeight_percent="0.4"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.55"
+                app:layout_constraintStart_toEndOf="@+id/radio_detail_report"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_radio_name"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:gravity="center"
-                android:layout_marginLeft="15dp"
-                android:text="Radio"
+                android:layout_marginStart="20dp"
                 android:ellipsize="end"
+                android:gravity="center"
                 android:maxLines="1"
+                android:text="Radio"
                 android:textColor="@color/neonGreen"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/radio_detail_fav"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toStartOf="@+id/radio_detail_report"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
