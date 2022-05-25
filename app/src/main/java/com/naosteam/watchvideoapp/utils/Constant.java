@@ -8,11 +8,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.naosteam.watchvideoapp.models.Videos_M;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Base64;
 
 public class Constant {
-//    public static final String SERVER_URL = "https://musicfreeworld.com/naosteam/watchvideoapp/";
-    public static final String SERVER_URL = "http://192.168.0.166:8100/watchvideoapp/";
+    public static final String SERVER_URL = "https://musicfreeworld.com/naosteam/watchvideoapp/";
+//    public static final String SERVER_URL = "http://192.168.0.166:8100/watchvideoapp/";
     public static final String ERR_TAG = "ERROR";
     public static final int DAILYMOTION_VIDEO = 33;
     public static final int YOUTUBE_VIDEO = 44;
@@ -33,6 +34,9 @@ public class Constant {
     public static String ARR_VID_TREND = "";
     public static String ARR_TV_TREND = "";
     public static String ARR_RADIO_TREND = "";
+    public static ArrayList<Integer> LIST_TRENDING_VID = new ArrayList<>();
+    public static ArrayList<Integer> LIST_TRENDING_TV = new ArrayList<>();
+    public static ArrayList<Integer> LIST_TRENDING_RADIO = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String DECODE_BASE64(String s){
