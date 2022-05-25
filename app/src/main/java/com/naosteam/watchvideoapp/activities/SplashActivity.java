@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,7 +20,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
+import com.naosteam.watchvideoapp.asynctasks.GetSettingAsync;
+import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
+import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
+
+import org.json.JSONObject;
+
+import okhttp3.RequestBody;
 
 public class SplashActivity extends AppCompatActivity {
     ProgressBar progressBar;
@@ -38,10 +47,13 @@ public class SplashActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("DataLogin", Context.MODE_PRIVATE);
         gg_email = sharedPreferences.getString("gg_email", "");
 
+        Load_Async();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(Methods.getInstance().isNetworkConnected(SplashActivity.this)){
+
                     if (mAuth.getCurrentUser()!=null){
                         if (gg_email!=null){
                             CheckUser(mAuth.getCurrentUser());
@@ -54,6 +66,13 @@ public class SplashActivity extends AppCompatActivity {
                         startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     }
                 }else{
+                    Constant.ADS_KEY_BANNER = "";
+                    Constant.ADS_KEY_INTERSTIAL = "";
+                    Constant.ADS_DISPLAY_COUNT = 0;
+                    Constant.ADS_KEY_OPENADS = "";
+                    Constant.ARR_VID_TREND = "";
+                    Constant.ARR_TV_TREND = "";
+                    Constant.ARR_RADIO_TREND = "";
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }
             }
@@ -80,5 +99,34 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void Load_Async(){
+        ExecuteQueryAsyncListener listener = new ExecuteQueryAsyncListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onEnd(boolean status) {
+                if(status){
+
+                }else{
+                    Constant.ADS_KEY_BANNER = "";
+                    Constant.ADS_KEY_INTERSTIAL = "";
+                    Constant.ADS_DISPLAY_COUNT = 0;
+                    Constant.ADS_KEY_OPENADS = "";
+                    Constant.ARR_VID_TREND = "";
+                    Constant.ARR_TV_TREND = "";
+                    Constant.ARR_RADIO_TREND = "";
+                }
+            }
+
+        };
+
+        RequestBody requestBody = Methods.getInstance().getSettingRequestBody("GET_SETTING",null);
+        GetSettingAsync async = new GetSettingAsync(requestBody, listener);
+        async.execute();
     }
 }

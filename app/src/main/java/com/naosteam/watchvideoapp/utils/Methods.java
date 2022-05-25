@@ -350,7 +350,7 @@ public class Methods {
         switch (method_name){
             case "LOAD_SEARCH_VIDEO":
                 //TODO: encode it again
-                postObj.addProperty("search_text", bundle.getString("search_text"));
+                postObj.addProperty("search_text", base64Encode(bundle.getString("search_text")));
                 postObj.addProperty("page", bundle.getInt("page"));
                 postObj.addProperty("step", bundle.getInt("step"));
                 break;
@@ -407,6 +407,26 @@ public class Methods {
             case "METHOD_SIGNUP":
                 postObj.addProperty("uid", base64Encode(bundle.getString("uid")));
                 break;
+
+        }
+
+        String post_data = postObj.toString();
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        builder.addFormDataPart("data", post_data);
+
+        return builder.build();
+
+    }
+
+    public RequestBody getSettingRequestBody(String method_name, Bundle bundle) {
+        JsonObject postObj = new JsonObject();
+        postObj.addProperty("method_name", method_name);
+
+        switch (method_name){
+            case "GET_SETTING":
+                break;
+
         }
 
         String post_data = postObj.toString();

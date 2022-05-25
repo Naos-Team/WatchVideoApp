@@ -1,10 +1,18 @@
 package com.naosteam.watchvideoapp.utils;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.naosteam.watchvideoapp.models.Videos_M;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+
 public class Constant {
-    public static final String SERVER_URL = "https://musicfreeworld.com/naosteam/watchvideoapp/";
+//    public static final String SERVER_URL = "https://musicfreeworld.com/naosteam/watchvideoapp/";
+    public static final String SERVER_URL = "http://192.168.0.166:8100/watchvideoapp/";
     public static final String ERR_TAG = "ERROR";
     public static final int DAILYMOTION_VIDEO = 33;
     public static final int YOUTUBE_VIDEO = 44;
@@ -18,4 +26,38 @@ public class Constant {
     public static GoogleSignInClient ggclient;
 //    public static String YOUTUBE_API_KEY = "AIzaSyB0Z7jPCd2k_sLpaym5t_a67uiVNw-J468";
     public static String YOUTUBE_API_KEY = "AIzaSyBKoSLgVwejU4AscaFDThiWnOa0aAt_Tzw";
+    public static String ADS_KEY_BANNER = "";
+    public static String ADS_KEY_INTERSTIAL = "";
+    public static int ADS_DISPLAY_COUNT = 0;
+    public static String ADS_KEY_OPENADS = "";
+    public static String ARR_VID_TREND = "";
+    public static String ARR_TV_TREND = "";
+    public static String ARR_RADIO_TREND = "";
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String DECODE_BASE64(String s){
+        try{
+            byte[] decodedBytes = Base64.getDecoder().decode(s);
+            String decodedString = new String(decodedBytes);
+            return decodedString;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String ENCODE_BASE64 (String s){
+        try {
+            String originalInput = "test input";
+            String encodedString = Base64.getEncoder().encodeToString(originalInput.getBytes());
+            return encodedString;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
