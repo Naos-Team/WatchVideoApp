@@ -50,19 +50,30 @@ public class LoadTVAsync extends AsyncTask<Void, String, Boolean> {
             JSONObject jsonObject = new JSONObject(result);
             boolean status = jsonObject.getString("status").equals("success");
 
-            if(status){
+            if(status) {
                 JSONArray jsonArray_all = jsonObject.getJSONArray("all");
                 JSONArray jsonArray_trending = jsonObject.getJSONArray("trending");
                 JSONArray jsonArray_category = jsonObject.getJSONArray("category");
 
-                for (int i = 0; i < jsonArray_all.length(); i++){
+                for (int i = 0; i < jsonArray_all.length(); i++) {
                     JSONObject obj = jsonArray_all.getJSONObject(i);
                     list_tv_all.add(methods.getRowVideo(obj));
                 }
 
-                for (int i = 0; i < jsonArray_trending.length(); i++){
-                    JSONObject obj = jsonArray_trending.getJSONObject(i);
-                    list_tv_trending.add(methods.getRowVideo(obj));
+                if (jsonArray_trending.length() > 0){
+                    for (int i = 0; i < jsonArray_trending.length(); i++) {
+                        JSONObject obj = jsonArray_trending.getJSONObject(i);
+                        list_tv_trending.add(methods.getRowVideo(obj));
+                    }
+                } else {
+                    for (int i = 0; i < jsonArray_all.length(); i++) {
+                        JSONObject obj = jsonArray_all.getJSONObject(i);
+                        for(int j = 0; j < Constant.LIST_TRENDING_TV.size(); ++j){
+                            if(obj.getInt("vid_id") == Constant.LIST_TRENDING_TV.get(j)){
+                                list_tv_trending.add(methods.getRowVideo(obj));
+                            }
+                        }
+                    }
                 }
 
                 for (int i = 0; i < jsonArray_category.length(); i++){

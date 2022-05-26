@@ -132,6 +132,10 @@ public class SplashActivity extends AppCompatActivity {
                             Constant.LIST_TRENDING_RADIO.add(Integer.parseInt(w));
                         }
                     }
+//                    Toast.makeText(SplashActivity.this,
+//                            Constant.LIST_TRENDING_VID.size() + " - " +
+//                            Constant.LIST_TRENDING_TV.size() + " - " +
+//                            Constant.LIST_TRENDING_RADIO.size(), Toast.LENGTH_SHORT).show();
                 }else{
                     Constant.ADS_KEY_BANNER = "";
                     Constant.ADS_KEY_INTERSTIAL = "";
