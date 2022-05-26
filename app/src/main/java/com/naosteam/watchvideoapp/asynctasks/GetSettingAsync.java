@@ -54,9 +54,9 @@ public class GetSettingAsync extends AsyncTask<Void, String, Boolean> {
                     Constant.ADS_KEY_INTERSTIAL = Constant.DECODE_BASE64(obj.optString("ads_key_interstial"));
                     Constant.ADS_DISPLAY_COUNT = obj.optInt("ad_display_count");
                     Constant.ADS_KEY_OPENADS = Constant.DECODE_BASE64(obj.optString("ads_key_openads"));
-                    Constant.ARR_VID_TREND = Constant.DECODE_BASE64(obj.optString("arr_Vid_trend"));
-                    Constant.ARR_TV_TREND = Constant.DECODE_BASE64(obj.optString("arr_TV_trend"));
-                    Constant.ARR_RADIO_TREND = Constant.DECODE_BASE64(obj.optString("arr_Radi_trend"));
+                    Constant.ARR_VID_TREND = obj.optString("arr_Vid_trend");
+                    Constant.ARR_TV_TREND = obj.optString("arr_TV_trend");
+                    Constant.ARR_RADIO_TREND = obj.optString("arr_Radi_trend");
 
                 }
                 return true;

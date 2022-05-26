@@ -111,7 +111,31 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onEnd(boolean status) {
                 if(status){
-
+                    for(String w:Constant.ARR_VID_TREND.split(":")){
+                        if(w.contains("RESULT"))
+                            continue;
+                        else{
+                            Constant.LIST_TRENDING_VID.add(Integer.parseInt(w));
+                        }
+                    }
+                    for(String w:Constant.ARR_TV_TREND.split(":")){
+                        if(w.contains("RESULT"))
+                            continue;
+                        else{
+                            Constant.LIST_TRENDING_TV.add(Integer.parseInt(w));
+                        }
+                    }
+                    for(String w:Constant.ARR_RADIO_TREND.split(":")){
+                        if(w.contains("RESULT"))
+                            continue;
+                        else{
+                            Constant.LIST_TRENDING_RADIO.add(Integer.parseInt(w));
+                        }
+                    }
+//                    Toast.makeText(SplashActivity.this,
+//                            Constant.LIST_TRENDING_VID.size() + " - " +
+//                            Constant.LIST_TRENDING_TV.size() + " - " +
+//                            Constant.LIST_TRENDING_RADIO.size(), Toast.LENGTH_SHORT).show();
                 }else{
                     Constant.ADS_KEY_BANNER = "";
                     Constant.ADS_KEY_INTERSTIAL = "";
