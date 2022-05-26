@@ -302,9 +302,7 @@ public class RadioFragment extends Fragment {
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
                             mTrendings.clear();
-                            mTrendings.addAll(arrayList_trending);
                             mCats.clear();
-                            mCats.addAll(arrayList_category);
 
                             if(arrayList_trending.isEmpty()){
                                 mTrendings.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.RADIO));
@@ -325,6 +323,10 @@ public class RadioFragment extends Fragment {
                     }else{
                         Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
                     }
+
+                    mTrendings.clear();
+                    mCats.clear();
+
 
                     mCats.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.RADIO));
                     mTrendings.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.RADIO));

@@ -422,11 +422,7 @@ public class HomeFragment extends Fragment {
                                 }
 
                             }else{
-                                for(int i = 0; i < 5; ++i){
-                                    list_radio_trending.add(arrayList_trending.get(i));
-                                    if(i > arrayList_trending.size()){
-                                        break;
-                                    }
+                                    list_radio_trending.addAll(arrayList_trending);
                                 }
 
                                 SharedPref.getInstance(getContext()).setTempVideoList(Constant.RADIO, list_radio_trending);
@@ -456,8 +452,8 @@ public class HomeFragment extends Fragment {
                     }
                     radioItemAdapter.notifyDataSetChanged();
                 }
-            }
-        };
+            };
+
 
         LoadRadioAsync async = new LoadRadioAsync(requestBody, listener, Methods.getInstance());
         async.execute();
