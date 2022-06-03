@@ -34,6 +34,9 @@
         <action
             android:id="@+id/detail_to_cmtFrag"
             app:destination="@id/cmtVideoFragment" />
+        <action
+            android:id="@+id/action_videoDetailFragment_to_videoPlayerFragment"
+            app:destination="@id/videoPlayerFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchVideoFragment"
@@ -43,6 +46,15 @@
         <action
             android:id="@+id/searchVideoBackToVideo"
             app:destination="@id/videoFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoPlayerFragment"
+        android:name="com.naosteam.watchvideoapp.VideoPlayerFragment"
+        android:label="fragment_video_player"
+        tools:layout="@layout/fragment_video_player" >
+        <action
+            android:id="@+id/action_videoPlayerFragment_to_videoDetailFragment"
+            app:destination="@id/videoDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/cmtVideoFragment"
