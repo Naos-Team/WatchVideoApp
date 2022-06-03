@@ -63,11 +63,18 @@ public class MoreFragment extends Fragment {
 
         LoadUI();
 
-        if(user!=null && firstt_time==false){
+        if (FirebaseAuth.getInstance().getCurrentUser()==null){
+            binding.tvNameUser.setText("You haven't login");
+            binding.tvEmailUser.setText("Join us");
+            Picasso.get().load(R.drawable.ic_nouser_setting).into(binding.imvUser);
+        }
+        else if(user!=null && firstt_time==false){
             binding.tvNameUser.setText(user.getUser_name());
             binding.tvEmailUser.setText(user.getUser_email());
             Picasso.get().load(user.getPhoto_url()).into(binding.imvUser);
         }
+
+
 
         binding.imvStart.setVisibility(View.GONE);
         binding.progressStart.setVisibility(View.GONE);
@@ -116,8 +123,7 @@ public class MoreFragment extends Fragment {
             public void onClick(View v) {
 
                 if (FirebaseAuth.getInstance().getCurrentUser()==null){
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    Toast.makeText(getContext(), "Please login first!", Toast.LENGTH_SHORT);
                 }
                 else{
                     Bundle bundle = new Bundle();
@@ -129,7 +135,25 @@ public class MoreFragment extends Fragment {
             }
         });
 
-        LogOut();
+        if (FirebaseAuth.getInstance().getCurrentUser()==null){
+            binding.tvLogout.setText("Login");
+        }
+
+        binding.constraintlayout25.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+                    LogOut();
+                }
+                else {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+
 
 
         binding.constraintlayout17.setOnClickListener(new View.OnClickListener() {
@@ -155,8 +179,7 @@ public class MoreFragment extends Fragment {
             public void onClick(View v) {
 
                 if (FirebaseAuth.getInstance().getCurrentUser()==null){
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    Toast.makeText(getContext(), "Please login first!", Toast.LENGTH_SHORT);
                 }
                 else{
                     navController.navigate(R.id.more_to_favorite);
@@ -257,9 +280,7 @@ public class MoreFragment extends Fragment {
     }
 
     private void LogOut(){
-        binding.constraintlayout25.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 View view1 =LayoutInflater.from(getContext()).inflate(R.layout.logout_alert_layout,null, false);
                 builder.setView(view1);
@@ -280,6 +301,7 @@ public class MoreFragment extends Fragment {
                                 Constant.ggclient.signOut();
                             }
                             Constant.Radio_Listening = null;
+                            user = null;
                             Intent intent = new Intent(getContext(), LoginActivity.class);
                             startActivity(intent);
                         }
@@ -295,15 +317,6 @@ public class MoreFragment extends Fragment {
 
                 alertDialog.show();
 
-//                if (FirebaseAuth.getInstance().getCurrentUser()!=null){
-//                    alertDialog.show();
-//                }
-//                else{
-//                    Intent intent = new Intent(getContext(), LoginActivity.class);
-//                    startActivity(intent);
-//                }
-            }
-        });
 
     }
 }

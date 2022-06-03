@@ -225,7 +225,14 @@ public class VideoDetailFragment extends Fragment {
         binding.ivReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showReportDialog();
+                if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+                    showReportDialog();
+                }
+                else{
+                    Toast.makeText(getContext(), "Please login first!", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
 
@@ -284,6 +291,7 @@ public class VideoDetailFragment extends Fragment {
                     ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
                     async.execute();
                     alertDialog.dismiss();
+                    Toast.makeText(getContext(), "Thank you for your report!", Toast.LENGTH_SHORT).show();
                 }
             });
 

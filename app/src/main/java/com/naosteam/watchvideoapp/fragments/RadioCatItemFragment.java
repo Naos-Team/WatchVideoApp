@@ -133,7 +133,7 @@ public class RadioCatItemFragment extends Fragment {
     private void LoadData(){
         cat = (Category_M) getArguments().getSerializable("category");
 
-        Picasso.get().load(cat.getCat_image()).into(binding.imvCatRadio);
+        Picasso.get().load(cat.getCat_image()).error(R.drawable.image_offline).into(binding.imvCatRadio);
         binding.tvCatName.setText(cat.getCat_name());
         Bundle bundle = new Bundle();
         bundle.putInt("cat_id",cat.getCat_id());
@@ -287,8 +287,8 @@ public class RadioCatItemFragment extends Fragment {
                 list_search.add(i);
         }
         if(list_search.isEmpty()) {
-            if (text.length() > 0)
-                Toast.makeText(getActivity(), "No Radio Found", Toast.LENGTH_SHORT).show();
+            if (text.length() > 0){}
+                //Toast.makeText(getActivity(), "No Radio Found", Toast.LENGTH_SHORT).show();
         } else {
             radioItemAdapter.setList_Radio(list_search);
             radioItemAdapter.notifyDataSetChanged();

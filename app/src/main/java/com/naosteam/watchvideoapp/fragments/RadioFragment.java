@@ -223,7 +223,7 @@ public class RadioFragment extends Fragment {
                     navController.navigate(R.id.radio_screen_to_radio_detail, bundle);
                 }
                 else{
-                    Toast.makeText(getActivity(), "No Radio Playing", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "No Radio Playing", Toast.LENGTH_SHORT).show();
                 }
 
             }

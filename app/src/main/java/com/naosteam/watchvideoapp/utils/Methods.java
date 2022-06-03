@@ -350,7 +350,7 @@ public class Methods {
         switch (method_name){
             case "LOAD_SEARCH_VIDEO":
                 //TODO: encode it again
-                postObj.addProperty("search_text", base64Encode(bundle.getString("search_text")));
+                postObj.addProperty("search_text", bundle.getString("search_text"));
                 postObj.addProperty("page", bundle.getInt("page"));
                 postObj.addProperty("step", bundle.getInt("step"));
                 break;

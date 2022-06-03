@@ -207,14 +207,19 @@ public class TvDetailFragment extends Fragment {
         binding.imgreport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showReportDialog();
+                if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+                    showReportDialog();
+                }
+                else{
+                    Toast.makeText(getContext(), "Please login first!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
     private void showReportDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        View view1 = LayoutInflater.from(getContext()).inflate(R.layout.dialog_report_layout, null,false);
+        View view1 = LayoutInflater.from(getContext()).inflate(R.layout.dialog_report_landscape_layout, null,false);
         builder.setView(view1);
         builder.setCancelable(false);
 
@@ -261,6 +266,7 @@ public class TvDetailFragment extends Fragment {
                     ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
                     async.execute();
                     alertDialog.dismiss();
+                    Toast.makeText(getContext(), "Thank you for your report!", Toast.LENGTH_SHORT).show();
                 }
             });
 

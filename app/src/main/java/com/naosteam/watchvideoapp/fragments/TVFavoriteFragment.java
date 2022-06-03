@@ -138,13 +138,19 @@ public class TVFavoriteFragment extends Fragment {
         tvFragmentAdapter = new TVFragmentAdapter(arrayListfav, layoutParams, new OnHomeItemClickListeners() {
             @Override
             public void onClick_homeItem(int position) {
-                Bundle bundle = new Bundle();
-                bundle.putString("url", arrayListfav.get(position).getVid_url());
-                bundle.putString("url_img", arrayListfav.get(position).getVid_thumbnail());
-                bundle.putString("des", arrayListfav.get(position).getVid_description());
-                bundle.putBoolean("isFavorite", true);
-                bundle.putInt("id", arrayListfav.get(position).getVid_id());
-                listener.onDirect(2, bundle);
+                try{
+                    Bundle bundle = new Bundle();
+                    bundle.putString("url", arrayListfav.get(position).getVid_url());
+                    bundle.putString("url_img", arrayListfav.get(position).getVid_thumbnail());
+                    bundle.putString("des", arrayListfav.get(position).getVid_description());
+                    bundle.putBoolean("isFavorite", true);
+                    bundle.putInt("id", arrayListfav.get(position).getVid_id());
+                    listener.onDirect(2, bundle);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
 
             }
         });

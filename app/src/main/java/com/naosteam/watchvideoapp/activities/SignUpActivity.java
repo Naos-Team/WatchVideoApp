@@ -115,8 +115,8 @@ public class SignUpActivity extends AppCompatActivity {
     private void SignUp(){
         String email = edt_email.getText().toString().trim();
         String password = edt_pw1.getText().toString().trim();
-        String name = edt_pw1.getText().toString().trim();
-        String phone = edt_pw1.getText().toString().trim();
+        String name = edt_name.getText().toString().trim();
+        String phone = edt_phone.getText().toString().trim();
         String t_age = edt_age.getText().toString().trim();
         age = Integer.parseInt(t_age);
 
