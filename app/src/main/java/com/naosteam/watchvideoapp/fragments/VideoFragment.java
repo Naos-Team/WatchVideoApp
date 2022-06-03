@@ -84,9 +84,6 @@ public class VideoFragment extends Fragment {
             updateUI();
         }
 
-
-
-
         SetupView();
 
         CountDownTimer countDownTimer = new CountDownTimer(200,1000) {
@@ -184,6 +181,12 @@ public class VideoFragment extends Fragment {
                     binding.progressBarPager.setVisibility(View.GONE);
                     if(Methods.getInstance().isNetworkConnected(getContext())){
                         if(status){
+
+                            mTrendings.clear();
+                            mMostViews.clear();
+                            mLatests.clear();
+                            mTopRates.clear();
+                            mCategories.clear();
 
                             if(arrayList_trending.isEmpty()){
                                 mTrendings.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.VIDEO));

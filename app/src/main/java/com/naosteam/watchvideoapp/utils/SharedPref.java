@@ -91,6 +91,7 @@ public class SharedPref {
 
         switch (type){
             case Constant.VIDEO:
+
                 return getDefaultVideoCategory();
 
             case Constant.TV:
