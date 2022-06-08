@@ -242,18 +242,23 @@ public class HomeFragment extends Fragment {
         tvFragmentAdapter = new TVFragmentAdapter(list_TV_trending, layoutParams_TV_item, new OnHomeItemClickListeners() {
             @Override
             public void onClick_homeItem(int position) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", list_TV_trending.get(position).getVid_id());
-                bundle.putString("url", list_TV_trending.get(position).getVid_url());
-                bundle.putString("url_img", list_TV_trending.get(position).getVid_thumbnail());
-                bundle.putString("des", list_TV_trending.get(position).getVid_description());
-                bundle.putBoolean("isHome", true);
-                try{
-                    navController.navigate(R.id.homeFrag_to_TVDetailFrag, bundle);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id", list_TV_trending.get(position).getVid_id());
+                        bundle.putString("url", list_TV_trending.get(position).getVid_url());
+                        bundle.putString("url_img", list_TV_trending.get(position).getVid_thumbnail());
+                        bundle.putString("des", list_TV_trending.get(position).getVid_description());
+                        bundle.putBoolean("isHome", true);
+                        try{
+                            navController.navigate(R.id.homeFrag_to_TVDetailFrag, bundle);
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
 
