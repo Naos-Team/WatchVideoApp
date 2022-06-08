@@ -39,6 +39,7 @@ import com.naosteam.watchvideoapp.databinding.ActivityUpdateProfileBinding;
 import com.naosteam.watchvideoapp.fragments.MoreFragment;
 import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
 import com.naosteam.watchvideoapp.models.Users_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.squareup.picasso.Picasso;
 
@@ -129,8 +130,14 @@ public class UpdateProfileGoogleActivity extends AppCompatActivity {
                     Update_PF();
                 }
                 binding.imvAddAva.setVisibility(View.GONE);
-                Intent intent = new Intent(UpdateProfileGoogleActivity.this, MainActivity.class);
-                startActivity(intent);
+                AdsManager.showAdmobInterAd(UpdateProfileGoogleActivity.this, new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Intent intent = new Intent(UpdateProfileGoogleActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
             }
         });
 
@@ -220,7 +227,13 @@ public class UpdateProfileGoogleActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 CallAsync(FirebaseAuth.getInstance().getCurrentUser());
-                                startActivity(new Intent(UpdateProfileGoogleActivity.this, MainActivity.class));
+                                AdsManager.showAdmobInterAd(UpdateProfileGoogleActivity.this, new AdsManager.InterAdsListener() {
+                                    @Override
+                                    public void onClick() {
+                                        startActivity(new Intent(UpdateProfileGoogleActivity.this, MainActivity.class));
+                                    }
+                                });
+
                             }
                         }}
                 ).addOnFailureListener(new OnFailureListener() {

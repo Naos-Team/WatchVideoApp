@@ -43,6 +43,7 @@ import com.naosteam.watchvideoapp.listeners.LoadRadioAsyncListener;
 import com.naosteam.watchvideoapp.listeners.SetFavListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.naosteam.watchvideoapp.utils.PlayerRadio;
@@ -218,18 +219,41 @@ public class RadioDetailsFragment extends Fragment {
 
         binding.imvBackRadioDetail.setOnClickListener(v->{
             if(getArguments().getString("from").equals("from_cat_item")) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("category", getArguments().getSerializable("category"));
-                navController.navigate(R.id.raio_detail_to_radio_cat_item, bundle);
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("category", getArguments().getSerializable("category"));
+                        navController.navigate(R.id.raio_detail_to_radio_cat_item, bundle);
+                    }
+                });
             }
             else if(getArguments().getString("from").equals("from_radio_screen")){
-                navController.navigate(R.id.radio_detail_to_radio_screen);
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        navController.navigate(R.id.radio_detail_to_radio_screen);
+                    }
+                });
+
             } else if(getArguments().getString("from").equals("from_home_screen")){
-                navController.navigate(R.id.radioDetail_to_homeFrag);
-                MainActivity.choice_Navi(R.id.baseRadioFragment);
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        navController.navigate(R.id.radioDetail_to_homeFrag);
+                        MainActivity.choice_Navi(R.id.baseRadioFragment);
+                    }
+                });
+
             }
             else if (getArguments().getString("from").equals("from_favorite")){
-                navController.navigate(R.id.radio_detail_to_favorite);
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        navController.navigate(R.id.radio_detail_to_favorite);
+                    }
+                });
+
             }
         });
 

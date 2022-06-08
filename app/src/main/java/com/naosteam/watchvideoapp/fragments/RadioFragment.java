@@ -179,14 +179,19 @@ public class RadioFragment extends Fragment {
         categoryAdapter = new RadioCategoryAdapter(layoutParams, mCats, new OnRadioCatClickListeners() {
             @Override
             public void onClick(Category_M category) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("category", category);
-                try{
-                    navController.navigate(R.id.radio_screen_to_cat_item, bundle);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("category", category);
+                        try{
+                            navController.navigate(R.id.radio_screen_to_cat_item, bundle);
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
 
@@ -210,20 +215,25 @@ public class RadioFragment extends Fragment {
             public void onClick(View v) {
                 if(Constant.Radio_Listening.getCat_id()!=-1)
                 {
-                    Bundle bundle = new Bundle();
-                    RadioDetailsFragment.setControlRadioListener(new ControlRadioListener() {
+                    AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
                         @Override
-                        public void onNext() {
-                            nextRadio();
-                        }
+                        public void onClick() {
+                            Bundle bundle = new Bundle();
+                            RadioDetailsFragment.setControlRadioListener(new ControlRadioListener() {
+                                @Override
+                                public void onNext() {
+                                    nextRadio();
+                                }
 
-                        @Override
-                        public void onPrevious() {
-                            previousRadio();
+                                @Override
+                                public void onPrevious() {
+                                    previousRadio();
+                                }
+                            });
+                            bundle.putString("from","from_radio_screen");
+                            navController.navigate(R.id.radio_screen_to_radio_detail, bundle);
                         }
                     });
-                    bundle.putString("from","from_radio_screen");
-                    navController.navigate(R.id.radio_screen_to_radio_detail, bundle);
                 }
                 else{
                     //Toast.makeText(getActivity(), "No Radio Playing", Toast.LENGTH_SHORT).show();

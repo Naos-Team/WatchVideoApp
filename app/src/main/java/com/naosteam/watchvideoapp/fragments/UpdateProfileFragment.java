@@ -39,6 +39,7 @@ import com.google.firebase.storage.UploadTask;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.databinding.FragmentUpdateProfileBinding;
 import com.naosteam.watchvideoapp.models.Users_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -159,7 +160,13 @@ public class UpdateProfileFragment extends Fragment {
         binding.imvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigate(R.id.update_to_more);
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        navController.navigate(R.id.update_to_more);
+                    }
+                });
+
 //                Intent intent = new Intent(UpdateProfileGoogleActivity.this, MainActivity.class);
 //                intent.putExtra("choice", 0);
 //                startActivity(intent);

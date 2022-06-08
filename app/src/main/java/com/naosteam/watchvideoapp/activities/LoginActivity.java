@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.models.Users_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
+
+import org.checkerframework.checker.units.qual.A;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -111,7 +115,13 @@ public class LoginActivity extends AppCompatActivity {
     private void ViewClick() {
 
         btn_skip.setOnClickListener(v->{
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            AdsManager.showAdmobInterAd(LoginActivity.this, new AdsManager.InterAdsListener() {
+                @Override
+                public void onClick() {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                }
+            });
+
         });
 
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +148,13 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("is_first", false);
                                 editor.apply();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                AdsManager.showAdmobInterAd(LoginActivity.this, new AdsManager.InterAdsListener() {
+                                    @Override
+                                    public void onClick() {
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    }
+                                });
+
                             }
                             else{
                                 user.sendEmailVerification();
@@ -206,7 +222,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
                         }
-                        startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+                        AdsManager.showAdmobInterAd(LoginActivity.this, new AdsManager.InterAdsListener() {
+                            @Override
+                            public void onClick() {
+                                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+                            }
+                        });
+
                     }
                 });
 
@@ -230,13 +252,25 @@ public class LoginActivity extends AppCompatActivity {
         tv_forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, ForgotPassActivity.class));
+                AdsManager.showAdmobInterAd(LoginActivity.this, new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        startActivity(new Intent(LoginActivity.this, ForgotPassActivity.class));
+                    }
+                });
+
             }
         });
         tv_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+                AdsManager.showAdmobInterAd(LoginActivity.this, new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+                    }
+                });
+                ;
             }
         });
 
@@ -296,11 +330,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    AdsManager.showAdmobInterAd(LoginActivity.this, new AdsManager.InterAdsListener() {
+                        @Override
+                        public void onClick() {
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
                 } else {
-                    Intent intent = new Intent(LoginActivity.this, UpdateProfileGoogleActivity.class);
-                    startActivity(intent);
+                    AdsManager.showAdmobInterAd(LoginActivity.this, new AdsManager.InterAdsListener() {
+                        @Override
+                        public void onClick() {
+                            Intent intent = new Intent(LoginActivity.this, UpdateProfileGoogleActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
                 }
             }
 

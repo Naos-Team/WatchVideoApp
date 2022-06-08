@@ -16,6 +16,9 @@ import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.adapters.ViewPagerAdapter;
 import com.naosteam.watchvideoapp.databinding.FragmentFavoriteBinding;
 import com.naosteam.watchvideoapp.listeners.FavoriteToDetailListener;
+import com.naosteam.watchvideoapp.utils.AdsManager;
+
+import org.checkerframework.checker.units.qual.A;
 
 public class FavoriteFragment extends Fragment {
 
@@ -36,13 +39,31 @@ public class FavoriteFragment extends Fragment {
             public void onDirect(int type, Bundle bundle) {
                 switch(type){
                     case 1:
-                        navController.navigate(R.id.favorite_to_video_detail, bundle);
+                        AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                            @Override
+                            public void onClick() {
+                                navController.navigate(R.id.favorite_to_video_detail, bundle);
+
+                            }
+                        });
                         break;
                     case 2:
-                        navController.navigate(R.id.favorite_to_tv_detail, bundle);
+                        AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                            @Override
+                            public void onClick() {
+                                navController.navigate(R.id.favorite_to_tv_detail, bundle);
+                            }
+                        });
+
                         break;
                     case 3:
-                        navController.navigate(R.id.favorite_to_radio_detail, bundle);
+                        AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                            @Override
+                            public void onClick() {
+                                navController.navigate(R.id.favorite_to_radio_detail, bundle);
+                            }
+                        });
+
                         break;
                 }
 
@@ -60,7 +81,13 @@ public class FavoriteFragment extends Fragment {
         binding.imvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigate(R.id.favorite_to_more);
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        navController.navigate(R.id.favorite_to_more);
+                    }
+                });
+
             }
         });
 

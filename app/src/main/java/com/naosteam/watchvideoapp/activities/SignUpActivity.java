@@ -45,6 +45,7 @@ import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
 import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
 import com.naosteam.watchvideoapp.models.Users_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 
@@ -177,7 +178,13 @@ public class SignUpActivity extends AppCompatActivity {
                                                                 RequestBody requestBody = Methods.getInstance().getLoginRequestBody("METHOD_SIGNUP",bundle);
                                                                 ExecuteQueryAsync async = new ExecuteQueryAsync(requestBody, listener);
                                                                 async.execute();
-                                                                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                                                                AdsManager.showAdmobInterAd(SignUpActivity.this, new AdsManager.InterAdsListener() {
+                                                                    @Override
+                                                                    public void onClick() {
+                                                                        startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                                                                    }
+                                                                });
+
                                                             } else {
                                                                 Toast.makeText(SignUpActivity.this, "Something wrong happened. Please try again", Toast.LENGTH_SHORT).show();
                                                             }

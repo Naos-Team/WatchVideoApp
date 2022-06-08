@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.databinding.FragmentPrivacyBinding;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 
 public class PrivacyFragment extends Fragment {
     private View rootView;
@@ -27,7 +28,13 @@ public class PrivacyFragment extends Fragment {
         binding.imvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigate(R.id.privacy_to_more);
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        navController.navigate(R.id.privacy_to_more);
+                    }
+                });
+
             }
         });
 

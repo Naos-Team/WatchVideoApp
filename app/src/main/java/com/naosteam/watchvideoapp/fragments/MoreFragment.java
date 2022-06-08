@@ -40,6 +40,7 @@ import com.naosteam.watchvideoapp.activities.MainActivity;
 import com.naosteam.watchvideoapp.activities.SignUpActivity;
 import com.naosteam.watchvideoapp.databinding.FragmentMoreBinding;
 import com.naosteam.watchvideoapp.models.Users_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.squareup.picasso.Picasso;
 
@@ -126,9 +127,15 @@ public class MoreFragment extends Fragment {
                     Toast.makeText(getContext(), "Please login first!", Toast.LENGTH_SHORT);
                 }
                 else{
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("user_more", user);
-                    navController.navigate(R.id.more_to_update, bundle);
+                    AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                        @Override
+                        public void onClick() {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("user_more", user);
+                            navController.navigate(R.id.more_to_update, bundle);
+                        }
+                    });
+
 
                 }
 
@@ -146,14 +153,17 @@ public class MoreFragment extends Fragment {
                     LogOut();
                 }
                 else {
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                        @Override
+                        public void onClick() {
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
                 }
             }
         });
-
-
-
 
 
         binding.constraintlayout17.setOnClickListener(new View.OnClickListener() {
@@ -161,8 +171,14 @@ public class MoreFragment extends Fragment {
             public void onClick(View v) {
 
                 if (FirebaseAuth.getInstance().getCurrentUser()==null){
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                        @Override
+                        public void onClick() {
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
                 }
             }
         });
@@ -170,7 +186,13 @@ public class MoreFragment extends Fragment {
         binding.constraintlayout21.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    navController.navigate(R.id.more_to_privacy);
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        navController.navigate(R.id.more_to_privacy);
+                    }
+                });
+
             }
         });
 
@@ -182,7 +204,13 @@ public class MoreFragment extends Fragment {
                     Toast.makeText(getContext(), "Please login first!", Toast.LENGTH_SHORT);
                 }
                 else{
-                    navController.navigate(R.id.more_to_favorite);
+                    AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                        @Override
+                        public void onClick() {
+                            navController.navigate(R.id.more_to_favorite);
+                        }
+                    });
+
                 }
 
             }
@@ -302,8 +330,14 @@ public class MoreFragment extends Fragment {
                             }
                             Constant.Radio_Listening = null;
                             user = null;
-                            Intent intent = new Intent(getContext(), LoginActivity.class);
-                            startActivity(intent);
+                            AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                                @Override
+                                public void onClick() {
+                                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+
                         }
                     }
                 });
