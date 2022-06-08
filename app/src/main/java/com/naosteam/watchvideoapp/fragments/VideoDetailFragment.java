@@ -35,6 +35,7 @@ import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
 import com.naosteam.watchvideoapp.listeners.SetFavListener;
 import com.naosteam.watchvideoapp.listeners.SetRatingListener;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.squareup.picasso.Picasso;
 
@@ -79,21 +80,36 @@ public class VideoDetailFragment extends Fragment {
         binding.csComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("is_home", getArguments().getBoolean("is_home"));
-                bundle.putSerializable("video", mVideo);
-                navController.navigate(R.id.detail_to_cmtFrag, bundle);
+
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("is_home", getArguments().getBoolean("is_home"));
+                        bundle.putSerializable("video", mVideo);
+                        navController.navigate(R.id.detail_to_cmtFrag, bundle);
+                    }
+                });
+
             }
         });
 
         binding.btnBack.setOnClickListener(v->{
-            if(getArguments().getBoolean("is_home")){
-                navController.navigate(R.id.Video_Detail_to_Home);
-            } else if(getArguments().getBoolean("is_favorite")) {
-                navController.navigate(R.id.video_detail_to_favorite);
-            }else{
-                navController.navigate(R.id.DetailVideoToVideo);
-            }
+
+            AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                @Override
+                public void onClick() {
+                    if(getArguments().getBoolean("is_home")){
+                        navController.navigate(R.id.Video_Detail_to_Home);
+                    } else if(getArguments().getBoolean("is_favorite")) {
+                        navController.navigate(R.id.video_detail_to_favorite);
+                    }else{
+                        navController.navigate(R.id.DetailVideoToVideo);
+                    }
+                }
+            });
+
+
         });
 
         binding.ivStar.setOnClickListener(v->{
@@ -105,11 +121,18 @@ public class VideoDetailFragment extends Fragment {
         });
 
         binding.playVideo.setOnClickListener(v->{
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("video", mVideo);
-            Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-            intent.putExtras(bundle);
-            startActivityForResult(intent, 225);
+
+            AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                @Override
+                public void onClick() {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("video", mVideo);
+                    Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, 225);
+                }
+            });
+
         });
 
         Picasso.get()

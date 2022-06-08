@@ -36,7 +36,7 @@ public class AdsManager {
                     .build();
             //adView.setAdUnitId(Constants.ad_banner_id);
             adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
-            adView.setAdSize(AdSize.BANNER);
+            adView.setAdSize(AdSize.SMART_BANNER);
             linearLayout.addView(adView);
             adView.loadAd(adRequest);
         }
