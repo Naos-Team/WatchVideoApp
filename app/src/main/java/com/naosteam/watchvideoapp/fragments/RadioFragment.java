@@ -31,6 +31,7 @@ import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
 import com.naosteam.watchvideoapp.listeners.OnUpdateViewRadioPlayListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.naosteam.watchvideoapp.utils.PlayerRadio;
@@ -194,11 +195,13 @@ public class RadioFragment extends Fragment {
         binding.rclRadioTrending.setAdapter(new RadioItemAdapter(layoutParams1, mTrendings, new OnRadioClickListeners() {
             @Override
             public void onClick(int position) {
+
                 index_selected = position;
                 Constant.Radio_Listening = mTrendings.get(position);
                 playerRadio.startRadio();
                 binding.tvRadioListeningName.setText(Constant.Radio_Listening.getVid_title());
                 Picasso.get().load(Constant.Radio_Listening.getVid_thumbnail()).into(binding.imvRadioListening);
+
             }
         }));
 

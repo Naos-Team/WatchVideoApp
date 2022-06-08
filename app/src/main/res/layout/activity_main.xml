@@ -25,13 +25,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_bottom_navigation"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ll_adview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragmentContainerView"
         app:itemTextColor="@color/nav_color"
         app:itemIconTint="@color/nav_color"
         app:menu="@menu/main_menu" />
+
+    <LinearLayout
+        android:id="@+id/ll_adview"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

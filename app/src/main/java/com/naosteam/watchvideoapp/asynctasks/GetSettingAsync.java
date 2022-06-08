@@ -45,20 +45,20 @@ public class GetSettingAsync extends AsyncTask<Void, String, Boolean> {
             JSONObject jsonObject = new JSONObject(result);
             boolean status = jsonObject.getString("status").equals("success");
 
+            JSONObject setting_obj = new JSONObject(jsonObject.getString("setting_array"));
+
             if(status){
-                JSONArray jsonArray_setting = jsonObject.getJSONArray("setting_array");
 
-                for (int i = 0; i < jsonArray_setting.length(); i++){
-                    JSONObject obj = jsonArray_setting.getJSONObject(i);
-                    Constant.ADS_KEY_BANNER = Constant.DECODE_BASE64(obj.optString("ads_key_banner"));
-                    Constant.ADS_KEY_INTERSTIAL = Constant.DECODE_BASE64(obj.optString("ads_key_interstial"));
-                    Constant.ADS_DISPLAY_COUNT = obj.optInt("ad_display_count");
-                    Constant.ADS_KEY_OPENADS = Constant.DECODE_BASE64(obj.optString("ads_key_openads"));
-                    Constant.ARR_VID_TREND = obj.optString("arr_Vid_trend");
-                    Constant.ARR_TV_TREND = obj.optString("arr_TV_trend");
-                    Constant.ARR_RADIO_TREND = obj.optString("arr_Radi_trend");
+                Constant.ADS_KEY_BANNER = Constant.DECODE_BASE64(setting_obj.optString("ads_key_banner"));
+                Constant.ADS_KEY_INTERSTIAL = Constant.DECODE_BASE64(setting_obj.optString("ads_key_interstial"));
+                Constant.ADS_DISPLAY_COUNT = setting_obj.optInt("ad_display_count");
+                Constant.ADS_KEY_OPENADS = Constant.DECODE_BASE64(setting_obj.optString("ads_key_openads"));
+                Constant.ARR_VID_TREND = setting_obj.optString("arr_Vid_trend");
+                Constant.ARR_TV_TREND = setting_obj.optString("arr_TV_trend");
+                Constant.ARR_RADIO_TREND = setting_obj.optString("arr_Radi_trend");
+                Constant.ONESIGNAL_APP_ID = Constant.DECODE_BASE64(setting_obj.optString("onesignal_app_id"));
 
-                }
+
                 return true;
             }else {
                 Log.e(Constant.ERR_TAG, jsonObject.getString("message"));

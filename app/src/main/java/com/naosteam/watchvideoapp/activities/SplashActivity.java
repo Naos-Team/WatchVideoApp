@@ -1,11 +1,13 @@
 package com.naosteam.watchvideoapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
@@ -23,6 +25,7 @@ import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
 import com.naosteam.watchvideoapp.asynctasks.GetSettingAsync;
 import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
+import com.naosteam.watchvideoapp.utils.AppOpenAdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 
@@ -35,7 +38,9 @@ public class SplashActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     private String gg_email;
     private SharedPreferences sharedPreferences;
+    private AppOpenAdsManager appOpenAdsManager;
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,13 @@ public class SplashActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences("DataLogin", Context.MODE_PRIVATE);
         gg_email = sharedPreferences.getString("gg_email", "");
+
+        appOpenAdsManager = new AppOpenAdsManager(SplashActivity.this, new AppOpenAdsManager.OpenAdsListener() {
+            @Override
+            public void onClick() {
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            }
+        });
 
         Load_Async();
 
@@ -59,7 +71,7 @@ public class SplashActivity extends AppCompatActivity {
                             CheckUser(mAuth.getCurrentUser());
                         }
                         else{
-                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                            appOpenAdsManager.showAdIfAvailable();
                         }
                     }
                     else{
@@ -73,7 +85,8 @@ public class SplashActivity extends AppCompatActivity {
                     Constant.ARR_VID_TREND = "";
                     Constant.ARR_TV_TREND = "";
                     Constant.ARR_RADIO_TREND = "";
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+
+                    appOpenAdsManager.showAdIfAvailable();
                 }
             }
         }, 3000);
@@ -83,11 +96,11 @@ public class SplashActivity extends AppCompatActivity {
         DatabaseReference databaseReference;
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.P)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    appOpenAdsManager.showAdIfAvailable();
                 } else {
                     Intent intent = new Intent(SplashActivity.this, UpdateProfileGoogleActivity.class);
                     startActivity(intent);

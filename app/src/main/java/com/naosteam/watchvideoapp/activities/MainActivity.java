@@ -16,13 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.naosteam.watchvideoapp.R;
+import com.naosteam.watchvideoapp.databinding.ActivityMainBinding;
 import com.naosteam.watchvideoapp.listeners.OnUpdateViewRadioPlayListener;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.PlayerRadio;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,18 +33,25 @@ public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private static BottomNavigationView bottomNavigationView;
     public static int SET_PORTRAIT_REQUEST_CODE;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
 
         navController = navHostFragment.getNavController();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
+        loadAds();
+
         PlayerRadio.setContext(MainActivity.this);
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
                 if(navDestination.getId() != R.id.baseRadioFragment){
@@ -77,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void loadAds() {
+        AdsManager.loadInterAd(this);
+        AdsManager.loadAdmobBanner(this, binding.llAdview);
     }
 
 

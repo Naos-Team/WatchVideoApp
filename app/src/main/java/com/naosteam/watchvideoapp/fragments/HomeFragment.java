@@ -46,6 +46,7 @@ import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.naosteam.watchvideoapp.utils.SharedPref;
