@@ -16,7 +16,6 @@ import com.naosteam.watchvideoapp.activities.SplashActivity;
 
 public class AppOpenAdsManager {
 
-    private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/3419835294";
     private static AppOpenAd mAppOpenAd;
 
     private final Context context;
@@ -37,7 +36,7 @@ public class AppOpenAdsManager {
         AdRequest request = getAdRequest();
         AppOpenAd.AppOpenAdLoadCallback loadCallback;
         AppOpenAd.load(
-                context, AD_UNIT_ID, request,
+                context, SharedPref.getInstance(context).getOpenAdsKey(), request,
                 AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT,
                 loadCallback = new AppOpenAd.AppOpenAdLoadCallback() {
                     @Override

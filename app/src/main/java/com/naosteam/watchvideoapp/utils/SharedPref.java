@@ -19,6 +19,7 @@ public class SharedPref {
     private static String TEMP_RADIO_LIST = "TEMP_RADIO_LIST";
     private static String TEMP_TV_LIST = "TEMP_TV_LIST";
     private static String TEMP_CATE_LIST = "TEMP_CATE_LIST";
+    private static String OPEN_ADS_ID = "OPEN_ADS_ID";
     private Context context;
 
     private static SharedPref Instance;
@@ -101,6 +102,15 @@ public class SharedPref {
                 return getDefaultRadioCategory();
         }
 
+    }
+
+    public void setOpenAdsKey(String key){
+        editor.putString(OPEN_ADS_ID, key);
+        editor.commit();
+    }
+
+    public String getOpenAdsKey(){
+        return sharedPreferences.getString(OPEN_ADS_ID, "");
     }
 
     public void setTempVideoList(int type, ArrayList<Videos_M> arrayList){

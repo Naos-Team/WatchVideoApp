@@ -29,6 +29,7 @@ import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.AppOpenAdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
+import com.naosteam.watchvideoapp.utils.SharedPref;
 
 import org.checkerframework.checker.units.qual.A;
 import org.json.JSONObject;
@@ -165,10 +166,9 @@ public class SplashActivity extends AppCompatActivity {
                             Constant.LIST_TRENDING_RADIO.add(Integer.parseInt(w));
                         }
                     }
-//                    Toast.makeText(SplashActivity.this,
-//                            Constant.LIST_TRENDING_VID.size() + " - " +
-//                            Constant.LIST_TRENDING_TV.size() + " - " +
-//                            Constant.LIST_TRENDING_RADIO.size(), Toast.LENGTH_SHORT).show();
+//
+                    SharedPref.getInstance(SplashActivity.this).setOpenAdsKey(Constant.ADS_KEY_OPENADS);
+
                 }else{
                     Constant.ADS_KEY_BANNER = "";
                     Constant.ADS_KEY_INTERSTIAL = "";
