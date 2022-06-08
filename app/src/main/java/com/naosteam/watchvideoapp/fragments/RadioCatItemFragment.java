@@ -35,10 +35,13 @@ import com.naosteam.watchvideoapp.listeners.OnRadioClickListeners;
 import com.naosteam.watchvideoapp.listeners.OnUpdateViewRadioPlayListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.naosteam.watchvideoapp.utils.PlayerRadio;
 import com.squareup.picasso.Picasso;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 
@@ -181,7 +184,13 @@ public class RadioCatItemFragment extends Fragment {
         layoutParams.setMargins(0,20,0,20);
 
         binding.imvBackToRadio.setOnClickListener(v->{
-            navController.navigate(R.id.radio_cat_item_to_radio_screen);
+            AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                @Override
+                public void onClick() {
+                    navController.navigate(R.id.radio_cat_item_to_radio_screen);
+                }
+            });
+
         });
 
         radioItemAdapter = new RadioItemAdapter(layoutParams, mRadios, new OnRadioClickListeners() {
@@ -203,22 +212,27 @@ public class RadioCatItemFragment extends Fragment {
             public void onClick(View v) {
                 if(Constant.Radio_Listening.getCat_id()!=-1)
                 {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("category", cat);
-                    RadioDetailsFragment.setControlRadioListener(new ControlRadioListener() {
+                    AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                        @Override
+                        public void onClick() {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("category", cat);
+                            RadioDetailsFragment.setControlRadioListener(new ControlRadioListener() {
                                 @Override
                                 public void onNext() {
                                     nextRadio();
                                 }
-
                                 @Override
                                 public void onPrevious() {
                                     previousRadio();
                                 }
                             }
-                    );
-                    bundle.putString("from","from_cat_item");
-                    navController.navigate(R.id.radio_cat_item_to_radio_detail, bundle);
+                            );
+                            bundle.putString("from","from_cat_item");
+                            navController.navigate(R.id.radio_cat_item_to_radio_detail, bundle);
+                        }
+                    });
+
                 }
                 else{
                     Toast.makeText(getActivity(), "No Radio Playing", Toast.LENGTH_SHORT).show();

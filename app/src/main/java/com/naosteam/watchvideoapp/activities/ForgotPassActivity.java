@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.databinding.ActivityForgotPassBinding;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 
 public class ForgotPassActivity extends AppCompatActivity {
 
@@ -49,7 +50,13 @@ public class ForgotPassActivity extends AppCompatActivity {
         binding.imvBackToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                AdsManager.showAdmobInterAd(ForgotPassActivity.this, new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        onBackPressed();
+                    }
+                });
+
             }
         });
 

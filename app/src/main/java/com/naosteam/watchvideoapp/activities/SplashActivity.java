@@ -25,10 +25,12 @@ import com.naosteam.watchvideoapp.R;
 import com.naosteam.watchvideoapp.asynctasks.ExecuteQueryAsync;
 import com.naosteam.watchvideoapp.asynctasks.GetSettingAsync;
 import com.naosteam.watchvideoapp.listeners.ExecuteQueryAsyncListener;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.AppOpenAdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 
+import org.checkerframework.checker.units.qual.A;
 import org.json.JSONObject;
 
 import okhttp3.RequestBody;
@@ -55,7 +57,13 @@ public class SplashActivity extends AppCompatActivity {
         appOpenAdsManager = new AppOpenAdsManager(SplashActivity.this, new AppOpenAdsManager.OpenAdsListener() {
             @Override
             public void onClick() {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                AdsManager.showAdmobInterAd(SplashActivity.this, new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    }
+                });
+
             }
         });
 
@@ -75,7 +83,13 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     }
                     else{
-                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                        AdsManager.showAdmobInterAd(SplashActivity.this, new AdsManager.InterAdsListener() {
+                            @Override
+                            public void onClick() {
+                                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                            }
+                        });
+
                     }
                 }else{
                     Constant.ADS_KEY_BANNER = "";
@@ -102,8 +116,14 @@ public class SplashActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     appOpenAdsManager.showAdIfAvailable();
                 } else {
-                    Intent intent = new Intent(SplashActivity.this, UpdateProfileGoogleActivity.class);
-                    startActivity(intent);
+                    AdsManager.showAdmobInterAd(SplashActivity.this, new AdsManager.InterAdsListener() {
+                        @Override
+                        public void onClick() {
+                            Intent intent = new Intent(SplashActivity.this, UpdateProfileGoogleActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
                 }
             }
 
