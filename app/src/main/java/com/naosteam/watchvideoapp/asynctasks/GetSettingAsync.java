@@ -13,6 +13,7 @@ import com.naosteam.watchvideoapp.models.Videos_M;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.JsonUtils;
 import com.naosteam.watchvideoapp.utils.Methods;
+import com.naosteam.watchvideoapp.utils.SharedPref;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -57,6 +58,7 @@ public class GetSettingAsync extends AsyncTask<Void, String, Boolean> {
                 Constant.ARR_TV_TREND = setting_obj.optString("arr_TV_trend");
                 Constant.ARR_RADIO_TREND = setting_obj.optString("arr_Radi_trend");
                 Constant.ONESIGNAL_APP_ID = Constant.DECODE_BASE64(setting_obj.optString("onesignal_app_id"));
+
 
 
                 return true;

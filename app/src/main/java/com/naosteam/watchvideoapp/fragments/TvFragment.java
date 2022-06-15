@@ -29,6 +29,7 @@ import com.naosteam.watchvideoapp.listeners.LoadVideoAsyncListener;
 import com.naosteam.watchvideoapp.listeners.OnHomeItemClickListeners;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.naosteam.watchvideoapp.utils.SharedPref;
@@ -140,13 +141,18 @@ public class TvFragment extends Fragment {
         tvFragmentAdapter = new TVFragmentAdapter(list_cate_video, layoutParams_TV_item, new OnHomeItemClickListeners() {
             @Override
             public void onClick_homeItem(int position) {
-                Bundle bundle = new Bundle();
-                bundle.putString("url", list_cate_video.get(position).getVid_url());
-                bundle.putString("url_img", list_cate_video.get(position).getVid_thumbnail());
-                bundle.putString("des", list_cate_video.get(position).getVid_description());
-                bundle.putInt("id", list_cate_video.get(position).getVid_id());
-                bundle.putBoolean("isHome", false);
-                navController.navigate(R.id.fromTVToDetail, bundle);
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("url", list_cate_video.get(position).getVid_url());
+                        bundle.putString("url_img", list_cate_video.get(position).getVid_thumbnail());
+                        bundle.putString("des", list_cate_video.get(position).getVid_description());
+                        bundle.putInt("id", list_cate_video.get(position).getVid_id());
+                        bundle.putBoolean("isHome", false);
+                        navController.navigate(R.id.fromTVToDetail, bundle);
+                    }
+                });
             }
         });
         binding.rclItemTvFrag.setLayoutManager(new GridLayoutManager(getActivity(), 3));

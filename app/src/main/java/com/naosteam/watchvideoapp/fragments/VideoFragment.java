@@ -35,6 +35,7 @@ import com.naosteam.watchvideoapp.listeners.OnCategoryHorizontalListener;
 import com.naosteam.watchvideoapp.listeners.OnVideoFeatureClickListener;
 import com.naosteam.watchvideoapp.models.Category_M;
 import com.naosteam.watchvideoapp.models.Videos_M;
+import com.naosteam.watchvideoapp.utils.AdsManager;
 import com.naosteam.watchvideoapp.utils.Constant;
 import com.naosteam.watchvideoapp.utils.Methods;
 import com.naosteam.watchvideoapp.utils.SharedPref;
@@ -122,10 +123,18 @@ public class VideoFragment extends Fragment {
 
         binding.ivSearch.setOnClickListener(v->{
             if(!binding.edtSearch.getText().toString().isEmpty()){
-                Bundle bundle = new Bundle();
-                bundle.putString("type", "search");
-                bundle.putString("search_text", binding.edtSearch.getText().toString());
-                navController.navigate(R.id.VideoToSearchVideo, bundle);
+
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("type", "search");
+                        bundle.putString("search_text", binding.edtSearch.getText().toString());
+                        navController.navigate(R.id.VideoToSearchVideo, bundle);
+                    }
+                });
+
+
             }else{
                 Toast.makeText(getContext(), "Please fill the text input!", Toast.LENGTH_SHORT).show();
             }
@@ -133,9 +142,17 @@ public class VideoFragment extends Fragment {
 
         binding.btnSearchDmotion.setOnClickListener(v->{
             if(!binding.edtSearch.getText().toString().isEmpty()){
-                Bundle bundle = new Bundle();
-                bundle.putString("search_text", binding.edtSearch.getText().toString());
-                navController.navigate(R.id.VideoToDailymotionSearch, bundle);
+
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("search_text", binding.edtSearch.getText().toString());
+                        navController.navigate(R.id.VideoToDailymotionSearch, bundle);
+                    }
+                });
+
+
             }else{
                 Toast.makeText(getContext(), "Please fill the text input!", Toast.LENGTH_SHORT).show();
             }
@@ -143,9 +160,16 @@ public class VideoFragment extends Fragment {
 
         binding.btnSearchYoutube.setOnClickListener(v->{
             if(!binding.edtSearch.getText().toString().isEmpty()){
-                Bundle bundle = new Bundle();
-                bundle.putString("search_text", binding.edtSearch.getText().toString());
-                navController.navigate(R.id.VideoToYoutubeSearch, bundle);
+
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("search_text", binding.edtSearch.getText().toString());
+                        navController.navigate(R.id.VideoToYoutubeSearch, bundle);
+                    }
+                });
+
             }else{
                 Toast.makeText(getContext(), "Please fill the text input!", Toast.LENGTH_SHORT).show();
             }
@@ -270,24 +294,46 @@ public class VideoFragment extends Fragment {
         binding.rvLatestVideo.setAdapter(new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, mLatests, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
-                Videos_M video = mLatests.get(position);
-                openVideoDetail(video);
+
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Videos_M video = mLatests.get(position);
+                        openVideoDetail(video);
+                    }
+                });
+
+
             }
         }));
 
         binding.rvTopRating.setAdapter(new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, mTopRates, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
-                Videos_M video = mTopRates.get(position);
-                openVideoDetail(video);
+
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Videos_M video = mTopRates.get(position);
+                        openVideoDetail(video);
+                    }
+                });
+
             }
         }));
 
         binding.rvMostView.setAdapter(new FeaturedVideoAdapter(Methods.getInstance(), layoutParams, mMostViews, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
-                Videos_M video = mMostViews.get(position);
-                openVideoDetail(video);
+
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Videos_M video = mMostViews.get(position);
+                        openVideoDetail(video);
+                    }
+                });
+
             }
         }));
 
@@ -297,20 +343,34 @@ public class VideoFragment extends Fragment {
         binding.rvCategory.setAdapter(new HorizontalCategoryAdapter(layoutParam_category, mCategories, new OnCategoryHorizontalListener() {
             @Override
             public void onClick(int position) {
-                Category_M c = mCategories.get(position);
-                Bundle bundle = new Bundle();
-                bundle.putString("type", "category");
-                bundle.putInt("cat_id", c.getCat_id());
-                bundle.putString("cat_name", c.getCat_name());
-                navController.navigate(R.id.VideoToSearchVideo, bundle);
+
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Category_M c = mCategories.get(position);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("type", "category");
+                        bundle.putInt("cat_id", c.getCat_id());
+                        bundle.putString("cat_name", c.getCat_name());
+                        navController.navigate(R.id.VideoToSearchVideo, bundle);
+                    }
+                });
+
             }
         }));
 
         TrendingMoviePagerAdapter pagerAdapter = new TrendingMoviePagerAdapter(getContext(), mTrendings, new OnVideoFeatureClickListener() {
             @Override
             public void onClick(int position) {
-                Videos_M video = mTrendings.get(position);
-                openVideoDetail(video);
+
+                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
+                    @Override
+                    public void onClick() {
+                        Videos_M video = mTrendings.get(position);
+                        openVideoDetail(video);
+                    }
+                });
+
             }
         });
 
