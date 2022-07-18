@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.style.WanderingCubes;
+import com.github.ybq.android.spinkit.style.Wave;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,7 +50,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         progressBar = findViewById(R.id.progress_bar_splash);
-        progressBar.setIndeterminateDrawableTiled(new WanderingCubes());
+        progressBar.setIndeterminateDrawableTiled(new Wave());
 
         mAuth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences("DataLogin", Context.MODE_PRIVATE);
