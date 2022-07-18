@@ -333,19 +333,27 @@ public class RadioFragment extends Fragment {
                         }else{
                             Toast.makeText(getContext(), "Something wrong happened, try again!", Toast.LENGTH_SHORT).show();
                         }
+
+                        binding.imgTempRadioFrag1.setVisibility(View.GONE);
+                        binding.progressCircular1.setVisibility(View.GONE);
+                        updateUI();
                     }else{
                         Toast.makeText(getContext(), "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+
+                        mTrendings.clear();
+                        mCats.clear();
+
+
+                        mCats.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.RADIO));
+                        mTrendings.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.RADIO));
+
+                        binding.imgTempRadioFrag1.setVisibility(View.GONE);
+                        binding.progressCircular1.setVisibility(View.GONE);
+                        updateUI();
                     }
 
-                    mTrendings.clear();
-                    mCats.clear();
+;
 
-
-                    mCats.addAll(SharedPref.getInstance(getContext()).getTempCategoryList(Constant.RADIO));
-                    mTrendings.addAll(SharedPref.getInstance(getContext()).getTempVideoList(Constant.RADIO));
-                    binding.imgTempRadioFrag1.setVisibility(View.GONE);
-                    binding.progressCircular1.setVisibility(View.GONE);
-                    updateUI();
                 }
             }
         };

@@ -85,7 +85,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     private void playVideo() {
 
-        String video_url = Constant.SERVER_URL + "video/" + mVideo.getVid_url();
+        String video_url = mVideo.getVid_url();
 
         player = new ExoPlayer.Builder(this).build();
         binding.playerView.setPlayer(player);
