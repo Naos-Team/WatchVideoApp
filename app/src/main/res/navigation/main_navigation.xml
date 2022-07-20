@@ -7,27 +7,27 @@
 
     <fragment
         android:id="@+id/baseHomeFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.BaseHomeFragment"
+        android:name="com.naosteam.funnyvideo.fragments.BaseHomeFragment"
         android:label="fragment_base_home"
         tools:layout="@layout/fragment_base_home" />
     <fragment
         android:id="@+id/baseVideoFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.BaseVideoFragment"
+        android:name="com.naosteam.funnyvideo.fragments.BaseVideoFragment"
         android:label="fragment_base_video"
         tools:layout="@layout/fragment_base_video" />
     <fragment
         android:id="@+id/baseRadioFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.baseRadioFragment"
+        android:name="com.naosteam.funnyvideo.fragments.baseRadioFragment"
         android:label="fragment_base_radio"
         tools:layout="@layout/fragment_base_radio" />
     <fragment
         android:id="@+id/baseTvFragment2"
-        android:name="com.naosteam.watchvideoapp.fragments.BaseTvFragment"
+        android:name="com.naosteam.funnyvideo.fragments.BaseTvFragment"
         android:label="fragment_base_tv"
         tools:layout="@layout/fragment_base_tv" />
     <fragment
         android:id="@+id/baseMoreFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.BaseMoreFragment"
+        android:name="com.naosteam.funnyvideo.fragments.BaseMoreFragment"
         android:label="fragment_base_more"
         tools:layout="@layout/fragment_base_more" />
     >

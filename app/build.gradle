@@ -8,7 +8,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.naosteam.watchvideoapp"
+        applicationId "com.naosteam.funnyvideo"
         minSdk 21
         targetSdk 32
         versionCode 1

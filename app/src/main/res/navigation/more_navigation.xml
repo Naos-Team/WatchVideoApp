@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/moreFragment2"
-        android:name="com.naosteam.watchvideoapp.fragments.MoreFragment"
+        android:name="com.naosteam.funnyvideo.fragments.MoreFragment"
         android:label="fragment_more"
         tools:layout="@layout/fragment_more" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.FavoriteFragment"
+        android:name="com.naosteam.funnyvideo.fragments.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/privacyFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.PrivacyFragment"
+        android:name="com.naosteam.funnyvideo.fragments.PrivacyFragment"
         android:label="fragment_privacy"
         tools:layout="@layout/fragment_privacy" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoDetailFragment3"
-        android:name="com.naosteam.watchvideoapp.fragments.VideoDetailFragment"
+        android:name="com.naosteam.funnyvideo.fragments.VideoDetailFragment"
         android:label="fragment_video_detail"
         tools:layout="@layout/fragment_video_detail" >
         <action
@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/tvDetailFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.TvDetailFragment"
+        android:name="com.naosteam.funnyvideo.fragments.TvDetailFragment"
         android:label="fragment_tv_deltail"
         tools:layout="@layout/fragment_tv_deltail" >
         <action
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/radioDetailsFragment4"
-        android:name="com.naosteam.watchvideoapp.fragments.RadioDetailsFragment"
+        android:name="com.naosteam.funnyvideo.fragments.RadioDetailsFragment"
         android:label="fragment_radio_details"
         tools:layout="@layout/fragment_radio_details" >
         <action
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/updateProfileFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.UpdateProfileFragment"
+        android:name="com.naosteam.funnyvideo.fragments.UpdateProfileFragment"
         android:label="fragment_update_profile"
         tools:layout="@layout/fragment_update_profile" >
         <action

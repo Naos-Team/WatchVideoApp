@@ -6,7 +6,7 @@
     app:startDestination="@id/radioFragment4">
     <fragment
         android:id="@+id/radioFragment4"
-        android:name="com.naosteam.watchvideoapp.fragments.RadioFragment"
+        android:name="com.naosteam.funnyvideo.fragments.RadioFragment"
         android:label="fragment_radio"
         tools:layout="@layout/fragment_radio" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/radioDetailsFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.RadioDetailsFragment"
+        android:name="com.naosteam.funnyvideo.fragments.RadioDetailsFragment"
         android:label="fragment_radio_details"
         tools:layout="@layout/fragment_radio_details" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/radioCatItemFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.RadioCatItemFragment"
+        android:name="com.naosteam.funnyvideo.fragments.RadioCatItemFragment"
         android:label="fragment_radio_cat_item"
         tools:layout="@layout/fragment_radio_cat_item" >
         <action

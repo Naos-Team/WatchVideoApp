@@ -6,7 +6,7 @@
     app:startDestination="@id/tvFragment">
     <fragment
         android:id="@+id/tvFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.TvFragment"
+        android:name="com.naosteam.funnyvideo.fragments.TvFragment"
         android:label="fragment_tv"
         tools:layout="@layout/fragment_tv">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/tvDeltailFragment2"
-        android:name="com.naosteam.watchvideoapp.fragments.TvDetailFragment"
+        android:name="com.naosteam.funnyvideo.fragments.TvDetailFragment"
         android:label="fragment_tv_deltail"
         tools:layout="@layout/fragment_tv_deltail" >
         <action

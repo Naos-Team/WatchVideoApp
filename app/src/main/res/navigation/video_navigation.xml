@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/videoFragment2"
-        android:name="com.naosteam.watchvideoapp.fragments.VideoFragment"
+        android:name="com.naosteam.funnyvideo.fragments.VideoFragment"
         android:label="fragment_video"
         tools:layout="@layout/fragment_video" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoDetailFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.VideoDetailFragment"
+        android:name="com.naosteam.funnyvideo.fragments.VideoDetailFragment"
         android:label="fragment_video_detail"
         tools:layout="@layout/fragment_video_detail" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchVideoFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.SearchVideoFragment"
+        android:name="com.naosteam.funnyvideo.fragments.SearchVideoFragment"
         android:label="fragment_search_video"
         tools:layout="@layout/fragment_search_video" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoPlayerFragment"
-        android:name="com.naosteam.watchvideoapp.VideoPlayerFragment"
+        android:name="com.naosteam.funnyvideo.VideoPlayerFragment"
         android:label="fragment_video_player"
         tools:layout="@layout/fragment_video_player" >
         <action
@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/cmtVideoFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.CmtVideoFragment"
+        android:name="com.naosteam.funnyvideo.fragments.CmtVideoFragment"
         android:label="fragment_cmt_video"
         tools:layout="@layout/fragment_cmt_video" >
         <action
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/dailymotionSearchFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.DailymotionSearchFragment"
+        android:name="com.naosteam.funnyvideo.fragments.DailymotionSearchFragment"
         android:label="DailymotionSearchFragment" >
         <action
             android:id="@+id/DailymotionSearchBackToVideo"
@@ -75,7 +75,7 @@
     </fragment>
     <fragment
         android:id="@+id/youtubeSearchFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.YoutubeSearchFragment"
+        android:name="com.naosteam.funnyvideo.fragments.YoutubeSearchFragment"
         android:label="fragment_youtube_search"
         tools:layout="@layout/fragment_youtube_search" >
         <action

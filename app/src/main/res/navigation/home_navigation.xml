@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.HomeFragment"
+        android:name="com.naosteam.funnyvideo.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/tvDeltailFragment"
-        android:name="com.naosteam.watchvideoapp.fragments.TvDetailFragment"
+        android:name="com.naosteam.funnyvideo.fragments.TvDetailFragment"
         android:label="fragment_tv_deltail"
         tools:layout="@layout/fragment_tv_deltail" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/radioDetailsFragment2"
-        android:name="com.naosteam.watchvideoapp.fragments.RadioDetailsFragment"
+        android:name="com.naosteam.funnyvideo.fragments.RadioDetailsFragment"
         android:label="fragment_radio_details"
         tools:layout="@layout/fragment_radio_details" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoDetailFragment2"
-        android:name="com.naosteam.watchvideoapp.fragments.VideoDetailFragment"
+        android:name="com.naosteam.funnyvideo.fragments.VideoDetailFragment"
         android:label="fragment_video_detail"
         tools:layout="@layout/fragment_video_detail" >
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/cmtVideoFragment2"
-        android:name="com.naosteam.watchvideoapp.fragments.CmtVideoFragment"
+        android:name="com.naosteam.funnyvideo.fragments.CmtVideoFragment"
         android:label="fragment_cmt_video"
         tools:layout="@layout/fragment_cmt_video" >
         <action

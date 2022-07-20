@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.naosteam.watchvideoapp">
+    package="com.naosteam.funnyvideo">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:name=".activities.MainApplication"
+        android:name="com.naosteam.funnyvideo.activities.MainApplication"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -19,32 +19,32 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713"/>
         <activity
-            android:name=".activities.YoutubePlayerActivity"
+            android:name="com.naosteam.funnyvideo.activities.YoutubePlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:exported="true" >
         </activity>
         <activity
-            android:name=".activities.DailymotionPlayerActivity"
+            android:name="com.naosteam.funnyvideo.activities.DailymotionPlayerActivity"
             android:configChanges="orientation|screenSize|layoutDirection"
             android:exported="true" />
         <activity
-            android:name=".activities.UpdateProfileGoogleActivity"
+            android:name="com.naosteam.funnyvideo.activities.UpdateProfileGoogleActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.VideoPlayerActivity"
+            android:name="com.naosteam.funnyvideo.activities.VideoPlayerActivity"
             android:configChanges="orientation|screenSize|layoutDirection"
             android:exported="true" />
         <activity
-            android:name=".activities.ForgotPassActivity"
+            android:name="com.naosteam.funnyvideo.activities.ForgotPassActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name="com.naosteam.funnyvideo.activities.SignUpActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="com.naosteam.funnyvideo.activities.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.SplashActivity"
+            android:name="com.naosteam.funnyvideo.activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -53,13 +53,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.naosteam.funnyvideo.activities.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan"
             >
         </activity>
 
-        <receiver android:name=".fragments.RadioFragment" />
+        <receiver android:name="com.naosteam.funnyvideo.fragments.RadioFragment" />
     </application>
 
 </manifest>
