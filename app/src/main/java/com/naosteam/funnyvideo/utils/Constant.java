@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 public class Constant {
-    public static final String SERVER_URL = "https://musicfreeworld.com/naosteam/watchvideoapp/";
+    public static final String SERVER_URL = "https://musicfreeworld.com/naosteam/watchvideoapp123/";
 //    public static final String SERVER_URL = "http://192.168.0.166:8100/watchvideoapp/";
     public static String ONESIGNAL_APP_ID = "8c488b3c-c5ca-49ea-ad7d-f3f86c5eb786";
     public static final String ERR_TAG = "ERROR";
