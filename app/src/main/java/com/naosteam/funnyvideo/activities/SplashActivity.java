@@ -12,6 +12,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.QueryPurchasesParams;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,8 +40,10 @@ public class SplashActivity extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseAuth mAuth;
     private String gg_email;
+    private BillingClient billingClient;
     private SharedPreferences sharedPreferences;
     private AppOpenAdsManager appOpenAdsManager;
+    private boolean isNeedLogin = false;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -53,17 +60,20 @@ public class SplashActivity extends AppCompatActivity {
         appOpenAdsManager = new AppOpenAdsManager(SplashActivity.this, new AppOpenAdsManager.OpenAdsListener() {
             @Override
             public void onClick() {
-                AdsManager.showAdmobInterAd(SplashActivity.this, new AdsManager.InterAdsListener() {
-                    @Override
-                    public void onClick() {
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                    }
-                });
+
+                if(isNeedLogin){
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                }else{
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
+
+
 
             }
         });
 
         Load_Async();
+        checkUserSubscription();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -79,13 +89,9 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     }
                     else{
-                        AdsManager.showAdmobInterAd(SplashActivity.this, new AdsManager.InterAdsListener() {
-                            @Override
-                            public void onClick() {
-                                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                            }
-                        });
 
+                        isNeedLogin = true;
+                        appOpenAdsManager.showAdIfAvailable();
                     }
                 }else{
                     Constant.ADS_KEY_BANNER = "";
@@ -102,6 +108,45 @@ public class SplashActivity extends AppCompatActivity {
         }, 3000);
     }
 
+    private void checkUserSubscription() {
+        billingClient = BillingClient.newBuilder(this).enablePendingPurchases().setListener((billingResult, list) -> {}).build();
+        final BillingClient finalBillingClient = billingClient;
+        billingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingServiceDisconnected() {
+
+            }
+
+            @Override
+            public void onBillingSetupFinished(BillingResult billingResult) {
+
+                if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK){
+                    finalBillingClient.queryPurchasesAsync(
+                            QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.SUBS).build(),
+                            (billingResult1, purchases) -> {
+                                if (billingResult1.getResponseCode() == BillingClient.BillingResponseCode.OK){
+
+                                    boolean isPremium = false;
+
+                                    for(Purchase purchase : purchases){
+                                        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED && purchase.isAcknowledged()) {
+                                            isPremium = true;
+                                        }
+                                    }
+
+                                    SharedPref.getInstance(SplashActivity.this).setIsPremium(isPremium);
+
+                                }else{
+                                    SharedPref.getInstance(SplashActivity.this).setIsPremium(false);
+                                }
+                            });
+
+                }
+
+            }
+        });
+    }
+
     private void CheckUser(FirebaseUser user){
         DatabaseReference databaseReference;
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -112,13 +157,8 @@ public class SplashActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     appOpenAdsManager.showAdIfAvailable();
                 } else {
-                    AdsManager.showAdmobInterAd(SplashActivity.this, new AdsManager.InterAdsListener() {
-                        @Override
-                        public void onClick() {
-                            Intent intent = new Intent(SplashActivity.this, UpdateProfileGoogleActivity.class);
-                            startActivity(intent);
-                        }
-                    });
+                    Intent intent = new Intent(SplashActivity.this, UpdateProfileGoogleActivity.class);
+                    startActivity(intent);
 
                 }
             }

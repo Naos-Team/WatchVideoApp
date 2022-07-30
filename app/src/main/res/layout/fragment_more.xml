@@ -33,7 +33,7 @@
                     android:id="@+id/constraintlayout17"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/constraintlayout19"
+                    app:layout_constraintBottom_toTopOf="@+id/cs_profile"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.15"
                     app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +112,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintlayout19"
+                    android:id="@+id/cs_profile"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="8dp"
@@ -177,11 +177,11 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/constraintlayout21"
+                    app:layout_constraintBottom_toTopOf="@+id/csPremium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintlayout19">
+                    app:layout_constraintTop_toBottomOf="@+id/cs_profile">
 
                     <ImageView
                         android:id="@+id/imv_fav"
@@ -234,7 +234,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintlayout21"
+                    android:id="@+id/csPremium"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="8dp"
@@ -245,14 +245,15 @@
                     app:layout_constraintTop_toBottomOf="@+id/constraintlayout20">
 
                     <ImageView
-                        android:id="@+id/imv_privacy"
+                        android:id="@+id/imv_premium"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="10dp"
-                        android:src="@drawable/ic_privacy"
+                        android:src="@drawable/ic_premium"
+                        app:tint="@color/neonGreen"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_privacy"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_premium"
                         app:layout_constraintHeight_percent="0.4"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -261,7 +262,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_privacy"
+                        android:id="@+id/tv_premium"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="20dp"
@@ -270,15 +271,15 @@
                         android:autoSizeStepGranularity="2sp"
                         android:autoSizeTextType="uniform"
                         android:gravity="center_vertical"
-                        android:text="Privacy"
+                        android:text="Go Premium"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/open_profile2"
-                        app:layout_constraintStart_toEndOf="@+id/imv_privacy"
+                        app:layout_constraintEnd_toStartOf="@+id/open_premium"
+                        app:layout_constraintStart_toEndOf="@+id/imv_premium"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/open_profile2"
+                        android:id="@+id/open_premium"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginRight="10dp"
@@ -288,7 +289,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHeight_percent="0.4"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/tv_privacy"
+                        app:layout_constraintStart_toEndOf="@+id/tv_premium"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -303,7 +304,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintlayout21">
+                    app:layout_constraintTop_toBottomOf="@+id/csPremium">
 
                     <ImageView
                         android:id="@+id/imv_rate"

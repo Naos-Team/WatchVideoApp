@@ -66,7 +66,7 @@ public class AppOpenAdsManager {
     }
 
     public void showAdIfAvailable(){
-        if(isAdAvailable()){
+        if(isAdAvailable() && !SharedPref.getInstance(context).getIsPremium()){
             FullScreenContentCallback fullScreenContentCallback =
                     new FullScreenContentCallback(){
                         @Override

@@ -18,15 +18,15 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 public class AdsManager {
     public static int adCounter = 1;
-    public static boolean isEnableBanner = false;
-    public static boolean isEnableInterstitial = false;
+    public static boolean isEnableBanner = true;
+    public static boolean isEnableInterstitial = true;
     public static InterstitialAd mInterstitialAd;
     public interface InterAdsListener{
         void onClick();
     }
 
     public static void loadAdmobBanner(Context context, LinearLayout linearLayout){
-        if(isEnableInterstitial){
+        if(isEnableInterstitial && !SharedPref.getInstance(context).getIsPremium()){
             AdView adView = new AdView(context);
             Bundle extras = new Bundle();
             extras.putString("npa", "1");
@@ -42,7 +42,7 @@ public class AdsManager {
 
     //TODO: interAds
     public static void showAdmobInterAd(final Activity context, InterAdsListener listener) {
-        if (adCounter == Constant.ADS_DISPLAY_COUNT && mInterstitialAd != null && isEnableInterstitial) {
+        if (mInterstitialAd != null && isEnableInterstitial && !SharedPref.getInstance(context).getIsPremium()) {
             adCounter = 1;
             mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                 @Override
@@ -63,6 +63,7 @@ public class AdsManager {
             mInterstitialAd.show((Activity) context);
         } else {
             adCounter++;
+            loadInterAd(context);
             listener.onClick();
         }
     }

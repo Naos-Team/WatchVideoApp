@@ -20,6 +20,7 @@ public class SharedPref {
     private static String TEMP_TV_LIST = "TEMP_TV_LIST";
     private static String TEMP_CATE_LIST = "TEMP_CATE_LIST";
     private static String OPEN_ADS_ID = "OPEN_ADS_ID";
+    private static String IS_PREMIUM = "is_premium";
     private Context context;
 
     private static SharedPref Instance;
@@ -35,6 +36,15 @@ public class SharedPref {
             Instance = new SharedPref(context);
         }
         return Instance;
+    }
+
+    public Boolean getIsPremium(){
+        return sharedPreferences.getBoolean(IS_PREMIUM, false);
+    }
+
+    public void setIsPremium(boolean is_premium){
+        editor.putBoolean(IS_PREMIUM, is_premium);
+        editor.apply();
     }
 
     public ArrayList<Videos_M> getTempVideoList(int type){

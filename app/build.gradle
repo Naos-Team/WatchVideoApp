@@ -11,8 +11,8 @@ android {
         applicationId "com.naosteam.funnyvideo"
         minSdk 21
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,6 +42,7 @@ android {
 
 dependencies {
 
+    implementation "com.android.billingclient:billing:5.0.0"
     implementation 'com.google.android.gms:play-services-ads:21.0.0'
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.26'

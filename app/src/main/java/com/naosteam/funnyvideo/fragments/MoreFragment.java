@@ -32,6 +32,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.naosteam.funnyvideo.R;
 import com.naosteam.funnyvideo.activities.LoginActivity;
+import com.naosteam.funnyvideo.activities.PurchaseActivity;
 import com.naosteam.funnyvideo.databinding.FragmentMoreBinding;
 import com.naosteam.funnyvideo.models.Users_M;
 import com.naosteam.funnyvideo.utils.AdsManager;
@@ -113,7 +114,7 @@ public class MoreFragment extends Fragment {
             firstt_time = false;
         }
 
-        binding.constraintlayout19.setOnClickListener(new View.OnClickListener() {
+        binding.csProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -177,16 +178,10 @@ public class MoreFragment extends Fragment {
             }
         });
 
-        binding.constraintlayout21.setOnClickListener(new View.OnClickListener() {
+        binding.csPremium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AdsManager.showAdmobInterAd(getActivity(), new AdsManager.InterAdsListener() {
-                    @Override
-                    public void onClick() {
-                        navController.navigate(R.id.more_to_privacy);
-                    }
-                });
-
+                startActivity(new Intent(getContext(), PurchaseActivity.class));
             }
         });
 

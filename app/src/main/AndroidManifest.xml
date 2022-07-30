@@ -41,6 +41,9 @@
             android:name="com.naosteam.funnyvideo.activities.SignUpActivity"
             android:exported="true" />
         <activity
+            android:name="com.naosteam.funnyvideo.activities.PurchaseActivity"
+            android:exported="true" />
+        <activity
             android:name="com.naosteam.funnyvideo.activities.LoginActivity"
             android:exported="true" />
         <activity

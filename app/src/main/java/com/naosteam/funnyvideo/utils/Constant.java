@@ -13,7 +13,7 @@ import java.util.Base64;
 public class Constant {
     public static final String SERVER_URL = "https://musicfreeworld.com/naosteam/watchvideoapp/";
 //    public static final String SERVER_URL = "http://192.168.0.166:8100/watchvideoapp/";
-    public static String ONESIGNAL_APP_ID = "3819b4be-9a92-441f-9c75-f4d2ae2f9e85";
+    public static String ONESIGNAL_APP_ID = "8c488b3c-c5ca-49ea-ad7d-f3f86c5eb786";
     public static final String ERR_TAG = "ERROR";
     public static final int DAILYMOTION_VIDEO = 33;
     public static final int YOUTUBE_VIDEO = 44;

@@ -14,7 +14,7 @@
         android:src="@drawable/nhi_back"
         app:tint="@color/neonGreen"
         app:layout_constraintBottom_toTopOf="@+id/webview_privacy"
-        app:layout_constraintEnd_toStartOf="@+id/tv_privacy"
+        app:layout_constraintEnd_toStartOf="@+id/tv_premium"
         app:layout_constraintHeight_percent="0.06"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintDimensionRatio="1:1"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_privacy"
+        android:id="@+id/tv_premium"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeMaxTextSize="22sp"
@@ -48,7 +48,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_privacy" />
+        app:layout_constraintTop_toBottomOf="@id/tv_premium" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
